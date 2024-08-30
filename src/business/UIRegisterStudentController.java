@@ -75,6 +75,7 @@ public class UIRegisterStudentController {
 	@FXML
 	public void initialize(){
 		cbGenderStudent.getItems().addAll("Masculino", "Femenino");
+		cbGenderStudent.getSelectionModel().selectFirst();
 	}
 	// Event Listener on Button[#bRegisterStudent].onAction
 	@FXML
@@ -136,7 +137,7 @@ public class UIRegisterStudentController {
 		public void closeWindows() {
 			
 			try {
-				 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIRegisterRecharges.fxml"));
+				 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UICheckBalance.fxml"));
 		        Parent root = loader.load();
 				Scene scene = new Scene(root);
 		        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
