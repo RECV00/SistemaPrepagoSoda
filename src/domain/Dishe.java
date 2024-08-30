@@ -51,7 +51,7 @@ public class Dishe {
 
 	@Override
 	public String toString() {
-		return  serviceHours + "-" +serviceDay + "-" + serviceName+ "-" +servicePrice;
+		return  ((serviceHours)?1:0) + "-" +serviceDay + "-" + serviceName+ "-" +servicePrice;
 	}
 
 	

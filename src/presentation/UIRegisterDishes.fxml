@@ -20,12 +20,12 @@
 		<Label fx:id="lServiceDay" layoutX="15.0" layoutY="132.0" text="Día que requiere el servicio:" />
 		<Label fx:id="lServiceName" layoutX="14.0" layoutY="203.0" text="*Nombre del servicio:" textFill="#da0808" />
 		<Label fx:id="lServicePrice" layoutX="20.0" layoutY="263.0" text="*Precio del servicio:" textFill="#ee0a0a" />
-		<RadioButton fx:id="rbBreakfastDishe" layoutX="14.0" layoutY="97.0" mnemonicParsing="false" onAction="#saveBreakfastJSON" selected="true" text="Desayuno">
+		<RadioButton fx:id="rbBreakfastDishe" layoutX="14.0" layoutY="97.0" mnemonicParsing="false"  selected="true" text="Desayuno">
 			<toggleGroup>
 				<ToggleGroup fx:id="Tipo" />
 			</toggleGroup>
 		</RadioButton>
-		<RadioButton fx:id="rbLunchDishe" layoutX="141.0" layoutY="97.0" mnemonicParsing="false" onAction="#saveLunchJSON" text="Almuerzo" toggleGroup="$Tipo" />
+		<RadioButton fx:id="rbLunchDishe" layoutX="141.0" layoutY="97.0" mnemonicParsing="false"  text="Almuerzo" toggleGroup="$Tipo" />
 		<ComboBox fx:id="cbServiceDayDishe" layoutX="14.0" layoutY="161.0" opacity="0.66" prefHeight="25.0" prefWidth="326.0" promptText="Seleccione el día " />
 		<TextField fx:id="tfServiceNameDishe" layoutX="18.0" layoutY="228.0" prefHeight="25.0" prefWidth="319.0" promptText="Ingrese el nombre del alimento" />
 		<TextField fx:id="tfServicePriceDishe" layoutX="18.0" layoutY="290.0" prefHeight="25.0" prefWidth="319.0" promptText="Ingrese el precio del alimento" />
