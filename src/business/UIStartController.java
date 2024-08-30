@@ -1,4 +1,4 @@
-package presentation;
+package business;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,17 +16,38 @@ public class UIStartController {
 	@FXML
 	private Button bCheckBalance;
 	@FXML
-	private Button bRequestBalance;
+	private Button bRequestService;
 	@FXML
 	private Label lTitule;
 
 	// Event Listener on Button[#bCheckBalance].onAction
 	@FXML
 	public void UICheckBalance(ActionEvent event) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UICheckBalance.fxml"));
+			Parent root = loader.load();
+			UICheckBalanceController controller = loader.getController();
+			controller.initialize();
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();
+			
+			stage.setOnCloseRequest(e -> controller.closeWindows());
+			Stage temp = (Stage) this.bRequestService.getScene().getWindow();
+			temp.close();
+			
+		}catch(IOException e){
+			
+		}
+	}
+	// Event Listener on Button[#bRequestBalance].onAction
+	@FXML
+	public void UIRequestService(ActionEvent event) {
 //		try {
-//			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UI.fxml"));
+//			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIServiceRequest.fxml"));
 //			Parent root = loader.load();
-//			UIController controller = loader.getController();
+//			UIServiceRequestController controller = loader.getController();
 //			controller.initialize();
 //			Scene scene = new Scene(root);
 //			Stage stage = new Stage();
@@ -40,26 +61,5 @@ public class UIStartController {
 //		}catch(IOException e){
 //			
 //		}
-	}
-	// Event Listener on Button[#bRequestBalance].onAction
-	@FXML
-	public void UIRequestBalance(ActionEvent event) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIServiceRequest.fxml"));
-			Parent root = loader.load();
-			UIServiceRequestController controller = loader.getController();
-			controller.initialize();
-			Scene scene = new Scene(root);
-			Stage stage = new Stage();
-			stage.setScene(scene);
-			stage.show();
-			
-			stage.setOnCloseRequest(e -> controller.closeWindows());
-			Stage temp = (Stage) this.bRequestBalance.getScene().getWindow();
-			temp.close();
-			
-		}catch(IOException e){
-			
-		}
 	}
 }

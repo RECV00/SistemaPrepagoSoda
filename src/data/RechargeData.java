@@ -63,7 +63,7 @@ public class RechargeData {
 	public static boolean updateStudent(Recharge r,String carnet) {
 		System.out.print(r);
 		try {
-			jsonUtils.updateElement(r,carnet);
+			jsonUtils.updateElementRecharges(r,carnet);
 			return true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

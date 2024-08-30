@@ -11,6 +11,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import domain.Student;
 import domain.Dishe;
+import domain.Recharge;
 public class JSONUtils<T> {
 
 //	ruta
@@ -80,6 +81,24 @@ public void updateElementDishes(T updatedElement, String name) throws IOExceptio
         mapper.writeValue(new File(filePath), elements);
     } else {
         throw new IOException("Element with ID " + name + " not found.");
+    }
+}
+public void updateElementRecharges(T updatedElement, String carnet) throws IOException {
+    List<T> elements = getElements((Class<T>) updatedElement.getClass());
+    boolean found = false;
+    for (int i = 0; i < elements.size(); i++) {
+        T element = elements.get(i);
+        if (((Recharge) element).getCarnetStudent().equalsIgnoreCase(carnet)) {
+            elements.set(i, updatedElement);
+            found = true;
+            break;
+        }
+    }
+
+    if (found) {
+        mapper.writeValue(new File(filePath), elements);
+    } else {
+        throw new IOException("Element with ID " + carnet + " not found.");
     }
 }
 }
