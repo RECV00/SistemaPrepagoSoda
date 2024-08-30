@@ -1,8 +1,8 @@
 package domain;
 
-public class Studen {
+public class ServiceRequest {
 
-	public Studen() {
+	public ServiceRequest() {
 		// TODO Auto-generated constructor stub
 	}
 

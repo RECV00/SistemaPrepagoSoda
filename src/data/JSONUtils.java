@@ -1,8 +1,8 @@
 package data;
 
-public class UTILSJSON {
+public class JSONUtils {
 
-	public UTILSJSON() {
+	public JSONUtils() {
 		// TODO Auto-generated constructor stub
 	}
 
