@@ -9,6 +9,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import domain.Student;
+
 public class JSONUtils<T> {
 
 //	ruta
@@ -43,23 +45,23 @@ public List<T> getElements(Class<T> temp) throws IOException{
 	return mapper.readValue(file, mapper.getTypeFactory().constructCollectionType(List.class, temp));
 }
 
-//public void updateElement(T updatedElement, String id) throws IOException {
-//    List<T> elements = getElements((Class<T>) updatedElement.getClass());
-//    boolean found = false;
-//    for (int i = 0; i < elements.size(); i++) {
-//        T element = elements.get(i);
-//        if (((Pet) element).getID().equalsIgnoreCase(id)) {
-//            elements.set(i, updatedElement);
-//            found = true;
-//            break;
-//        }
-//    }
-//
-//    if (found) {
-//        mapper.writeValue(new File(filePath), elements);
-//    } else {
-//        throw new IOException("Element with ID " + id + " not found.");
-//    }
-//}
+public void updateElement(T updatedElement, String carnet) throws IOException {
+    List<T> elements = getElements((Class<T>) updatedElement.getClass());
+    boolean found = false;
+    for (int i = 0; i < elements.size(); i++) {
+        T element = elements.get(i);
+        if (((Student) element).getCarnetStudent().equalsIgnoreCase(carnet)) {
+            elements.set(i, updatedElement);
+            found = true;
+            break;
+        }
+    }
+
+    if (found) {
+        mapper.writeValue(new File(filePath), elements);
+    } else {
+        throw new IOException("Element with ID " + carnet + " not found.");
+    }
+}
 
 }
