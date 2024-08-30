@@ -63,7 +63,7 @@ public class StudentData {
 	public static boolean updateStudent(Student s,String carnet) {
 		System.out.print(s);
 		try {
-			jsonUtils.updateElement(s,carnet);
+			jsonUtils.updateElementStudent(s,carnet);
 			return true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

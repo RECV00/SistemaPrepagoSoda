@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import domain.Student;
-
+import domain.Dishe;
 public class JSONUtils<T> {
 
 //	ruta
@@ -45,7 +45,7 @@ public List<T> getElements(Class<T> temp) throws IOException{
 	return mapper.readValue(file, mapper.getTypeFactory().constructCollectionType(List.class, temp));
 }
 
-public void updateElement(T updatedElement, String carnet) throws IOException {
+public void updateElementStudent(T updatedElement, String carnet) throws IOException {
     List<T> elements = getElements((Class<T>) updatedElement.getClass());
     boolean found = false;
     for (int i = 0; i < elements.size(); i++) {
@@ -64,4 +64,22 @@ public void updateElement(T updatedElement, String carnet) throws IOException {
     }
 }
 
+public void updateElementDishes(T updatedElement, String name) throws IOException {
+    List<T> elements = getElements((Class<T>) updatedElement.getClass());
+    boolean found = false;
+    for (int i = 0; i < elements.size(); i++) {
+        T element = elements.get(i);
+        if (((Dishe) element).getServiceName().equalsIgnoreCase(name)) {
+            elements.set(i, updatedElement);
+            found = true;
+            break;
+        }
+    }
+
+    if (found) {
+        mapper.writeValue(new File(filePath), elements);
+    } else {
+        throw new IOException("Element with ID " + name + " not found.");
+    }
+}
 }
