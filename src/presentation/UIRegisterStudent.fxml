@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.UIRegisterStudentController">
    <children>
       <Button fx:id="bRegisterStudent" layoutX="494.0" layoutY="361.0" mnemonicParsing="false" onAction="#saveDataStudent" prefHeight="25.0" prefWidth="84.0" text="Registrar" />
@@ -24,7 +23,7 @@
       <Label fx:id="lemail" layoutX="36.0" layoutY="105.0" text="Correo" />
       <Label fx:id="lIsActive" layoutX="36.0" layoutY="157.0" text="¿Es Estudiante Activo?" />
       <Label fx:id="lGender" layoutX="36.0" layoutY="231.0" text="Genero" />
-      <TextField fx:id="tfNameStudent" layoutX="35.0" layoutY="70.0" prefHeight="25.0" prefWidth="200.0" promptText="Ingrese el Nombre" />
+      <TextField fx:id="tfNameStudent" layoutX="35.0" layoutY="70.0" prefHeight="25.0" prefWidth="285.0" promptText="Ingrese el Nombre" />
       <TextField fx:id="tfCarnetStudent" layoutX="378.0" layoutY="70.0" prefHeight="25.0" prefWidth="200.0" promptText="Ingrese Numero Carnet" />
       <TextField fx:id="tfEmailStudent" layoutX="35.0" layoutY="122.0" prefHeight="25.0" prefWidth="285.0" promptText="Ingrese el Correo" />
       <TextField fx:id="tfNumPhoneStudent" layoutX="378.0" layoutY="122.0" prefHeight="25.0" prefWidth="200.0" promptText="Ingrese el Celular" />

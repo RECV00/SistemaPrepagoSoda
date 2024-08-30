@@ -14,6 +14,10 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
+import data.StudentData;
+import domain.Student;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -77,11 +81,60 @@ public class UIRegisterStudentController {
 		cbGenderStudent.getItems().addAll("Masculino", "Femenino");
 		cbGenderStudent.getSelectionModel().selectFirst();
 	}
+	
 	// Event Listener on Button[#bRegisterStudent].onAction
 	@FXML
 	public boolean saveDataStudent(ActionEvent event) {
+		  String messageError = validateForm();
+		    
+		    if (!messageError.isEmpty()) {
+		        notifyAction(messageError);
+		        return false;
+		    }
+		
+		    Student student = new Student();
+		    student.setCarnetStudent(tfNameStudent.getText());
+		    student.setName(tfCarnetStudent.getText());
+		    student.setEmail(tfEmailStudent.getText());
+		    student.setPhone(Integer.parseInt(tfNumPhoneStudent.getText()));
+		    boolean isActive= rbYesStudent.isSelected();
+		    student.setActive(isActive);
+		    student.setDateEntry(dpDateEntryStudent.getValue());
+		    char gender = (cbGenderStudent.getSelectionModel().getSelectedIndex()==0)? 'M':'F';
+		    student.setGender(gender);
+		    student.setMoneyAvailable(Double.parseDouble(tfMoneyAvailableStudent.getText()));
+		    
+//		    validateForm();
+//		    
+//		    for (Student existingStudent : StudentData.getStudentList()) {
+//		        if (existingStudent.getCarnetStudent().equals(student.getCarnetStudent())) {
+//		            notifyAction("Error: El Carnet ya existe.");
+//		            return false;
+//		        }
+//		    }
+		    
+//		     confirmar el registro
+		    Object[] options = {"Cancelar", "Registrar"};
+		    int confirmOption = JOptionPane.showOptionDialog(
+		            null, "¿Está seguro de guardar?",
+		            "", JOptionPane.DEFAULT_OPTION,
+		            JOptionPane.PLAIN_MESSAGE, null, options,
+		            options[0]
+		    );
+		    
+		    if (confirmOption == 1) {
+		        if (StudentData.saveStudent(student)) {
+		            notifyAction("Estudiante Registrado Correctamente");
+		            clearForm();
+		        } else {
+		            notifyAction("Error al Registrar");
+		        }
+		        
+		    }
 		return true;
 	}
+	
+	
 	// Event Listener on Button[#bBackStudent].onAction
 	@FXML
 	public void returnMain(ActionEvent event) {
@@ -110,28 +163,55 @@ public class UIRegisterStudentController {
 		}
 //----------------------------------------------------------------------------------------------------
 		private String validateForm() {
-			
-			String messageError = "";
-			if(tfNameStudent.getText().isEmpty()) {
-				messageError += "  El Nombre es Requerido";
-			}
-			if(tfCarnetStudent.getText().isEmpty()) {
-				messageError += "  El Carnet es Requerido";
-			}
-			if(tfEmailStudent.getText().isEmpty()) {
-				messageError += "  El Correo es Requerido";
-			}
-			if(tfNumPhoneStudent.getText().isEmpty()) {
-				messageError += "  El Numero Telefonico es Requerido";
-			}
-			if(tfMoneyAvailableStudent.getText().isEmpty()) {
-				messageError += "  El Monto es Requerido";
-			}
-			if(dpDateEntryStudent.getValue() == null) {
-				messageError += "  La Fecha de Ingreso es Requerido";
-			}
-			return messageError;
+		    StringBuilder messageError = new StringBuilder();
+
+		    if (tfNameStudent.getText().isEmpty()) {
+		        messageError.append("El Nombre es Requerido\n");
+		    }
+
+		    String carnet = tfCarnetStudent.getText();
+		    if (carnet.isEmpty()) {
+		        messageError.append("El Carnet es Requerido\n");
+		    } else if (!carnet.matches("[a-zA-Z0-9]{1,10}")) {  // Permite letras y números, máxima de 10 caracteres
+		        messageError.append("El Carnet debe contener solo letras y números y tener un máximo de 10 caracteres\n");
+		    }
+
+		    String email = tfEmailStudent.getText();
+		    if (email.isEmpty()) {
+		        messageError.append("El Correo es Requerido\n");
+		    }
+
+		    String phone = tfNumPhoneStudent.getText();
+		    if (phone.isEmpty()) {
+		        messageError.append("El Número Telefónico es Requerido\n");
+		    } else if (!phone.matches("\\d{8,10}")) {  // Debe contener entre 8 y 10 dígitos
+		        messageError.append("El Teléfono debe contener entre 8 y 10 dígitos\n");
+		    }
+
+		    String money = tfMoneyAvailableStudent.getText();
+		    if (money.isEmpty()) {
+		        messageError.append("El Monto es Requerido\n");
+		    } else {
+		        try {
+		            double balance = Double.parseDouble(money);
+		            if (balance < 5000 && balance > 15000) {
+		                messageError.append("El Saldo debe estar entre 5000 y 15000\n");
+		            }
+		        } catch (NumberFormatException e) {
+		            messageError.append("El Monto debe ser un número válido\n");
+		        }
+		    }
+
+		    if (dpDateEntryStudent.getValue() == null) {
+		        messageError.append("La Fecha de Ingreso es Requerida\n");
+		    }
+
+		    return messageError.toString();
 		}
+
+		
+		
+		
 //----------------------------------------------------------------------------------------------		  
 		@FXML
 		public void closeWindows() {

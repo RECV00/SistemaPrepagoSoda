@@ -6,5 +6,6 @@ module SistemaPrepagoSoda {
 	requires com.fasterxml.jackson.datatype.jsr310;
 	requires java.desktop;
 	
+	exports domain;
 	opens business to javafx.graphics, javafx.fxml;
 }
