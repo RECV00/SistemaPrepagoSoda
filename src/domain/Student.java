@@ -10,8 +10,8 @@ public class Student {
 	private int phone;
 	boolean isActive;
 	private LocalDate dateEntry;
-	char gender;
-	double moneyAvailable;
+	private char gender;
+	private double moneyAvailable;
 	
 	public Student() {
 		
