@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import data.DisheData;
 import domain.Dishe;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -91,14 +92,26 @@ public class UIRegisterDishesController {
 						);
 		
 		if (confirmOption == 1) {
-			if(isEditing) {
+			if(isEditing) {//actualiza el platillo
+				if(DisheData.updateDishesByServiceName(dishe, disheToEdit.getServiceName(), serviceHourse,cbServiceDayDishe.getSelectionModel().getSelectedItem() )) {
+					notifyAction("Platillo actualizado correctamente");
+				}else {
+					notifyAction("Error al  actualizadar el Alimento");
+				}
 				
+			}else {//guardar el platillo
+				if(DisheData.saveDishe(dishe, serviceHourse, cbServiceDayDishe.getSelectionModel().getSelectedItem())){
+					notifyAction("Platillo registrada correctamente");
+					clearForm();	
+				}else {
+					notifyAction("Error al guardar Platillo");
+					
+				}
 			}
+		}else {
+			notifyAction("Se canceló el registro del Platillo");
 		}
-		if(rbBreakfastDishe.isSelected()) {
-			
-			
-		}
+		
 		return true;
 		
 	}
