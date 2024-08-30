@@ -1,21 +1,44 @@
 package domain;
 
+import javafx.scene.control.CheckBox;
+
 public class Dishe {
 	
 		private boolean serviceHours;
 		private String serviceDay;
 		private String serviceName;
 		private double servicePrice;
+		private CheckBox checkBox;
 		
-	public Dishe() {}
+		public Dishe() {}
 
-	public Dishe(boolean serviceHours, String serviceDay, String serviceName, double servicePrice) {
-		super();
-		this.serviceHours = serviceHours;
-		this.serviceDay = serviceDay;
-		this.serviceName = serviceName;
-		this.servicePrice = servicePrice;
-	}
+		public Dishe(boolean serviceHours, String serviceDay, String serviceName, double servicePrice) {
+			super();
+			this.serviceHours = serviceHours;
+			this.serviceDay = serviceDay;
+			this.serviceName = serviceName;
+			this.servicePrice = servicePrice;
+		}
+//---------------------------------------------------
+		
+		public boolean isSelected() {
+			return selected;
+		}
+
+		public void setSelected(boolean selected) {
+			this.selected = selected;
+		}
+
+		private boolean selected;
+		
+	public CheckBox getCheckBox() {
+			return checkBox;
+		}
+
+		public void setCheckBox(CheckBox checkBox) {
+			this.checkBox = checkBox;
+		}
+
 
 	public boolean isServiceHours() {
 		return serviceHours;

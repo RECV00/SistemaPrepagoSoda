@@ -156,12 +156,10 @@ public class UIRegisterDishesController {
 					 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIServiceRequest.fxml"));
 			        Parent root = loader.load();
 					Scene scene = new Scene(root);
-			        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-				
+			        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());			
 			        Stage stage = new Stage();
 			        stage.setScene(scene);
-			        stage.show();
-			        
+			        stage.show();			        
 			        Stage temp = (Stage) btnBack.getScene().getWindow();
 			        temp.close();
 				} catch (IOException e) {
