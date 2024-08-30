@@ -75,8 +75,8 @@ public class UIRegisterDishesController {
 		}
 		
 		Dishe dishe = new Dishe();
-		boolean serviceHourse = (rbLunchDishe.isSelected())? true : false;
-		dishe.setServiceHours(serviceHourse);
+		boolean serviceHours = (rbLunchDishe.isSelected())? true : false;
+		dishe.setServiceHours(serviceHours);
 		dishe.setServiceDay(cbServiceDayDishe.getSelectionModel().getSelectedItem());
 		dishe.setServiceName(tfServiceNameDishe.getText());
 		dishe.setServicePrice(Double.parseDouble(tfServicePriceDishe.getText()));
@@ -93,14 +93,14 @@ public class UIRegisterDishesController {
 		
 		if (confirmOption == 1) {
 			if(isEditing) {//actualiza el platillo
-				if(DisheData.updateDishesByServiceName(dishe, disheToEdit.getServiceName(), serviceHourse,cbServiceDayDishe.getSelectionModel().getSelectedItem() )) {
+				if(DisheData.updateDishesByServiceName(dishe, disheToEdit.getServiceName(), serviceHours,cbServiceDayDishe.getSelectionModel().getSelectedItem() )) {
 					notifyAction("Platillo actualizado correctamente");
 				}else {
 					notifyAction("Error al  actualizadar el Alimento");
 				}
 				
 			}else {//guardar el platillo
-				if(DisheData.saveDishe(dishe, serviceHourse, cbServiceDayDishe.getSelectionModel().getSelectedItem())){
+				if(DisheData.saveDishe(dishe, serviceHours, cbServiceDayDishe.getSelectionModel().getSelectedItem())){
 					notifyAction("Platillo registrada correctamente");
 					clearForm();	
 				}else {

@@ -1,11 +1,16 @@
 package business;
 
 import javafx.fxml.FXML;
-
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
@@ -92,7 +97,11 @@ public class UIServiceRequestController {
             };
             return cell;
         });
+        
+        boolean serviceHours = (rbLunchDishe.isSelected())? true : false;
+        loadDisheList(cbServiceDay.getSelectionModel().getSelectedItem(),serviceHours );
     }
+
 
     public void loadDisheList(String serviceDay, boolean serviceHours) {
         try {
@@ -126,8 +135,6 @@ public class UIServiceRequestController {
         }
     }
 
-  
-
     @FXML
     public void registerNewDishe(ActionEvent event) {
         // Lógica para registrar un nuevo platillo
@@ -136,5 +143,24 @@ public class UIServiceRequestController {
     @FXML
     public void returnUIStart(ActionEvent event) {
         // Lógica para regresar al inicio
+    	closeWindows();
     }
+    
+    @FXML
+	public void closeWindows() {
+		
+		try {
+			 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIStart.fxml"));
+	        Parent root = loader.load();
+			Scene scene = new Scene(root);		
+	        Stage stage = new Stage();
+	        stage.setScene(scene);
+	        stage.show();			        
+	        Stage temp = (Stage) btnBack.getScene().getWindow();
+	        temp.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
