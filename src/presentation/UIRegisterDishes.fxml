@@ -9,29 +9,54 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="399.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label layoutX="26.0" layoutY="22.0" text="Formulario  para registro de alimentos">
-         <font>
-            <Font name="System Italic" size="21.0" />
-         </font>
-      </Label>
-      <Label fx:id="lServiceHours" layoutX="20.0" layoutY="65.0" text="Horario que requiere el servicio:" />
-      <Label fx:id="lServiceDay" layoutX="15.0" layoutY="132.0" text="Día que requiere el servicio:" />
-      <Label fx:id="lServiceName" layoutX="14.0" layoutY="203.0" text="*Nombre del servicio:" textFill="#da0808" />
-      <Label fx:id="lServicePrice" layoutX="20.0" layoutY="263.0" text="*Precio del servicio:" textFill="#ee0a0a" />
-      <RadioButton fx:id="rbBreakfastDishe" layoutX="14.0" layoutY="97.0" mnemonicParsing="false" onAction="#saveBreakfastJSON" selected="true" text="Desayuno">
-         <toggleGroup>
-            <ToggleGroup fx:id="Tipo" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="rbLunchDishe" layoutX="141.0" layoutY="97.0" mnemonicParsing="false" onAction="#saveLunchJSON" text="Almuerzo" toggleGroup="$Tipo" />
-      <ComboBox fx:id="cbServiceDayDishe" layoutX="14.0" layoutY="161.0" opacity="0.66" prefHeight="25.0" prefWidth="326.0" promptText="Seleccione el día " />
-      <TextField fx:id="tfServiceNameDishe" layoutX="18.0" layoutY="228.0" prefHeight="25.0" prefWidth="319.0" promptText="Ingrese el nombre del alimento" />
-      <TextField fx:id="tfServicePriceDishe" layoutX="18.0" layoutY="290.0" prefHeight="25.0" prefWidth="319.0" promptText="Ingrese el precio del alimento" />
-      <Label fx:id="lErrorValidate" layoutX="9.0" layoutY="342.0" prefHeight="17.0" prefWidth="369.0" />
-      <Button fx:id="btnSaveDishe" layoutX="301.0" layoutY="391.0" mnemonicParsing="false" onAction="#saveDataDishe" prefHeight="25.0" prefWidth="72.0" text="Guardar" />
-      <Button fx:id="btnBack" layoutX="213.0" layoutY="391.0" mnemonicParsing="false" onAction="#returnMain" text="Regresar" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0"
+	prefWidth="399.0" xmlns="http://javafx.com/javafx/21"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="business.UIRegisterDishesController">
+	<children>
+		<Label layoutX="26.0" layoutY="22.0"
+			text="Formulario  para registro de alimentos">
+			<font>
+				<Font name="System Italic" size="21.0" />
+			</font>
+		</Label>
+		<Label fx:id="lServiceHours" layoutX="20.0" layoutY="65.0"
+			text="Horario que requiere el servicio:" />
+		<Label fx:id="lServiceDay" layoutX="15.0" layoutY="132.0"
+			text="Día que requiere el servicio:" />
+		<Label fx:id="lServiceName" layoutX="14.0" layoutY="203.0"
+			text="*Nombre del servicio:" textFill="#da0808" />
+		<Label fx:id="lServicePrice" layoutX="20.0" layoutY="263.0"
+			text="*Precio del servicio:" textFill="#ee0a0a" />
+		<RadioButton fx:id="rbBreakfastDishe" layoutX="14.0"
+			layoutY="97.0" mnemonicParsing="false" onAction="#saveBreakfastJSON"
+			selected="true" text="Desayuno">
+			<toggleGroup>
+				<ToggleGroup fx:id="Tipo" />
+			</toggleGroup>
+		</RadioButton>
+		<RadioButton fx:id="rbLunchDishe" layoutX="141.0"
+			layoutY="97.0" mnemonicParsing="false" onAction="#saveLunchJSON"
+			text="Almuerzo" toggleGroup="$Tipo" />
+		<ComboBox fx:id="cbServiceDayDishe" layoutX="14.0"
+			layoutY="161.0" opacity="0.66" prefHeight="25.0" prefWidth="326.0"
+			promptText="Seleccione el día " />
+		<TextField fx:id="tfServiceNameDishe" layoutX="18.0"
+			layoutY="228.0" prefHeight="25.0" prefWidth="319.0"
+			promptText="Ingrese el nombre del alimento" />
+		<TextField fx:id="tfServicePriceDishe" layoutX="18.0"
+			layoutY="290.0" prefHeight="25.0" prefWidth="319.0"
+			promptText="Ingrese el precio del alimento" />
+		<Label fx:id="lErrorValidate" layoutX="9.0" layoutY="342.0"
+			prefHeight="17.0" prefWidth="369.0" />
+		<Button fx:id="btnSaveDishe" layoutX="301.0" layoutY="391.0"
+			mnemonicParsing="false" onAction="#saveDataDishe" prefHeight="25.0"
+			prefWidth="72.0" text="Guardar" />
+		<Button fx:id="btnBack" layoutX="213.0" layoutY="391.0"
+			mnemonicParsing="false" onAction="#returnMain" text="Regresar" />
+	</children>
 </AnchorPane>
+
+
+
