@@ -14,7 +14,7 @@ public class JSONUtils<T> {
 //	ruta
 private final String filePath;
 //manejo  de Json
-private static final Objects mapper = new ObjectMapper()
+private static final ObjectMapper mapper = new ObjectMapper()
 		.registerModule(new JavaTimeModule());// se agrega si debo de usar localDate
 
 //Constructor
