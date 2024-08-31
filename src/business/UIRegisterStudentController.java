@@ -12,7 +12,9 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.Component;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -77,6 +79,8 @@ public class UIRegisterStudentController {
 	@FXML
 	private Label lTitule;
 	private LogicData log = new LogicData();
+	private Student studentToEdit =null;
+	private boolean isEditing = false;// si es o no editado
 	@FXML
 	public void initialize(){
 		cbGenderStudent.getItems().addAll("Masculino", "Femenino");
@@ -115,13 +119,27 @@ public class UIRegisterStudentController {
 		    );
 		    
 		    if (confirmOption == 1) {
-		        if (StudentData.saveStudent(student)) {
-		            notifyAction("Estudiante Registrado Correctamente");
-		            clearForm();
-		        } else {
-		            notifyAction("Error al Registrar");
-		        }
+		    	if(isEditing) {
+		    		if(StudentData.updateStudent(student, studentToEdit.getCarnetStudent())) {
+			            notifyAction("Estudiante Actualizado Correctamente");
+
+		    		}else {
+			            notifyAction("Error al actualizar Estudiante ");
+
+		    		}
+		    	}else {
+		    		if (StudentData.saveStudent(student)) {
+			            notifyAction("Estudiante Registrado Correctamente");
+			            clearForm();
+			        } else {
+			            notifyAction("Error al Registrar");
+			        }
+		    	}
 		        
+		        
+		    }else {
+				notifyAction("Se canceló el registro del estudiante");
+
 		    }
 		return true;
 	}
@@ -139,7 +157,7 @@ public class UIRegisterStudentController {
 			tfCarnetStudent.setText("");
 			tfEmailStudent.setText("");
 			tfNumPhoneStudent.setText("");
-			tfMoneyAvailableStudent.setText("");
+			tfMoneyAvailableStudent.setText("");			
 			cbGenderStudent.getSelectionModel().selectFirst();
 			dpDateEntryStudent.setValue(null);
 		}
@@ -158,19 +176,22 @@ public class UIRegisterStudentController {
 		    if (tfNameStudent.getText().isEmpty()) {
 		        messageError.append("El Nombre es Requerido\n");
 		    }
-
-		   
-		    if (carnet.isEmpty()) {
-		        messageError.append("El Carnet es Requerido\n");
+	   
+		    if (carnet.isEmpty()) {		    	
+		        messageError.append("El Carnet es Requerido\n");    
 		        
-		        
-		    } else {
+		    } else if(!isEditing){
 		    	//valida si el carnet existe
-		    	if(log.carnetAlreadyExists(carnet)) {
+		    	List<Student> existingStudent = StudentData.getStudentList();
+		    	for(Student student : existingStudent) {
+		    		if(student.getCarnetStudent().equalsIgnoreCase(carnet)) {
 		    		messageError.append("El Carnet ya existe, por favor ingresa un carnet diferente");
-		    	}else if (!carnet.matches("[a-zA-Z0-9]{1,10}")) {  // Permite letras y números, máxima de 10 caracteres
-			        messageError.append("El Carnet debe contener solo letras y números y tener un máximo de 10 caracteres\n");
-			    }
+		    		break;
+		    		}
+		    	}
+		    	
+		    }else if (!carnet.matches("[a-zA-Z0-9]{1,10}")) {  // Permite letras y números, máxima de 10 caracteres
+		        messageError.append("El Carnet debe contener solo letras y números y tener un máximo de 10 caracteres\n");
 		    }
 		    
 		    
@@ -232,5 +253,21 @@ public class UIRegisterStudentController {
 				e.printStackTrace();
 			}
 		}
-	
+		
+		//se llena el formulario con los datos de la mascota que se va editar
+		public void populateForm(Object selectedStudent) {
+			tfNameStudent.setText(((Student) selectedStudent).getName());
+			tfCarnetStudent.setEditable(false);// no permite editar 
+			tfEmailStudent.setText(((Student) selectedStudent).getEmail());
+			tfNumPhoneStudent.setText(String.valueOf(((Student) selectedStudent).getPhone()));
+			tfMoneyAvailableStudent.setText(String.valueOf(((Student) selectedStudent).getMoneyAvailable()));
+			
+			cbGenderStudent.getSelectionModel().select(((Student) selectedStudent).getGender() == 'M' ? "Masculino" : "Femenino");
+			dpDateEntryStudent.setValue(((Student) selectedStudent).getDateEntry());
+			rbYesStudent.setSelected(((Student) selectedStudent).isActive());
+			rbNoStudent.setSelected(!((Student) selectedStudent).isActive());
+		    isEditing = true;
+		    studentToEdit = (Student) selectedStudent;
+		    }
+		
 }

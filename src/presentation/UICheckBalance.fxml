@@ -22,5 +22,7 @@
         <TableColumn fx:id="amountColumn" prefWidth="88.0" text="Saldo" />
         </columns>
       </TableView>
+      <Button fx:id="btnEditable" layoutX="14.0" layoutY="298.0" mnemonicParsing="false" onAction="#editStudent" text="Editar" />
+      <Button fx:id="btnDelete" layoutX="85.0" layoutY="298.0" mnemonicParsing="false" onAction="#deleteStudent" text="Eliminar" />
    </children>
 </AnchorPane>
