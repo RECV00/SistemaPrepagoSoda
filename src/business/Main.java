@@ -25,5 +25,3 @@ public class Main extends Application {
 		launch(args);
 	}
 }
-//Comentario de que funciona git
-//hola sssdff

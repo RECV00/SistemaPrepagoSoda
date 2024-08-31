@@ -41,19 +41,18 @@ public class UIStartController {
 			
 		}
 	}
-	// Event Listener on Button[#bRequestBalance].onAction
+	
 	@FXML
 	public void UIRequestService(ActionEvent event) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIServiceRequest.fxml"));
 			Parent root = loader.load();
 			UIServiceRequestController controller = loader.getController();
-			controller.initialize();
+			//controller.initialize();
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
-			stage.show();
-			
+			stage.show();	
 			stage.setOnCloseRequest(e -> controller.closeWindows());
 			Stage temp = (Stage) this.bRequestService.getScene().getWindow();
 			temp.close();

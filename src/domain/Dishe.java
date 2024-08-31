@@ -8,7 +8,9 @@ public class Dishe {
 		private String serviceDay;
 		private String serviceName;
 		private double servicePrice;
+		
 		private CheckBox checkBox;
+		private boolean selected;
 		
 		public Dishe() {}
 
@@ -29,7 +31,6 @@ public class Dishe {
 			this.selected = selected;
 		}
 
-		private boolean selected;
 		
 	public CheckBox getCheckBox() {
 			return checkBox;
