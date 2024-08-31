@@ -1,5 +1,7 @@
 package data;
 
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
 import domain.Dishe;
@@ -70,5 +72,17 @@ public class LogicData {
 	            }
 	        });
 	    }
-	}
+	 
+	 public boolean carnetAlreadyExists(String carnet) {
+		    // Supongamos que tienes una lista de estudiantes llamada studentList
+		   List<Student> listStudent =StudentData.getStudentList();
+		   
+		 for (Student student : listStudent) {
+		        if (student.getCarnetStudent().equalsIgnoreCase(carnet)) {
+		            return true;  // El carnet ya existe
+		        }
+		    }
+		    return false;  // El carnet no existe
+		} 
+}
 

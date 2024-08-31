@@ -96,7 +96,7 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return carnetStudent + "-" + name + "-" + email + "-" + phone + "-" + isActive + "-" + dateEntry + "-" + gender + "-"+ moneyAvailable;
+		return carnetStudent + "-" + name + "-" + email + "-" + phone + "-" + ((isActive)?"Activo":"Inactivo") + "-" + dateEntry + "-" + gender + "-"+ moneyAvailable;
 	}
 
 }

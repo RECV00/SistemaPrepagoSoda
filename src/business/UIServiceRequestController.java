@@ -55,9 +55,8 @@ public class UIServiceRequestController {
 
     @FXML
     public void initialize() {
-    	System.out.print("holaaaa");
 //        // Configurar ComboBox de estudiantes
-//       cbStudentsList.setItems(FXCollections.observableArrayList(StudentData.getStudentList()));
+       cbStudentsList.setItems(FXCollections.observableArrayList(StudentData.getStudentList()));
 //        // Configurar ComboBox de días
        cbServiceDay.getItems().addAll("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
 //        // Configurar columnas de la TableView

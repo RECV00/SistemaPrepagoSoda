@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import data.LogicData;
 import data.StudentData;
 import domain.Student;
 import javafx.animation.KeyFrame;
@@ -75,7 +76,7 @@ public class UIRegisterStudentController {
 	private Label lLineError;
 	@FXML
 	private Label lTitule;
-
+	private LogicData log = new LogicData();
 	@FXML
 	public void initialize(){
 		cbGenderStudent.getItems().addAll("Masculino", "Femenino");
@@ -103,15 +104,6 @@ public class UIRegisterStudentController {
 		    char gender = (cbGenderStudent.getSelectionModel().getSelectedIndex()==0)? 'M':'F';
 		    student.setGender(gender);
 		    student.setMoneyAvailable(Double.parseDouble(tfMoneyAvailableStudent.getText()));
-		    
-//		    validateForm();
-//		    
-//		    for (Student existingStudent : StudentData.getStudentList()) {
-//		        if (existingStudent.getCarnetStudent().equals(student.getCarnetStudent())) {
-//		            notifyAction("Error: El Carnet ya existe.");
-//		            return false;
-//		        }
-//		    }
 		    
 //		     confirmar el registro
 		    Object[] options = {"Cancelar", "Registrar"};
@@ -141,9 +133,6 @@ public class UIRegisterStudentController {
 		closeWindows();
 	}
 	
-	
-	
-	
 //--------------------------------------------------------------------------------------------------
 		private void clearForm() {
 			tfNameStudent.setText("");
@@ -164,17 +153,27 @@ public class UIRegisterStudentController {
 //----------------------------------------------------------------------------------------------------
 		private String validateForm() {
 		    StringBuilder messageError = new StringBuilder();
-
+		    String carnet= tfCarnetStudent.getText().trim();
+		    
 		    if (tfNameStudent.getText().isEmpty()) {
 		        messageError.append("El Nombre es Requerido\n");
 		    }
 
-		    String carnet = tfCarnetStudent.getText();
+		   
 		    if (carnet.isEmpty()) {
 		        messageError.append("El Carnet es Requerido\n");
-		    } else if (!carnet.matches("[a-zA-Z0-9]{1,10}")) {  // Permite letras y números, máxima de 10 caracteres
-		        messageError.append("El Carnet debe contener solo letras y números y tener un máximo de 10 caracteres\n");
+		        
+		        
+		    } else {
+		    	//valida si el carnet existe
+		    	if(log.carnetAlreadyExists(carnet)) {
+		    		messageError.append("El Carnet ya existe, por favor ingresa un carnet diferente");
+		    	}else if (!carnet.matches("[a-zA-Z0-9]{1,10}")) {  // Permite letras y números, máxima de 10 caracteres
+			        messageError.append("El Carnet debe contener solo letras y números y tener un máximo de 10 caracteres\n");
+			    }
 		    }
+		    
+		    
 
 		    String email = tfEmailStudent.getText();
 		    if (email.isEmpty()) {
