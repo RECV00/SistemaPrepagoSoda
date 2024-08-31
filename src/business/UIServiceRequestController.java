@@ -12,8 +12,11 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import data.DisheData;
 import data.LogicData;
+import data.StudentData;
 import domain.Dishe;
 import domain.Student;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -41,14 +44,8 @@ public class UIServiceRequestController {
     private TableColumn<Dishe, String> tcDataDishe;
     @FXML
     private TableColumn<Dishe, Double> tcPriceDishe;
-<<<<<<< Updated upstream
     @FXML
     private TableColumn<Dishe, String> tcRequestDishe;
-=======
-//    @FXML
-//    private TableColumn<String, CheckBox> tcRequestDishe;
->>>>>>> Stashed changes
-    @FXML
     private Button btnRegisterDishe;
     @FXML
     private Button btnBack;
@@ -67,8 +64,8 @@ public class UIServiceRequestController {
 //        // Configurar ComboBox de días
        cbServiceDay.getItems().addAll("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
 //        // Configurar columnas de la TableView
-        tcDataDishe.setCellValueFactory(new PropertyValueFactory<Dishe, String>("serviceName"));
-        tcPriceDishe.setCellValueFactory(new PropertyValueFactory<Dishe, Double>("servicePrice"));
+        tcDataDishe.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getServiceName()));
+        tcPriceDishe.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getServicePrice()));
         
 //        boolean serviceHours = (rbLunchDishe.isSelected())? true : false;
 //        loadDisheList(cbServiceDay.getSelectionModel().getSelectedItem(),serviceHours );
