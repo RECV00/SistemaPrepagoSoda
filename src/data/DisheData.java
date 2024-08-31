@@ -12,7 +12,7 @@ public class DisheData {
 	private static String fileMondayB = "monday_breakfast.json";
 	private static String fileMondayL = "monday_lunch.json";
 	private static String fileTuesdayB = "tuesday_breakfast.json";
-	private static String fileTuesdayL = "tuesday_lunchTuesday.json";
+	private static String fileTuesdayL = "tuesday_lunch.json";
 	private static String fileWednesdayB = "wednesday_breakfast.json";
 	private static String fileWednesdayL = "wednesday_lunch.json";
 	private static String fileThursdayB = "thursday_breakfast.json";

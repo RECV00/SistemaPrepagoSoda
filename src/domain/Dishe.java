@@ -9,9 +9,6 @@ public class Dishe {
 		private String serviceName;
 		private double servicePrice;
 		
-		private CheckBox checkBox;
-		private boolean selected;
-		
 		public Dishe() {}
 
 		public Dishe(boolean serviceHours, String serviceDay, String serviceName, double servicePrice) {
@@ -23,22 +20,6 @@ public class Dishe {
 		}
 //---------------------------------------------------
 		
-		public boolean isSelected() {
-			return selected;
-		}
-
-		public void setSelected(boolean selected) {
-			this.selected = selected;
-		}
-
-		
-	public CheckBox getCheckBox() {
-			return checkBox;
-		}
-
-		public void setCheckBox(CheckBox checkBox) {
-			this.checkBox = checkBox;
-		}
 
 
 	public boolean isServiceHours() {
