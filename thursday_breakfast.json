@@ -1,5 +1,1 @@
-<<<<<<< Updated upstream
 [{"serviceHours":false,"serviceDay":"Jueves","serviceName":"Empanada de Frijol","servicePrice":700.0},{"serviceHours":false,"serviceDay":"Jueves","serviceName":"Pan Casero con Café","servicePrice":500.0}]
-=======
-[{"serviceHours":false,"serviceDay":"Jueves","serviceName":"Empanadas de Frijol","servicePrice":700.0,"checkBox":null,"selected":false}]
->>>>>>> Stashed changes

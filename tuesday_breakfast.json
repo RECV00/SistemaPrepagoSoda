@@ -1,5 +1,1 @@
-<<<<<<< Updated upstream
 [{"serviceHours":false,"serviceDay":"Martes","serviceName":"Tamal de Maiz","servicePrice":1000.0},{"serviceHours":false,"serviceDay":"Martes","serviceName":"Chorreadas","servicePrice":800.0}]
-=======
-[{"serviceHours":false,"serviceDay":"Martes","serviceName":"Tamal de Maiz","servicePrice":1000.0,"checkBox":null,"selected":false}]
->>>>>>> Stashed changes

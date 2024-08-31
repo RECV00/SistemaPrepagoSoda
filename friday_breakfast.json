@@ -1,5 +1,1 @@
-<<<<<<< Updated upstream
 [{"serviceHours":false,"serviceDay":"Viernes","serviceName":"Gallo Pinto con Queso","servicePrice":1500.0},{"serviceHours":false,"serviceDay":"Viernes","serviceName":"Panqueques de Yuca","servicePrice":1000.0}]
-=======
-[{"serviceHours":false,"serviceDay":"Viernes","serviceName":"Gallo Pinto con Queso","servicePrice":1500.0,"checkBox":null,"selected":false}]
->>>>>>> Stashed changes
