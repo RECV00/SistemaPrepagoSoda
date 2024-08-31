@@ -1,1 +1,5 @@
+<<<<<<< Updated upstream
 [{"serviceHours":false,"serviceDay":"Lunes","serviceName":"Gallo Pinto con Huevo","servicePrice":1500.0},{"serviceHours":false,"serviceDay":"Lunes","serviceName":"Tortilla con Queso","servicePrice":800.0}]
+=======
+[{"serviceHours":false,"serviceDay":"Lunes","serviceName":"Gallo Pinto con Huevo","servicePrice":1500.0,"checkBox":null,"selected":false}]
+>>>>>>> Stashed changes

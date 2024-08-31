@@ -5,15 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
+//import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import data.DisheData;
 import data.LogicData;
-import data.StudentData;
 import domain.Dishe;
 import domain.Student;
 import javafx.collections.FXCollections;
@@ -43,8 +41,13 @@ public class UIServiceRequestController {
     private TableColumn<Dishe, String> tcDataDishe;
     @FXML
     private TableColumn<Dishe, Double> tcPriceDishe;
+<<<<<<< Updated upstream
     @FXML
     private TableColumn<Dishe, String> tcRequestDishe;
+=======
+//    @FXML
+//    private TableColumn<String, CheckBox> tcRequestDishe;
+>>>>>>> Stashed changes
     @FXML
     private Button btnRegisterDishe;
     @FXML
