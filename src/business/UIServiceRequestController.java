@@ -9,11 +9,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-
 import javax.swing.JOptionPane;
-
 import data.DisheData;
 import data.LogicData;
 import data.StudentData;
@@ -22,11 +19,8 @@ import domain.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-
 import javafx.scene.control.ComboBox;
-
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 
 import javafx.scene.control.TableColumn;
@@ -61,45 +55,42 @@ public class UIServiceRequestController {
 
     @FXML
     public void initialize() {
-        // Configurar ComboBox de estudiantes
-        cbStudentsList.setItems(FXCollections.observableArrayList(StudentData.getStudentList()));
+    	System.out.print("holaaaa");
+//        // Configurar ComboBox de estudiantes
+//       cbStudentsList.setItems(FXCollections.observableArrayList(StudentData.getStudentList()));
+//        // Configurar ComboBox de días
+       cbServiceDay.getItems().addAll("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
+//        // Configurar columnas de la TableView
+//        tcDataDishe.setCellValueFactory(new PropertyValueFactory<Dishe, String>("serviceName"));
+//        tcPriceDishe.setCellValueFactory(new PropertyValueFactory<Dishe, Double>("servicePrice"));
+
+//        // Configurar columna de CheckBox
+//        tcRequestDishe.setCellFactory(col -> {
+//            TableCell<Dishe, CheckBox> cell = new TableCell<Dishe, CheckBox>() {
+//                private final CheckBox checkBox = new CheckBox();
+//
+//                @Override
+//                protected void updateItem(CheckBox item, boolean empty) {
+//                    super.updateItem(item, empty);
+//                    if (empty) {
+//                        setGraphic(null);
+//                    } else {
+//                        Dishe dishe = getTableView().getItems().get(getIndex());
+//                        checkBox.selectedProperty().setValue(dishe.isSelected());
+//                        // Obtener el estudiante seleccionado en el ComboBox
+//                        Student selectedStudent = cbStudentsList.getSelectionModel().getSelectedItem();
+//                        // Llamar al método handleCheckBox de LogicData
+//                        logicData.handleCheckBox(checkBox, dishe, selectedStudent);
+//
+//                        setGraphic(checkBox);
+//                    }
+//                }
+//            };
+//            return cell;
+//        });
         
-        // Configurar ComboBox de días
-        cbServiceDay.getItems().addAll("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
-
-        // Configurar columnas de la TableView
-        tcDataDishe.setCellValueFactory(new PropertyValueFactory<Dishe, String>("serviceName"));
-        tcPriceDishe.setCellValueFactory(new PropertyValueFactory<Dishe, Double>("servicePrice"));
-
-        // Configurar columna de CheckBox
-        tcRequestDishe.setCellFactory(col -> {
-            TableCell<Dishe, CheckBox> cell = new TableCell<Dishe, CheckBox>() {
-                private final CheckBox checkBox = new CheckBox();
-
-                @Override
-                protected void updateItem(CheckBox item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        Dishe dishe = getTableView().getItems().get(getIndex());
-                        checkBox.selectedProperty().setValue(dishe.isSelected());
-
-                        // Obtener el estudiante seleccionado en el ComboBox
-                        Student selectedStudent = cbStudentsList.getSelectionModel().getSelectedItem();
-
-                        // Llamar al método handleCheckBox de LogicData
-                        logicData.handleCheckBox(checkBox, dishe, selectedStudent);
-
-                        setGraphic(checkBox);
-                    }
-                }
-            };
-            return cell;
-        });
-        
-        boolean serviceHours = (rbLunchDishe.isSelected())? true : false;
-        loadDisheList(cbServiceDay.getSelectionModel().getSelectedItem(),serviceHours );
+//        boolean serviceHours = (rbLunchDishe.isSelected())? true : false;
+//        loadDisheList(cbServiceDay.getSelectionModel().getSelectedItem(),serviceHours );
     }
 
 
@@ -138,6 +129,22 @@ public class UIServiceRequestController {
     @FXML
     public void registerNewDishe(ActionEvent event) {
         // Lógica para registrar un nuevo platillo
+    	try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterDishes.fxml"));
+			Parent root = loader.load();
+			UIRegisterDishesController controller = loader.getController();
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();
+			
+			stage.setOnCloseRequest(e -> controller.closeWindows());
+			Stage temp = (Stage) this.btnRegisterDishe.getScene().getWindow();
+			temp.close();
+			
+		}catch(IOException e){
+			
+		}
     }
 
     @FXML
