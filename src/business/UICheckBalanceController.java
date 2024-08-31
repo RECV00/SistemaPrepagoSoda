@@ -80,7 +80,7 @@ public class UICheckBalanceController {
 	                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterStudent.fxml"));
 	                Parent root = loader.load();
 	                UIRegisterStudentController controller = loader.getController();
-	                controller.populateForm(selectedStudent); // Pasar la mascota seleccionada
+	                controller.populateForm(selectedStudent); // Pasar la estudiante seleccionada
 	                Stage stage = new Stage();
 	                stage.setScene(new Scene(root));
 	                stage.show();
@@ -103,7 +103,7 @@ public class UICheckBalanceController {
 		                JOptionPane.YES_NO_OPTION
 		            );
 		            if (confirmOption == JOptionPane.YES_OPTION) {
-		                // Eliminar la mascota de la lista y del archivo JSON
+		                // Eliminar la estudiante de la lista y del archivo JSON
 		                if (StudentData.deleteStudent((Student) selectedStudent)) {
 		                	loadConsultaList();
 		                    JOptionPane.showMessageDialog(null, "Mascota eliminada correctamente.");
