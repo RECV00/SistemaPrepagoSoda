@@ -59,10 +59,8 @@ public class UICheckBalanceController {
 
 		public void loadConsultaList() {
 		    
-		    List<Student> students = StudentData.getStudentList();
-		    
-		    if (students != null) {
-		    
+		    List<Student> students = StudentData.getStudentList();		    
+		    if (students != null) {		    
 		        ObservableList<Object> observableList = FXCollections.observableArrayList(students);
 		        tvDataStudent.setItems(observableList);
 		    }
@@ -74,8 +72,7 @@ public class UICheckBalanceController {
 		    }
 			
 		@FXML
-		public void editStudent(ActionEvent event) {
-			
+		public void editStudent(ActionEvent event) {		
 			Object selectedStudent = tvDataStudent.getSelectionModel().getSelectedItem();
 	        
 			if (tvDataStudent != null) {
@@ -99,9 +96,7 @@ public class UICheckBalanceController {
 		
 		@FXML
 		public void deleteStudent(ActionEvent event) {
-			 Object selectedStudent = tvDataStudent.getSelectionModel().getSelectedItem();
-		       
-		       
+			 Object selectedStudent = tvDataStudent.getSelectionModel().getSelectedItem();		       		       
 			 if (selectedStudent != null) {
 		            int confirmOption = JOptionPane.showConfirmDialog(
 		                null, "¿Está seguro de que desea eliminar este estudiante?", "Confirmar eliminación", 
@@ -147,8 +142,7 @@ public class UICheckBalanceController {
 	    }
 		
 		@FXML
-		public void closeWindows() {
-			
+		public void closeWindows() {		
 			try {
 				 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIStart.fxml"));
 		        Parent root = loader.load();

@@ -254,7 +254,7 @@ public class UIRegisterStudentController {
 			}
 		}
 		
-		//se llena el formulario con los datos de la mascota que se va editar
+		//se llena el formulario con los datos del estudiante que se va editar
 		public void populateForm(Object selectedStudent) {
 			tfNameStudent.setText(((Student) selectedStudent).getName());
 			tfCarnetStudent.setEditable(false);// no permite editar 
