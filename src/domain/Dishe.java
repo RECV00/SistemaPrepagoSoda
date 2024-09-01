@@ -79,7 +79,7 @@ public class Dishe {
 	    }
 	@Override
 	public String toString() {
-		return  ((serviceHours)?1:0) + "-" +serviceDay + "-" + serviceName+ "-" +servicePrice;
+		return  ((serviceHours)?"Almuerzo":"Desayuno") + "-" +serviceDay + "-" + serviceName+ "-" +servicePrice;
 	}
 
 	

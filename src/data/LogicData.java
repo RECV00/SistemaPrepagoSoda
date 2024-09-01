@@ -1,12 +1,7 @@
 package data;
 
 import java.util.List;
-
-import javax.swing.JOptionPane;
-
-import domain.Dishe;
 import domain.Student;
-import javafx.scene.control.CheckBox;
 
 public class LogicData {
 
@@ -14,38 +9,6 @@ public class LogicData {
 		// TODO Auto-generated constructor stub
 	}
 	
-public void deleteDishes(Dishe d,boolean serviceHours, String serviceDay) {
-		try {
-		if(serviceHours == true && serviceDay.equals("Lunes")) {
-			DisheData.deleteMonday_Lunch(d);
-		}else if(serviceHours == false && serviceDay.equals("Lunes")) {// desayuno
-			DisheData.deleteMonday_Breakfast(d);
-		}else if(serviceHours == true && serviceDay.equals("Martes")) {
-			DisheData.deleteTuesday_Lunch(d);
-		}else if(serviceHours == false && serviceDay.equals("Martes")) {// desayuno
-			DisheData.deleteTuesday_Breakfast(d);
-		}else if(serviceHours == true && serviceDay.equals("Miercoles")) {
-			DisheData.deleteWednesday_Lunch(d);
-		}else if(serviceHours == false && serviceDay.equals("Miercoles")) {// desayuno
-			DisheData.deleteWebnesday_Breakfast(d);
-		}else if(serviceHours == true && serviceDay.equals("Jueves")) {
-			DisheData.deleteThursday_Lunch(d);
-		}else if(serviceHours == false && serviceDay.equals("Jueves")) {// desayuno
-			DisheData.deleteThursday_Breakfast(d);
-		}else if(serviceHours == true && serviceDay.equals("Viernes")) {
-			DisheData.deleteFriday_Lunch(d);
-		}else if(serviceHours == false && serviceDay.equals("Viernes")) {// desayuno
-			DisheData.deleteFriday_Breakfast(d);
-		}else {
-            JOptionPane.showMessageDialog(null, "No se pudo encontrar la combinación de día y tipo de servicio.");
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Error al eliminar el platillo.");
-    }
-		
-}	
-	 
 	 public boolean carnetAlreadyExists(String carnet) {
 		    // Supongamos que tienes una lista de estudiantes llamada studentList
 		   List<Student> listStudent =StudentData.getStudentList();

@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 
 import data.DisheData;
 import domain.Dishe;
+import domain.Student;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -53,8 +54,7 @@ public class UIRegisterDishesController {
 	@FXML
 	private Button btnSaveDishe;
 	@FXML
-	private Button btnBack;
-	
+	private Button btnBack;	
 	private Dishe disheToEdit = null;
 	private boolean isEditing = false;
 	
@@ -96,7 +96,7 @@ public class UIRegisterDishesController {
 				if(DisheData.updateDishesByServiceName(dishe, disheToEdit.getServiceName(), serviceHours,cbServiceDayDishe.getSelectionModel().getSelectedItem() )) {
 					notifyAction("Platillo actualizado correctamente");
 				}else {
-					notifyAction("Error al  actualizadar el Alimento");
+					notifyAction("Error al  actualizadar el Platillo");
 				}
 				
 			}else {//guardar el platillo
@@ -148,6 +148,17 @@ public class UIRegisterDishesController {
 				
 				return messageError;
 			}
+			//se llena el formulario con los datos del platillo que se va editar
+			public void setDisheData(Object selectedDishe) {
+				tfServiceNameDishe.setText(((Dishe) selectedDishe).getServiceName());
+				tfServiceNameDishe.setEditable(false);
+				cbServiceDayDishe.getSelectionModel().select(((Dishe) selectedDishe).getServiceDay());
+				rbLunchDishe.setSelected(((Dishe) selectedDishe).isServiceHours());
+				rbBreakfastDishe.setSelected(!((Dishe) selectedDishe).isServiceHours());
+				tfServicePriceDishe.setText(String.valueOf(((Dishe) selectedDishe).getServicePrice()));
+			    isEditing = true;
+			    disheToEdit = (Dishe) selectedDishe;
+			    }
 	//----------------------------------------------------------------------------------------------		  
 			@FXML
 			public void closeWindows() {

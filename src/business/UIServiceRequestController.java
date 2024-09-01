@@ -18,6 +18,7 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import data.DisheData;
 import data.LogicData;
+import data.LogicUIServiceRequestController;
 import data.StudentData;
 import domain.Dishe;
 import domain.Student;
@@ -71,16 +72,14 @@ public class UIServiceRequestController {
 
     private ObservableList<Dishe> disheList;
     
-    private LogicData logicData = new LogicData(); // Instancia de LogicData
+    private LogicUIServiceRequestController lServiceRequest = new LogicUIServiceRequestController(); // Instancia de LogicData
 
     @FXML
     public void initialize() {
 //        // Configurar ComboBox de estudiantes
        cbStudentsList.setItems(FXCollections.observableArrayList(StudentData.getStudentList()));
-       cbStudentsList.getSelectionModel().selectFirst();
 //        // Configurar ComboBox de días
        cbServiceDay.getItems().addAll("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
-       cbServiceDay.getSelectionModel().selectFirst();
 //        // Configurar columnas de la TableView
         tcDataDishe.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getServiceName()));
         tcPriceDishe.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getServicePrice()));
@@ -116,15 +115,14 @@ public class UIServiceRequestController {
                 }
             }
         });
-        //llenar la tabla inicialmente
-        //updateTableView();    
+   
      // Event listener para el ComboBox de días
         cbServiceDay.setOnAction(event -> updateTableView());
         rbBreakfastDishe.setOnAction(event -> updateTableView());
         rbLunchDishe.setOnAction(event -> updateTableView());
         
     }
-    
+ // el control del checkBox    
     private void handleCheckBoxAction(Dishe selectedDishe) {
         String[] options = {"Eliminar", "Actualizar", "Solicitar"};
         int choice = JOptionPane.showOptionDialog(null, 
@@ -138,21 +136,17 @@ public class UIServiceRequestController {
 
         switch (choice) {
             case 0: // Eliminar
-            	// Llama al método para eliminar el platillo
-            	logicData.deleteDishes(selectedDishe, rbLunchDishe.isSelected(), cbServiceDay.getSelectionModel().getSelectedItem());
+            	lServiceRequest.deleteDishes(selectedDishe, rbLunchDishe.isSelected(), cbServiceDay.getSelectionModel().getSelectedItem());
                 updateTableView(); // Actualiza la tabla después de eliminar
                 notifyAction("Platillo eliminado correctamente");
                 break;
-              
                 
-            case 1: // Actualizar
-                // Implementa la lógica de actualización según tus necesidades
-                JOptionPane.showMessageDialog(null, "Actualizar platillo no implementado aún.");
-                
+            case 1: // Actualizar            
+                updateDishes(selectedDishe); // Llama a updateDishes sin el evento
                 break;
                 
             case 2: // Solicitar
-                handleRequestDishe(selectedDishe);
+            	lServiceRequest.handleRequestDishe(selectedDishe, cbStudentsList);
                 break;
                 
             default:
@@ -165,81 +159,14 @@ public class UIServiceRequestController {
         String selectedDay = cbServiceDay.getSelectionModel().getSelectedItem(); // Día seleccionado
      // Solo cargar los datos si ambos ComboBox y RadioButton están seleccionados
         if (selectedDay != null && !selectedDay.isEmpty() && (rbBreakfastDishe.isSelected() || rbLunchDishe.isSelected())) {
-            loadDisheList(selectedDay, serviceHours); // Carga los datos según la selección
+           // loadDisheList(selectedDay, serviceHours); // Carga los datos según la selección
+        	lServiceRequest.loadDisheList(selectedDay, serviceHours, disheList, tvDisheData);
         } else {
             // Limpiar la tabla si no se han realizado las selecciones
             tvDisheData.setItems(FXCollections.observableArrayList());
         }
     }
-    
-    private void handleRequestDishe(Dishe dishe) {
-        Student selectedStudent = cbStudentsList.getSelectionModel().getSelectedItem();
-        if (selectedStudent == null) {
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún estudiante.");
-            return;
-        }
 
-        double studentBalance = selectedStudent.getMoneyAvailable(); // Obtén el saldo del estudiante
-
-        if (studentBalance >= dishe.getServicePrice()) {
-            int response = JOptionPane.showConfirmDialog(null, 
-                    "¿Desea solicitar el platillo seleccionado?", 
-                    "Confirmación", 
-                    JOptionPane.YES_NO_OPTION);
-            
-            if (response == JOptionPane.YES_OPTION) {
-                selectedStudent.setMoneyAvailable(studentBalance - dishe.getServicePrice()); // Actualiza el saldo del estudiante
-               
-                // Guardar los cambios en el archivo JSON
-                if (StudentData.updateStudent(selectedStudent, selectedStudent.getCarnetStudent())) {
-                    JOptionPane.showMessageDialog(null, 
-                            "Solicitud confirmada.\n" +
-                            "Platillo: " + dishe.getServiceName() + "\n" +
-                            "Precio: " + dishe.getServicePrice() + "\n" +
-                            "Saldo restante: " + selectedStudent.getMoneyAvailable());
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error al actualizar el saldo del estudiante.");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, 
-                    "Saldo insuficiente para solicitar este platillo.");
-        }
-    }
-    
- 
-    
-    public void loadDisheList(String serviceDay, boolean serviceHours) {
-        try {
-            if (serviceHours && serviceDay.equals("Lunes")) {
-                disheList = FXCollections.observableArrayList(DisheData.getMonday_LunchList());
-            } else if (!serviceHours && serviceDay.equals("Lunes")) {
-                disheList = FXCollections.observableArrayList(DisheData.getMonday_BreakfastList());
-            } else if (serviceHours && serviceDay.equals("Martes")) {
-                disheList = FXCollections.observableArrayList(DisheData.getTuesday_LunchList());
-            } else if (!serviceHours && serviceDay.equals("Martes")) {
-                disheList = FXCollections.observableArrayList(DisheData.getTuesday_BreakfastList());
-            } else if (serviceHours && serviceDay.equals("Miércoles")) {
-                disheList = FXCollections.observableArrayList(DisheData.getWednesday_LunchList());
-            } else if (!serviceHours && serviceDay.equals("Miércoles")) {
-                disheList = FXCollections.observableArrayList(DisheData.getWednesday_BreakfastList());
-            } else if (serviceHours && serviceDay.equals("Jueves")) {
-                disheList = FXCollections.observableArrayList(DisheData.getThursday_LunchList());
-            } else if (!serviceHours && serviceDay.equals("Jueves")) {
-                disheList = FXCollections.observableArrayList(DisheData.getThursday_BreakfastList());
-            } else if (serviceHours && serviceDay.equals("Viernes")) {
-                disheList = FXCollections.observableArrayList(DisheData.getFriday_LunchList());
-            } else if (!serviceHours && serviceDay.equals("Viernes")) {
-                disheList = FXCollections.observableArrayList(DisheData.getFriday_BreakfastList());
-            }
-
-            tvDisheData.setItems(disheList);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al cargar los datos de los Alimentos.");
-        }
-    }
   //--------------------------------------------------------------------------------------------------		
 	private void notifyAction(String message) {
 		lErrorVa.setText(message);
@@ -255,9 +182,9 @@ public class UIServiceRequestController {
 			messageError += "  El día del servicio es Requerido";
 		}
 		
-		
 		return messageError;
 	}
+//
     @FXML
     public void registerNewDishe(ActionEvent event) {
         try {
@@ -278,37 +205,33 @@ public class UIServiceRequestController {
             JOptionPane.showMessageDialog(null, "Error al abrir la ventana de registro de platillos.");
         }
     }
+    
+    public void updateDishes(Dishe selectedDishe) {
+        if (selectedDishe != null) {         
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterDishes.fxml"));
+                Parent root = loader.load();
+                UIRegisterDishesController controller = loader.getController();
+                controller.setDisheData(selectedDishe); // Pasar el platillo seleccionado al controlador de actualización
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
 
+                stage.setOnCloseRequest(e -> controller.closeWindows());             
+                Stage temp = (Stage) tvDisheData.getScene().getWindow();
+                temp.close();
 
-
-//    @FXML
-//    public void updateDishes(ActionEvent event) {
-//        Dishe selectedDishe = tvDisheData.getSelectionModel().getSelectedItem();
-//        if (selectedDishe != null) {
-//            // Aquí podrías abrir una ventana de edición similar a la de registro
-//            // para modificar los datos del platillo seleccionado.
-//            try {
-//                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIUpdateDishes.fxml"));
-//                Parent root = loader.load();
-//                UIRegisterDishesController controller = loader.getController();
-//                controller.setDisheData(selectedDishe); // Pasar el platillo seleccionado al controlador de actualización
-//                Scene scene = new Scene(root);
-//                Stage stage = new Stage();
-//                stage.setScene(scene);
-//                stage.show();
-//
-//                stage.setOnCloseRequest(e -> controller.closeWindows());
-//                Stage temp = (Stage) this.bUpdate.getScene().getWindow();
-//                temp.close();
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                JOptionPane.showMessageDialog(null, "Error al abrir la ventana de actualización de platillos.");
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(null, "Seleccione un platillo para actualizar.");
-//        }
-//    }
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al abrir la ventana de actualización de platillos.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un platillo para actualizar.");
+        }
+    }
+    
+   
 
     @FXML
     public void returnUIStart(ActionEvent event) {
