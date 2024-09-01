@@ -92,6 +92,7 @@ public class UIServiceRequestController {
         });
         
         validateForm();
+        //para la funcionalidad del checkBox 
         tcRequestDishe.setCellFactory(column -> new CheckBoxTableCell<Dishe, Boolean>() {
             @Override
             public void updateItem(Boolean item, boolean empty) {
@@ -122,7 +123,7 @@ public class UIServiceRequestController {
         rbLunchDishe.setOnAction(event -> updateTableView());
         
     }
- // el control del checkBox    
+ // Aqui para el manejo del JOptionPane cuando haya  seleccionado un platillo
     private void handleCheckBoxAction(Dishe selectedDishe) {
         String[] options = {"Eliminar", "Actualizar", "Solicitar"};
         int choice = JOptionPane.showOptionDialog(null, 
@@ -147,6 +148,7 @@ public class UIServiceRequestController {
                 
             case 2: // Solicitar
             	lServiceRequest.handleRequestDishe(selectedDishe, cbStudentsList);
+            	lServiceRequest.updateComboBox(cbStudentsList);           	
                 break;
                 
             default:
@@ -205,7 +207,7 @@ public class UIServiceRequestController {
             JOptionPane.showMessageDialog(null, "Error al abrir la ventana de registro de platillos.");
         }
     }
-    
+ // llama la ventana de UIRegisterDisheController para modificar el Platillo   
     public void updateDishes(Dishe selectedDishe) {
         if (selectedDishe != null) {         
             try {

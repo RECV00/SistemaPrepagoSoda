@@ -12,16 +12,16 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.UIServiceRequestController">
 	<children>
 		<Label layoutX="14.0" layoutY="31.0" text="Estudiante" />
-		<Label layoutX="195.0" layoutY="31.0" text="Selecione el día para reservar:" />
-		<Label layoutX="414.0" layoutY="31.0" text="Horario de la reservación" />
-		<ComboBox fx:id="cbStudentsList" layoutX="14.0" layoutY="64.0" opacity="0.68" prefHeight="25.0" prefWidth="164.0" promptText="Selecione el Estudiante" />
-		<ComboBox fx:id="cbServiceDay" layoutX="195.0" layoutY="64.0" opacity="0.6" prefHeight="25.0" prefWidth="200.0" promptText="Selecione el día de reservar" />
-		<RadioButton fx:id="rbBreakfastDishe" layoutX="414.0" layoutY="68.0" mnemonicParsing="false" text="Desayuno">
+		<Label layoutX="272.0" layoutY="31.0" text="Selecione el día para reservar:" />
+		<Label layoutX="473.0" layoutY="31.0" text="Horario de la reservación" />
+		<ComboBox fx:id="cbStudentsList" layoutX="14.0" layoutY="64.0" opacity="0.68" prefHeight="25.0" prefWidth="245.0" promptText="Selecione el Estudiante" />
+		<ComboBox fx:id="cbServiceDay" layoutX="272.0" layoutY="64.0" opacity="0.6" prefHeight="25.0" prefWidth="189.0" promptText="Selecione el día de reservar" />
+		<RadioButton fx:id="rbBreakfastDishe" layoutX="473.0" layoutY="68.0" mnemonicParsing="false" text="Desayuno">
 			<toggleGroup>
 				<ToggleGroup fx:id="Tipo" />
 			</toggleGroup>
 		</RadioButton>
-		<RadioButton fx:id="rbLunchDishe" layoutX="519.0" layoutY="68.0" mnemonicParsing="false" text="Almuerzo" toggleGroup="$Tipo" />
+		<RadioButton fx:id="rbLunchDishe" layoutX="557.0" layoutY="68.0" mnemonicParsing="false" text="Almuerzo" toggleGroup="$Tipo" />
 		<TableView fx:id="tvDisheData" layoutX="14.0" layoutY="111.0" prefHeight="200.0" prefWidth="647.0">
 			<columns>
 				<TableColumn fx:id="tcDataDishe" prefWidth="480.0" text="Alimento" />

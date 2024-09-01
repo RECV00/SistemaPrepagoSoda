@@ -1,5 +1,7 @@
 package data;
 
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
 import domain.Dishe;
@@ -43,6 +45,7 @@ public class LogicUIServiceRequestController {
 	                        "Platillo: " + dishe.getServiceName() + "\n" +
 	                        "Precio: " + dishe.getServicePrice() + "\n" +
 	                        "Saldo restante: " + selectedStudent.getMoneyAvailable());
+	               
 	            } else {
 	                JOptionPane.showMessageDialog(null, "Error al actualizar el saldo del estudiante.");
 	            }
@@ -53,6 +56,13 @@ public class LogicUIServiceRequestController {
 	    }
 	}
 	
+	public void updateComboBox(ComboBox<Student> cbStudentsList) {
+
+	    cbStudentsList.setItems(FXCollections.observableArrayList(StudentData.getStudentList()));
+	    cbStudentsList.getSelectionModel().clearSelection();
+	    cbStudentsList.setPromptText("Seleccione el estudiante");
+	   	     
+	}
 	// Se llena la tabla 
 		 public void loadDisheList(String serviceDay, boolean serviceHours, ObservableList<Dishe> disheList,TableView<Dishe> tvDisheData ){
 		        try {
