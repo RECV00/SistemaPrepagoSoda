@@ -52,8 +52,8 @@ public class UICheckBalanceController {
 	    public void initialize() {
 		  carnetColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCarnetStudent()));
 		  studentColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-	      dateRechargesColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateEntry()));
-	      amountColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAmount()));
+//	      dateRechargesColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateEntry()));
+//	      amountColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAmount()));
 	      loadConsultaList();
 	  }
 	  

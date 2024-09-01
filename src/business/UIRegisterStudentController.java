@@ -128,15 +128,16 @@ public class UIRegisterStudentController {
 	    if (confirmOption == 1) {
 	        if (isEditing) {
 			    // Actualizar el estudiante y el recargo
-			    if (StudentData.updateStudent(student, studentToEdit.getCarnetStudent()) &&
-			        RechargeData.updateRecharge(recharge, studentToEdit.getCarnetStudent())) {
+			    if (StudentData.updateStudent(student, studentToEdit.getCarnetStudent())) {
+//			    	&&RechargeData.updateRecharge(recharge, studentToEdit.getCarnetStudent()))
 			        notifyAction("Estudiante Actualizado Correctamente");
 			    } else {
 			        notifyAction("Error al actualizar Estudiante");
 			    }
 			} else {
 			    // Guardar el nuevo estudiante y el recargo
-			    if (StudentData.saveStudent(student) && RechargeData.saveRecharge(recharge)) {
+			    if (StudentData.saveStudent(student)) {
+//			    	 && RechargeData.saveRecharge(recharge)
 			        notifyAction("Estudiante Registrado Correctamente");
 			        clearForm();
 			    } else {
@@ -263,6 +264,7 @@ public class UIRegisterStudentController {
 		//se llena el formulario con los datos del estudiante que se va editar
 		public void populateForm(Object selectedStudent) {
 			tfNameStudent.setText(((Student) selectedStudent).getName());
+			tfCarnetStudent.setText(((Student) selectedStudent).getCarnetStudent());
 			tfCarnetStudent.setEditable(false);// no permite editar 
 			tfEmailStudent.setText(((Student) selectedStudent).getEmail());
 			tfNumPhoneStudent.setText(String.valueOf(((Student) selectedStudent).getPhone()));
