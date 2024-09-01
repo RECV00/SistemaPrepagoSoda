@@ -9,7 +9,7 @@ import domain.Recharge;
 public class RechargeData {
 
 	public static ArrayList<Recharge> RechargetList = new ArrayList();
-	private static final String fileName = " student_recharges.json";
+	private static final String fileName = "student_recharges.json";
 	private static JSONUtils<Recharge> jsonUtils = new JSONUtils<>(fileName);
 	
 	
@@ -24,7 +24,7 @@ public class RechargeData {
 	}
 	
 	public static String getRechargeStringFormat(Recharge r) {
-		return "\n Carnet: "+ r.getCarnetStudent().toUpperCase()+"\n Monto: "+ r.getAmount()+"\n Fecha Ingreso: " + r.getDataEntry();	
+		return "\n Carnet: "+ r.getCarnetStudent().toUpperCase()+"\n Monto: "+ r.getAmount()+"\n Fecha Ingreso: " + r.getDateEntry();	
 	}
 	
 	public static boolean saveRecharge(Recharge r) {
@@ -60,7 +60,7 @@ public class RechargeData {
 	    }
 	}
 
-	public static boolean updateStudent(Recharge r,String carnet) {
+	public static boolean updateRecharge(Recharge r,String carnet) {
 		System.out.print(r);
 		try {
 			jsonUtils.updateElementRecharges(r,carnet);

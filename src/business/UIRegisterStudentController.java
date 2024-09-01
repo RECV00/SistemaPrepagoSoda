@@ -12,7 +12,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.awt.Component;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -20,6 +20,8 @@ import javax.swing.JOptionPane;
 
 import data.LogicData;
 import data.StudentData;
+import data.RechargeData;
+import domain.Recharge;
 import domain.Student;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -89,60 +91,64 @@ public class UIRegisterStudentController {
 	
 	// Event Listener on Button[#bRegisterStudent].onAction
 	@FXML
-	public boolean saveDataStudent(ActionEvent event) {
-		  String messageError = validateForm();
-		    
-		    if (!messageError.isEmpty()) {
-		        notifyAction(messageError);
-		        return false;
-		    }
-		
-		    Student student = new Student();
-		    student.setCarnetStudent(tfNameStudent.getText());
-		    student.setName(tfCarnetStudent.getText());
-		    student.setEmail(tfEmailStudent.getText());
-		    student.setPhone(Integer.parseInt(tfNumPhoneStudent.getText()));
-		    boolean isActive= rbYesStudent.isSelected();
-		    student.setActive(isActive);
-		    student.setDateEntry(dpDateEntryStudent.getValue());
-		    char gender = (cbGenderStudent.getSelectionModel().getSelectedIndex()==0)? 'M':'F';
-		    student.setGender(gender);
-		    student.setMoneyAvailable(Double.parseDouble(tfMoneyAvailableStudent.getText()));
-		    
-//		     confirmar el registro
-		    Object[] options = {"Cancelar", "Registrar"};
-		    int confirmOption = JOptionPane.showOptionDialog(
-		            null, "¿Está seguro de guardar?",
-		            "", JOptionPane.DEFAULT_OPTION,
-		            JOptionPane.PLAIN_MESSAGE, null, options,
-		            options[0]
-		    );
-		    
-		    if (confirmOption == 1) {
-		    	if(isEditing) {
-		    		if(StudentData.updateStudent(student, studentToEdit.getCarnetStudent())) {
-			            notifyAction("Estudiante Actualizado Correctamente");
+	public boolean saveDataStudent(ActionEvent event) throws IOException {
+	    String messageError = validateForm();
 
-		    		}else {
-			            notifyAction("Error al actualizar Estudiante ");
+	    if (!messageError.isEmpty()) {
+	        notifyAction(messageError);
+	        return false;
+	    }
 
-		    		}
-		    	}else {
-		    		if (StudentData.saveStudent(student)) {
-			            notifyAction("Estudiante Registrado Correctamente");
-			            clearForm();
-			        } else {
-			            notifyAction("Error al Registrar");
-			        }
-		    	}
-		        
-		        
-		    }else {
-				notifyAction("Se canceló el registro del estudiante");
+	    // Crear y configurar el objeto Student
+	    Student student = new Student();
+	    student.setCarnetStudent(tfCarnetStudent.getText());
+	    student.setName(tfNameStudent.getText());
+	    student.setEmail(tfEmailStudent.getText());
+	    student.setPhone(Integer.parseInt(tfNumPhoneStudent.getText()));
+	    student.setActive(rbYesStudent.isSelected());
+	    student.setDateEntry(dpDateEntryStudent.getValue());
+	    student.setGender(cbGenderStudent.getSelectionModel().getSelectedIndex() == 0 ? 'M' : 'F');
+	    student.setMoneyAvailable(Double.parseDouble(tfMoneyAvailableStudent.getText()));
 
-		    }
-		return true;
+	    // Crear y configurar el objeto Recharge
+	    Recharge recharge = new Recharge();
+	    recharge.setCarnetStudent(tfCarnetStudent.getText());
+	    recharge.setAmount(Double.parseDouble(tfMoneyAvailableStudent.getText()));
+	    recharge.setDateEntry(dpDateEntryStudent.getValue());
+
+	    // Confirmar el registro
+	    Object[] options = {"Cancelar", "Registrar"};
+	    int confirmOption = JOptionPane.showOptionDialog(
+	            null, "¿Está seguro de guardar?",
+	            "", JOptionPane.DEFAULT_OPTION,
+	            JOptionPane.PLAIN_MESSAGE, null, options,
+	            options[0]
+	    );
+
+	    if (confirmOption == 1) {
+	        if (isEditing) {
+			    // Actualizar el estudiante y el recargo
+			    if (StudentData.updateStudent(student, studentToEdit.getCarnetStudent()) &&
+			        RechargeData.updateRecharge(recharge, studentToEdit.getCarnetStudent())) {
+			        notifyAction("Estudiante Actualizado Correctamente");
+			    } else {
+			        notifyAction("Error al actualizar Estudiante");
+			    }
+			} else {
+			    // Guardar el nuevo estudiante y el recargo
+			    if (StudentData.saveStudent(student) && RechargeData.saveRecharge(recharge)) {
+			        notifyAction("Estudiante Registrado Correctamente");
+			        clearForm();
+			    } else {
+			        notifyAction("Error al Registrar");
+			    }
+			}
+	    } else {
+	        notifyAction("Se canceló el registro del estudiante");
+	    }
+	    return true;
 	}
+
 	
 	
 	// Event Listener on Button[#bBackStudent].onAction

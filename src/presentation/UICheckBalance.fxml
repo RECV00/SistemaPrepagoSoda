@@ -16,10 +16,10 @@
       <TextField fx:id="tfSearchStudent" layoutX="14.0" layoutY="43.0" prefHeight="25.0" prefWidth="469.0" promptText="Ingrese el Numero de Cedula" />
       <TableView fx:id="tvDataStudent" layoutX="14.0" layoutY="90.0" prefHeight="200.0" prefWidth="574.0">
         <columns>
-          <TableColumn fx:id="carnetColumn" prefWidth="82.0" text="Carnet" />
-        <TableColumn fx:id="studentColumn" prefWidth="317.0" text="Estudiante" />
-        <TableColumn fx:id="dateRechargesColumn" prefWidth="103.0" text="Fecha de Recarga" />
-        <TableColumn fx:id="amountColumn" prefWidth="88.0" text="Saldo" />
+          <TableColumn fx:id="carnetColumn" prefWidth="105.0" text="Carnet" />
+        <TableColumn fx:id="studentColumn" prefWidth="258.0" text="Estudiante" />
+        <TableColumn fx:id="dateRechargesColumn" prefWidth="137.0" text="Fecha de Recarga" />
+        <TableColumn fx:id="amountColumn" prefWidth="82.0" text="Saldo" />
         </columns>
       </TableView>
       <Button fx:id="btnEditable" layoutX="14.0" layoutY="298.0" mnemonicParsing="false" onAction="#editStudent" text="Editar" />

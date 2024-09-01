@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JOptionPane;
 import data.StudentData;
+import data.RechargeData;
 import domain.Recharge;
 import domain.Student;
 import javafx.beans.property.SimpleObjectProperty;
@@ -36,7 +37,7 @@ public class UICheckBalanceController {
 	@FXML
 	private TextField tfSearchStudent;
 	@FXML
-	private TableView<Object> tvDataStudent;
+	private TableView<Student> tvDataStudent;
 	@FXML
 	private TableColumn<Student, String> carnetColumn;
 	@FXML
@@ -51,19 +52,25 @@ public class UICheckBalanceController {
 	    public void initialize() {
 		  carnetColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCarnetStudent()));
 		  studentColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-	      dateRechargesColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDataEntry()));
+	      dateRechargesColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateEntry()));
 	      amountColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAmount()));
-	    }
+	      loadConsultaList();
+	  }
 	  
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	   
-
+	  	@FXML
 		public void loadConsultaList() {
 		    
 		    List<Student> students = StudentData.getStudentList();		    
 		    if (students != null) {		    
-		        ObservableList<Object> observableList = FXCollections.observableArrayList(students);
+		        ObservableList<Student> observableList = FXCollections.observableArrayList(students);
 		        tvDataStudent.setItems(observableList);
 		    }
+//		    List<Recharge> recarges = RechargeData.getRechargeList();	    
+//		    if ( recarges != null) {		    
+//		        ObservableList<Recharge> observableList1 = FXCollections.observableArrayList(recarges);
+//		        tvDataStudent.setItems(observableList1);
+//		    }
 		}
 	// Event Listener on Button[#bCheckBalance].onAction
 			@FXML
@@ -81,9 +88,10 @@ public class UICheckBalanceController {
 	                Parent root = loader.load();
 	                UIRegisterStudentController controller = loader.getController();
 	                controller.populateForm(selectedStudent); // Pasar la estudiante seleccionada
-	                Stage stage = new Stage();
-	                stage.setScene(new Scene(root));
-	                stage.show();
+	                Scene scene = new Scene(root);
+					Stage stage = new Stage();
+					stage.setScene(scene);
+					stage.show();
 	                // Cerrar la ventana de reporte
 	                Stage currentStage = (Stage) tvDataStudent.getScene().getWindow();
 	                currentStage.close();

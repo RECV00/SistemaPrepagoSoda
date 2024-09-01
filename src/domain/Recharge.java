@@ -5,17 +5,17 @@ import java.time.LocalDate;
 public class Recharge {
 	private String carnetStudent;
 	private double amount;
-	private LocalDate dataEntry;
+	private LocalDate dateEntry;
 	
 	public Recharge() {
 		
 	}
 
-	public Recharge(String carnetStudent, double amount, LocalDate dataEntry) {
+	public Recharge(String carnetStudent, double amount, LocalDate dateEntry) {
 		super();
 		this.carnetStudent = carnetStudent;
 		this.amount = amount;
-		this.dataEntry = dataEntry;
+		this.dateEntry = dateEntry;
 	}
 
 	public String getCarnetStudent() {
@@ -34,17 +34,17 @@ public class Recharge {
 		this.amount = amount;
 	}
 
-	public LocalDate getDataEntry() {
-		return dataEntry;
+	public LocalDate getDateEntry() {
+		return dateEntry;
 	}
 
-	public void setDataEntry(LocalDate dataEntry) {
-		this.dataEntry = dataEntry;
+	public void setDateEntry(LocalDate dateEntry) {
+		this.dateEntry = dateEntry;
 	}
 
 	@Override
 	public String toString() {
-		return carnetStudent + "-" + amount + "-" + dataEntry;
+		return carnetStudent + "-" + amount + "-" + dateEntry;
 	}
 
 }
