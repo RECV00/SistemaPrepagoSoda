@@ -9,10 +9,15 @@ import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 import data.StudentData;
+import data.LogicUICheckBalanceController;
 import data.RechargeData;
+import domain.Dishe;
 import domain.Recharge;
 import domain.Student;
 import domain.StudentRecharge;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,8 +26,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 
@@ -32,9 +42,7 @@ public class UICheckBalanceController {
 	@FXML
 	private Button bRegisterNewStudent;
 	@FXML
-	private Button btnEditable;
-	@FXML
-	private Button btnDelete;
+	private Label  lErrorValidate;
 	@FXML
 	private Button bCheckBalance;
 	@FXML
@@ -49,21 +57,94 @@ public class UICheckBalanceController {
 	private TableColumn<StudentRecharge, LocalDate> dateRechargesColumn;
 	@FXML
 	private TableColumn<StudentRecharge, Double> amountColumn;
+	@FXML
+    private TableColumn<StudentRecharge, Boolean> tcRequestStudent;
 	
 	private ObservableList<StudentRecharge> observableList;
 
-	
 	  @FXML
 	    public void initialize() {
 		  carnetColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCarnetStudent()));
 		  studentColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getStudentName()));
 	      dateRechargesColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRechargeDate()));
 	      amountColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRechargeAmount()));
+	        
+	      // Configura la columna de CheckBox
+	      setupCheckBoxColumn();
+	      
 	      loadConsultaList();
 	  }
-	  
+	  private void setupCheckBoxColumn() {
+		  tcRequestStudent.setCellValueFactory(cellData -> new SimpleObjectProperty<>(false)); // Configura como true por defecto
+		  tcRequestStudent.setCellFactory(col -> new TableCell<StudentRecharge, Boolean>() {
+	            private final CheckBox checkBox = new CheckBox();
+
+	            {
+	            	checkBox.setOnAction(event -> {
+	                    StudentRecharge item = getTableRow().getItem();
+	                    if (item != null) {
+	                        handleCheckBoxAction(item);
+	                    }
+	                });
+	            }
+
+	            @Override
+	            protected void updateItem(Boolean item, boolean empty) {
+	                super.updateItem(item, empty);
+	                if (empty) {
+	                    setGraphic(null);
+	                } else {
+	                    setGraphic(checkBox);
+	                    checkBox.setSelected(item != null && item);
+	                }
+	            }
+	        });
+	    }
+	// Aqui para el manejo del JOptionPane cuando haya  seleccionado un platillo
+	    private void handleCheckBoxAction(StudentRecharge selectedStudentRecharge) {
+	        if(selectedStudentRecharge != null) {
+	        	
+	        	String[] options = {"Eliminar", "Actualizar", "Recargar saldo"};
+		        int choice = JOptionPane.showOptionDialog(null, 
+		                "Seleccione una acción para el estudiante seleccionado:", 
+		                "Acción del Estudiante", 
+		                JOptionPane.DEFAULT_OPTION, 
+		                JOptionPane.INFORMATION_MESSAGE, 
+		                null, 
+		                options, 
+		                options[0]);
+		       
+
+		        switch (choice) {
+		            case 0: // Eliminar
+//		            	deleteStudent(selectedStudentRecharge);	            	
+//		            	loadConsultaList();// Actualiza la tabla después de eliminar		            	
+		                notifyAction("Estudiante eliminado correctamente");
+		                tvDataStudent.refresh();
+		                break;
+		                
+		            case 1: // Actualizar            
+		            	 editStudent(selectedStudentRecharge); // Llama a updateDishes sin el evento
+		                break;
+		                
+		            case 2: // Recargar
+		            	RechargeStudent(selectedStudentRecharge);
+		                break;
+		                
+		            default:
+		                break;
+	        	
+		        	}	        
+       }
+ } 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	   
-	  @FXML
+		private void notifyAction(String message) {
+			lErrorValidate.setText(message);
+			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3),e -> lErrorValidate.setText("")));
+			timeline.setCycleCount(1);
+			timeline.play();
+		}
+	    @FXML
 	  public void loadConsultaList() {
 		    List<Student> students = StudentData.getStudentList();
 		    List<Recharge> recharges = RechargeData.getRechargeList();
@@ -139,12 +220,31 @@ public class UICheckBalanceController {
 	      tvDataStudent.setItems(observableList);
 	  }
 
-			
-		@FXML
-		public void editStudent(ActionEvent event) {		
-			Object selectedStudent = tvDataStudent.getSelectionModel().getSelectedItem();
+	  public void RechargeStudent(StudentRecharge  selectedStudent) {		
 	        
-			if (tvDataStudent != null) {
+			if (selectedStudent != null) {
+	            try {
+	                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterStudent.fxml"));
+	                Parent root = loader.load();
+	                UIRegisterStudentController controller = loader.getController();
+	                controller.populateForm(selectedStudent); // Pasar la estudiante seleccionada
+	                Scene scene = new Scene(root);
+					Stage stage = new Stage();
+					stage.setScene(scene);
+					stage.show();
+	                // Cerrar la ventana de reporte
+	                Stage currentStage = (Stage) tvDataStudent.getScene().getWindow();
+	                currentStage.close();
+
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+		}	
+		
+		public void editStudent(StudentRecharge  selectedStudent) {		
+	        
+			if (selectedStudent != null) {
 	            try {
 	                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterStudent.fxml"));
 	                Parent root = loader.load();
@@ -164,9 +264,9 @@ public class UICheckBalanceController {
 	        }
 		}
 		
-		@FXML
-		public void deleteStudent(ActionEvent event) {
-			 Object selectedStudent = tvDataStudent.getSelectionModel().getSelectedItem();		       		       
+		
+		public void deleteStudent(Student selectedStudent) {
+			
 			 if (selectedStudent != null) {
 		            int confirmOption = JOptionPane.showConfirmDialog(
 		                null, "¿Está seguro de que desea eliminar este estudiante?", "Confirmar eliminación", 

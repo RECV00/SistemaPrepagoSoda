@@ -93,35 +93,40 @@ public class UIServiceRequestController {
         
         validateForm();
         //para la funcionalidad del checkBox 
-        tcRequestDishe.setCellFactory(column -> new CheckBoxTableCell<Dishe, Boolean>() {
-            @Override
-            public void updateItem(Boolean item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    CheckBox checkBox = new CheckBox();
-                    checkBox.setSelected(item);
-                    checkBox.setOnAction(event -> {
-                        Dishe dishe = getTableView().getItems().get(getIndex());
-                        boolean isSelected = checkBox.isSelected();
-                        dishe.setRequested(isSelected);
-                     // Mostrar el JOptionPane solo si el CheckBox es seleccionado
-                        if (isSelected) {
-                            handleCheckBoxAction(dishe);
-                        }
-                        
-                    });
-                    setGraphic(checkBox);
-                }
-            }
-        });
-   
+        
+        setupCheckBox();
+        
      // Event listener para el ComboBox de días
         cbServiceDay.setOnAction(event -> updateTableView());
         rbBreakfastDishe.setOnAction(event -> updateTableView());
         rbLunchDishe.setOnAction(event -> updateTableView());
         
+    }
+    private void setupCheckBox() {
+    	
+    	 tcRequestDishe.setCellFactory(column -> new CheckBoxTableCell<Dishe, Boolean>() {
+             @Override
+             public void updateItem(Boolean item, boolean empty) {
+                 super.updateItem(item, empty);
+                 if (empty) {
+                     setGraphic(null);
+                 } else {
+                     CheckBox checkBox = new CheckBox();
+                     checkBox.setSelected(item);
+                     checkBox.setOnAction(event -> {
+                         Dishe dishe = getTableView().getItems().get(getIndex());
+                         boolean isSelected = checkBox.isSelected();
+                         dishe.setRequested(isSelected);
+                      // Mostrar el JOptionPane solo si el CheckBox es seleccionado
+                         if (isSelected) {
+                             handleCheckBoxAction(dishe);
+                         }
+                         
+                     });
+                     setGraphic(checkBox);
+                 }
+             }
+         });
     }
  // Aqui para el manejo del JOptionPane cuando haya  seleccionado un platillo
     private void handleCheckBoxAction(Dishe selectedDishe) {
@@ -140,6 +145,7 @@ public class UIServiceRequestController {
             	lServiceRequest.deleteDishes(selectedDishe, rbLunchDishe.isSelected(), cbServiceDay.getSelectionModel().getSelectedItem());
                 updateTableView(); // Actualiza la tabla después de eliminar
                 notifyAction("Platillo eliminado correctamente");
+                tvDisheData.refresh();
                 break;
                 
             case 1: // Actualizar            
@@ -148,7 +154,8 @@ public class UIServiceRequestController {
                 
             case 2: // Solicitar
             	lServiceRequest.handleRequestDishe(selectedDishe, cbStudentsList);
-            	lServiceRequest.updateComboBox(cbStudentsList);           	
+            	lServiceRequest.updateComboBox(cbStudentsList); 
+            	tvDisheData.refresh();
                 break;
                 
             default:

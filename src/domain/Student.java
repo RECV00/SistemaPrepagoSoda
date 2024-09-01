@@ -2,6 +2,9 @@ package domain;
 
 import java.time.LocalDate;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class Student {
 
 	private String carnetStudent;
@@ -93,7 +96,7 @@ public class Student {
 	public void setMoneyAvailable(double moneyAvailable) {
 		this.moneyAvailable = moneyAvailable;
 	}
-
+	
 	@Override
 	public String toString() {
 		return carnetStudent + "-" + name + "-" + email + "-" + phone + "-" + ((isActive)?"Activo":"Inactivo") + "-" + dateEntry + "-" + gender + "-"+ moneyAvailable;
