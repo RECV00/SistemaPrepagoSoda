@@ -16,7 +16,7 @@
 		<Label layoutX="414.0" layoutY="31.0" text="Horario de la reservación" />
 		<ComboBox fx:id="cbStudentsList" layoutX="14.0" layoutY="64.0" opacity="0.68" prefHeight="25.0" prefWidth="164.0" promptText="Selecione el Estudiante" />
 		<ComboBox fx:id="cbServiceDay" layoutX="195.0" layoutY="64.0" opacity="0.6" prefHeight="25.0" prefWidth="200.0" promptText="Selecione el día de reservar" />
-		<RadioButton fx:id="rbBreakfastDishe" layoutX="414.0" layoutY="68.0" mnemonicParsing="false" selected="true" text="Desayuno">
+		<RadioButton fx:id="rbBreakfastDishe" layoutX="414.0" layoutY="68.0" mnemonicParsing="false" text="Desayuno">
 			<toggleGroup>
 				<ToggleGroup fx:id="Tipo" />
 			</toggleGroup>
@@ -31,5 +31,6 @@
 		</TableView>
 		<Button fx:id="btnRegisterDishe" layoutX="493.0" layoutY="349.0" mnemonicParsing="false" onAction="#registerNewDishe" prefHeight="25.0" prefWidth="157.0" text="Agregar nuevo Alimento" />
 		<Button fx:id="btnBack" layoutX="404.0" layoutY="349.0" mnemonicParsing="false" onAction="#returnUIStart" prefHeight="25.0" prefWidth="69.0" text="Regresar" />
+      <Label fx:id="lErrorVa" layoutX="34.0" layoutY="325.0" prefHeight="17.0" prefWidth="531.0" textFill="#f20707" />
 	</children>
 </AnchorPane>

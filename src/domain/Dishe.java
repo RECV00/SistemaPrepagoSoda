@@ -1,6 +1,7 @@
 package domain;
 
-import javafx.scene.control.CheckBox;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class Dishe {
 	
@@ -9,6 +10,9 @@ public class Dishe {
 		private String serviceName;
 		private double servicePrice;
 		
+	    private BooleanProperty selected = new SimpleBooleanProperty(false); // Nuevo atributo
+	    private boolean requested;
+	    
 		public Dishe() {}
 
 		public Dishe(boolean serviceHours, String serviceDay, String serviceName, double servicePrice) {
@@ -54,6 +58,25 @@ public class Dishe {
 		this.servicePrice = servicePrice;
 	}
 
+	 public boolean isSelected() {
+	        return selected.get();
+	    }
+
+	    public void setSelected(boolean selected) {
+	        this.selected.set(selected);
+	    }
+
+	    public BooleanProperty selectedProperty() {
+	        return selected;
+	    }
+	    // Getter y Setter para requested
+	    public boolean isRequested() {
+	        return requested;
+	    }
+
+	    public void setRequested(boolean requested) {
+	        this.requested = requested;
+	    }
 	@Override
 	public String toString() {
 		return  ((serviceHours)?1:0) + "-" +serviceDay + "-" + serviceName+ "-" +servicePrice;

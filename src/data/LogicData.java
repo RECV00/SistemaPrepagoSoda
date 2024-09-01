@@ -14,8 +14,8 @@ public class LogicData {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void deleteDishes(Dishe d,boolean serviceHours, String serviceDay) {
-		
+public void deleteDishes(Dishe d,boolean serviceHours, String serviceDay) {
+		try {
 		if(serviceHours == true && serviceDay.equals("Lunes")) {
 			DisheData.deleteMonday_Lunch(d);
 		}else if(serviceHours == false && serviceDay.equals("Lunes")) {// desayuno
@@ -37,10 +37,14 @@ public class LogicData {
 		}else if(serviceHours == false && serviceDay.equals("Viernes")) {// desayuno
 			DisheData.deleteFriday_Breakfast(d);
 		}else {
-			
-		}
+            JOptionPane.showMessageDialog(null, "No se pudo encontrar la combinación de día y tipo de servicio.");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al eliminar el platillo.");
+    }
 		
-	}
+}	
 	 
 	 public boolean carnetAlreadyExists(String carnet) {
 		    // Supongamos que tienes una lista de estudiantes llamada studentList
@@ -53,5 +57,8 @@ public class LogicData {
 		    }
 		    return false;  // El carnet no existe
 		} 
+	 
+	 
+	 
 }
 
