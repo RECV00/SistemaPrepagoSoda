@@ -88,18 +88,57 @@ public class UICheckBalanceController {
 		            }
 		        }
 		    }
-
-		   
 		    System.out.println(observableList);
 		    tvDataStudent.setItems(observableList);
 		}
 
 
 	// Event Listener on Button[#bCheckBalance].onAction
-			@FXML
-			 private void SearchBalance(ActionEvent event) {
-		        // Implementación de la búsqueda de saldo
-		    }
+	  @FXML
+	  private void SearchBalance(ActionEvent event) throws IOException {
+		  
+	      String carnet = tfSearchStudent.getText().trim();
+	      
+	      if (carnet.isEmpty()) {
+	          JOptionPane.showMessageDialog(null, "Por favor, ingrese un número de carnet.");
+	          return;
+	      }
+
+	      List<Student> students = StudentData.getStudentList();
+	      List<Recharge> recharges = RechargeData.getRechargeList();
+
+	      observableList = FXCollections.observableArrayList();
+	      
+	      Map<String, Recharge> rechargeMap = recharges.stream()
+	          .collect(Collectors.toMap(Recharge::getCarnetStudent, recharge -> recharge));
+	      
+	      Student student = students.stream()
+	          .filter(s -> s.getCarnetStudent().equalsIgnoreCase(carnet))
+	          .findFirst()
+	          .orElse(null);
+
+	      if (student != null) {
+	          Recharge recharge = rechargeMap.get(carnet);
+	          if (recharge != null) {
+	              StudentRecharge studentRecharge = new StudentRecharge(
+	                  student.getCarnetStudent(),
+	                  student.getName(),
+	                  recharge.getDateEntry(),
+	                  recharge.getAmount()
+	              );
+	              observableList.add(studentRecharge);
+	          } else {
+	              JOptionPane.showMessageDialog(null, "No se encontraron recargas para el estudiante con carnet " + carnet + ".");
+	              loadConsultaList();
+	          }
+	      } else {
+	          JOptionPane.showMessageDialog(null, "Estudiante con carnet " + carnet + " no encontrado.");
+	          loadConsultaList();
+	      }
+
+	      tvDataStudent.setItems(observableList);
+	  }
+
 			
 		@FXML
 		public void editStudent(ActionEvent event) {		
@@ -137,9 +176,9 @@ public class UICheckBalanceController {
 		                // Eliminar la estudiante de la lista y del archivo JSON
 		                if (StudentData.deleteStudent((Student) selectedStudent)) {
 		                	loadConsultaList();
-		                    JOptionPane.showMessageDialog(null, "Mascota eliminada correctamente.");
+		                    JOptionPane.showMessageDialog(null, "Estudiante eliminado correctamente.");
 		                } else {
-		                    JOptionPane.showMessageDialog(null, "Error al eliminar la mascota.");
+		                    JOptionPane.showMessageDialog(null, "Error al eliminar al Estudiante.");
 		                }
 		            }
 		        } else {

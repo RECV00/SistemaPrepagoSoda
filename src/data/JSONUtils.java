@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -65,6 +66,18 @@ public void updateElementStudent(T updatedElement, String carnet) throws IOExcep
     }
 }
 
+public Optional<T> searchElement(T t, String carnet) throws IOException {
+	    List<T> elements = getElements((Class<T>) t.getClass());
+	    for (T element : elements) {
+            if (t.equals(Student.class) && ((Student) element).getCarnetStudent().equalsIgnoreCase(carnet)) {
+                return Optional.of(element);
+            } else if (t.equals(Recharge.class) && ((Recharge) element).getCarnetStudent().equalsIgnoreCase(carnet)) {
+                return Optional.of(element);
+            }
+        }
+        return Optional.empty(); // Retorna vacío si no se encuentra el elemento
+    }
+
 public void updateElementDishes(T updatedElement, String name) throws IOException {
     List<T> elements = getElements((Class<T>) updatedElement.getClass());
     boolean found = false;
@@ -101,4 +114,6 @@ public void updateElementRecharges(T updatedElement, String carnet) throws IOExc
         throw new IOException("Element with ID " + carnet + " not found.");
     }
 }
+
+
 }
