@@ -4,13 +4,16 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.swing.JOptionPane;
 import data.StudentData;
 import data.RechargeData;
 import domain.Recharge;
 import domain.Student;
+import domain.StudentRecharge;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,41 +40,61 @@ public class UICheckBalanceController {
 	@FXML
 	private TextField tfSearchStudent;
 	@FXML
-	private TableView<Student> tvDataStudent;
+	private TableView<StudentRecharge> tvDataStudent;
 	@FXML
-	private TableColumn<Student, String> carnetColumn;
+	private TableColumn<StudentRecharge, String> carnetColumn;
 	@FXML
-	private TableColumn<Student, String> studentColumn;
+	private TableColumn<StudentRecharge, String> studentColumn;
 	@FXML
-	private TableColumn<Recharge, LocalDate> dateRechargesColumn;
+	private TableColumn<StudentRecharge, LocalDate> dateRechargesColumn;
 	@FXML
-	private TableColumn<Recharge, Double> amountColumn;
+	private TableColumn<StudentRecharge, Double> amountColumn;
+	
+	private ObservableList<StudentRecharge> observableList;
 
 	
 	  @FXML
 	    public void initialize() {
-		  carnetColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCarnetStudent()));
-		  studentColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-//	      dateRechargesColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateEntry()));
-//	      amountColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAmount()));
+		  carnetColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCarnetStudent()));
+		  studentColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getStudentName()));
+	      dateRechargesColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRechargeDate()));
+	      amountColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRechargeAmount()));
 	      loadConsultaList();
 	  }
 	  
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	   
-	  	@FXML
-		public void loadConsultaList() {
+	  @FXML
+	  public void loadConsultaList() {
+		    List<Student> students = StudentData.getStudentList();
+		    List<Recharge> recharges = RechargeData.getRechargeList();
+
 		    
-		    List<Student> students = StudentData.getStudentList();		    
-		    if (students != null) {		    
-		        ObservableList<Student> observableList = FXCollections.observableArrayList(students);
-		        tvDataStudent.setItems(observableList);
+		    observableList = FXCollections.observableArrayList();
+
+//		    recorrer la lista de estudiantes
+		    for (Student student : students) {
+//		         ruscar la recarga de estudiante
+		        for (Recharge recharge : recharges) {
+		            if (recharge.getCarnetStudent().equals(student.getCarnetStudent())) {
+//		                combina datos de los dos json
+		                StudentRecharge studentRecharge = new StudentRecharge(
+		                    student.getCarnetStudent(),
+		                    student.getName(),
+		                    recharge.getDateEntry(),
+		                    recharge.getAmount()
+		                );
+		                observableList.add(studentRecharge);
+		                break;
+		            }
+		        }
 		    }
-//		    List<Recharge> recarges = RechargeData.getRechargeList();	    
-//		    if ( recarges != null) {		    
-//		        ObservableList<Recharge> observableList1 = FXCollections.observableArrayList(recarges);
-//		        tvDataStudent.setItems(observableList1);
-//		    }
+
+		   
+		    System.out.println(observableList);
+		    tvDataStudent.setItems(observableList);
 		}
+
+
 	// Event Listener on Button[#bCheckBalance].onAction
 			@FXML
 			 private void SearchBalance(ActionEvent event) {
