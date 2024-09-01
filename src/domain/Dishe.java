@@ -11,7 +11,7 @@ public class Dishe {
 		private double servicePrice;
 		
 	    private BooleanProperty selected = new SimpleBooleanProperty(false); // Nuevo atributo
-	    private boolean requested;
+	    private boolean requested;// saber si hay una solicitud 
 	    
 		public Dishe() {}
 
@@ -24,7 +24,6 @@ public class Dishe {
 		}
 //---------------------------------------------------
 		
-
 
 	public boolean isServiceHours() {
 		return serviceHours;
