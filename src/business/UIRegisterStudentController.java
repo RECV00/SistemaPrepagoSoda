@@ -262,20 +262,20 @@ public class UIRegisterStudentController {
 		}
 		
 		//se llena el formulario con los datos del estudiante que se va editar
-		public void populateForm(Object selectedStudent) {
-			tfNameStudent.setText(((Student) selectedStudent).getName());
-			tfCarnetStudent.setText(((Student) selectedStudent).getCarnetStudent());
+		public void populateForm(Student selectedStudent) {
+			tfNameStudent.setText(( selectedStudent).getName());
+			tfCarnetStudent.setText((selectedStudent).getCarnetStudent());
 			tfCarnetStudent.setEditable(false);// no permite editar 
-			tfEmailStudent.setText(((Student) selectedStudent).getEmail());
-			tfNumPhoneStudent.setText(String.valueOf(((Student) selectedStudent).getPhone()));
-			tfMoneyAvailableStudent.setText(String.valueOf(((Student) selectedStudent).getMoneyAvailable()));
-			
-			cbGenderStudent.getSelectionModel().select(((Student) selectedStudent).getGender() == 'M' ? "Masculino" : "Femenino");
-			dpDateEntryStudent.setValue(((Student) selectedStudent).getDateEntry());
-			rbYesStudent.setSelected(((Student) selectedStudent).isActive());
-			rbNoStudent.setSelected(!((Student) selectedStudent).isActive());
+			tfEmailStudent.setText(( selectedStudent).getEmail());
+			tfNumPhoneStudent.setText(String.valueOf(( selectedStudent).getPhone()));			
+			tfMoneyAvailableStudent.setText(String.valueOf((selectedStudent).getMoneyAvailable()));
+			tfMoneyAvailableStudent.setEditable(false);
+			cbGenderStudent.getSelectionModel().select(( selectedStudent).getGender() == 'M' ? "Masculino" : "Femenino");
+			dpDateEntryStudent.setValue((selectedStudent).getDateEntry());
+			rbYesStudent.setSelected(( selectedStudent).isActive());
+			rbNoStudent.setSelected(!( selectedStudent).isActive());
 		    isEditing = true;
-		    studentToEdit = (Student) selectedStudent;
+		    studentToEdit = selectedStudent;
 		    }
 		
 }
