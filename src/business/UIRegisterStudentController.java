@@ -208,7 +208,6 @@ public class UIRegisterStudentController {
 		    }
 		    
 		    
-
 		    String email = tfEmailStudent.getText();
 		    if (email.isEmpty()) {
 		        messageError.append("El Correo es Requerido\n");

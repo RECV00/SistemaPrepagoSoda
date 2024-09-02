@@ -168,7 +168,6 @@ public class UICheckBalanceController {
 		            }
 		        }
 		    }
-		    System.out.println(observableList);
 		    tvDataStudent.setItems(observableList);
 		}
 
