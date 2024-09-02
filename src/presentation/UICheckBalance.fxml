@@ -25,7 +25,7 @@
          </font></Label>
       <Button fx:id="bCheckBalance" layoutX="489.0" layoutY="43.0" mnemonicParsing="false" onAction="#SearchBalance" text="Consultar Saldo" />
       <TextField fx:id="tfSearchStudent" layoutX="14.0" layoutY="43.0" prefHeight="25.0" prefWidth="469.0" promptText="Ingrese el Numero de Cedula" />
-      <TableView fx:id="tvDataStudent" layoutX="14.0" layoutY="90.0" opacity="0.68" prefHeight="200.0" prefWidth="650.0">
+      <TableView fx:id="tvDataStudent" layoutX="14.0" layoutY="90.0" opacity="0.75" prefHeight="200.0" prefWidth="650.0">
         <columns>
           <TableColumn fx:id="carnetColumn" prefWidth="105.0" text="Carnet" />
         <TableColumn fx:id="studentColumn" prefWidth="258.0" text="Estudiante" />
