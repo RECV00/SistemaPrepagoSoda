@@ -81,35 +81,35 @@ public class UIRegisterDishesController {
 		dishe.setServiceName(tfServiceNameDishe.getText());
 		dishe.setServicePrice(Double.parseDouble(tfServicePriceDishe.getText()));
 		
-		Object[] options = {"NO","SÍ"};
+		String serviceHoursText = serviceHours ? "Desayuno" : "Almuerzo";
 		
 		int confirmOption = 
-				JOptionPane.showOptionDialog(
-				null, "¿Esta seguro que desea guardar el alimento?","",
-				JOptionPane.DEFAULT_OPTION,
-				JOptionPane.PLAIN_MESSAGE, null, options,
-				options[0]
+				JOptionPane.showConfirmDialog(
+				null, 
+				"¿Está seguro de agregar un nuevo servicio para el día " + cbServiceDayDishe.getSelectionModel().getSelectedItem() +
+			    " al horario " + serviceHoursText + "?", 
+			    "", 
+			    JOptionPane.YES_NO_OPTION, 
+			    JOptionPane.QUESTION_MESSAGE
 						);
 		
-		if (confirmOption == 1) {
-			if(isEditing) {//actualiza el platillo
-				if(DisheData.updateDishesByServiceName(dishe, disheToEdit.getServiceName(), serviceHours,cbServiceDayDishe.getSelectionModel().getSelectedItem() )) {
-					notifyAction("Platillo actualizado correctamente");
-				}else {
-					notifyAction("Error al  actualizadar el Platillo");
-				}
-				
-			}else {//guardar el platillo
-				if(DisheData.saveDishe(dishe, serviceHours, cbServiceDayDishe.getSelectionModel().getSelectedItem())){
-					notifyAction("Platillo registrada correctamente");
-					clearForm();	
-				}else {
-					notifyAction("Error al guardar Platillo");
-					
-				}
-			}
-		}else {
-			notifyAction("Se canceló el registro del Platillo");
+		if (confirmOption == JOptionPane.YES_OPTION) {
+		    if (isEditing) { // actualiza el platillo
+		        if (DisheData.updateDishesByServiceName(dishe, disheToEdit.getServiceName(), serviceHours, cbServiceDayDishe.getSelectionModel().getSelectedItem())) {
+		            notifyAction("Platillo actualizado correctamente");
+		        } else {
+		            notifyAction("Error al actualizar el Platillo");
+		        }
+		    } else { // guarda el platillo
+		        if (DisheData.saveDishe(dishe, serviceHours, cbServiceDayDishe.getSelectionModel().getSelectedItem())) {
+		            notifyAction("Platillo registrado correctamente");
+		            clearForm();
+		        } else {
+		            notifyAction("Error al guardar el Platillo");
+		        }
+		    }
+		} else {
+		    notifyAction("Se canceló el registro del Platillo");
 		}
 		
 		return true;
