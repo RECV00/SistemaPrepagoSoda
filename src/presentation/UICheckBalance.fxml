@@ -23,6 +23,6 @@
             <TableColumn fx:id="tcRequestStudent" prefWidth="75.0" text="Solicitar" />
         </columns>
       </TableView>
-      <Label fx:id="lErrorValidate" layoutX="55.0" layoutY="315.0" prefHeight="17.0" prefWidth="569.0" />
+      <Label fx:id="lErrorValidate" layoutX="55.0" layoutY="315.0" prefHeight="17.0" prefWidth="569.0" textFill="#e80606" />
    </children>
 </AnchorPane>
