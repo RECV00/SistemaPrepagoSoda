@@ -1,7 +1,5 @@
 package data;
 
-import java.util.List;
-
 import javax.swing.JOptionPane;
 
 import domain.Dishe;
