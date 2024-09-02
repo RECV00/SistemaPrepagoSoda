@@ -227,7 +227,7 @@ public class UIRegisterStudentController {
 		    } else {
 		        try {
 		            double balance = Double.parseDouble(money);
-		            if (balance < 5000 && balance > 15000) {
+		            if (balance <= 5000 || balance >= 15000) {
 		                messageError.append("El Saldo debe estar entre 5000 y 15000\n");
 		            }
 		        } catch (NumberFormatException e) {

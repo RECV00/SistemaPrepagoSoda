@@ -119,7 +119,6 @@ public class UICheckBalanceController {
 		            case 0: // Eliminar
 		            	deleteStudent(selectedStudentRecharge);	            	
 		            	loadConsultaList();// Actualiza la tabla después de eliminar		            	
-		                notifyAction("Estudiante eliminado correctamente");
 		                tvDataStudent.refresh();
 		                break;
 		                
