@@ -5,20 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-
 import javafx.scene.control.TextField;
-
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-
 import javax.swing.JOptionPane;
-
 import data.LogicData;
 import data.StudentData;
 import data.RechargeData;
@@ -27,13 +21,9 @@ import domain.Student;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-
 import javafx.scene.control.Label;
-
 import javafx.scene.control.ComboBox;
-
 import javafx.scene.control.RadioButton;
-
 import javafx.scene.control.DatePicker;
 
 public class UIRegisterStudentController {
@@ -81,7 +71,6 @@ public class UIRegisterStudentController {
 	private Label lLineError;
 	@FXML
 	private Label lTitule;
-	private LogicData log = new LogicData();
 	private Student studentToEdit =null;
 	private boolean isEditing = false;// si es o no editado
 	@FXML
@@ -158,8 +147,6 @@ public class UIRegisterStudentController {
 	    return true;
 	}
 
-	
-	
 	// Event Listener on Button[#bBackStudent].onAction
 	@FXML
 	public void returnMain(ActionEvent event) {
@@ -242,10 +229,6 @@ public class UIRegisterStudentController {
 
 		    return messageError.toString();
 		}
-
-		
-		
-		
 //----------------------------------------------------------------------------------------------		  
 		@FXML
 		public void closeWindows() {
@@ -269,7 +252,7 @@ public class UIRegisterStudentController {
 		}
 		
 		//se llena el formulario con los datos del estudiante que se va editar
-		public void populateForm(Student selectedStudent) {
+		public void setStudentData(Student selectedStudent) {
 			tfNameStudent.setText(( selectedStudent).getName());
 			tfCarnetStudent.setText((selectedStudent).getCarnetStudent());
 			tfCarnetStudent.setEditable(false);// no permite editar 

@@ -10,7 +10,6 @@ import javafx.scene.control.ComboBox;
 public class LogicUICheckBalanceController {
 
 	public LogicUICheckBalanceController() {
-		// TODO Auto-generated constructor stub
 	}
 
 	//cuando se elija el boton de solicitar 

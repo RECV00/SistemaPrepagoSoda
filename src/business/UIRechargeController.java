@@ -5,16 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
-
 import javax.swing.JOptionPane;
-
 import data.RechargeData;
 import data.StudentData;
 import domain.Recharge;
@@ -46,8 +41,8 @@ public class UIRechargeController {
 
 	private double saldo = 0.0;
 	
+//	Se optiene los datos del estuante seleccionado en la controller de Consultar Saldo
 	  public void recoveredData(StudentRecharge studentRecharge) {
-		  
 	        if (studentRecharge != null) {
 	        	tfCarnetStudent.setText(studentRecharge.getCarnetStudent());
 	        	tfCarnetStudent.setEditable(false);
@@ -81,12 +76,10 @@ public class UIRechargeController {
 	        LocalDate newDateEntry = dpDateEntry.getValue();
 
 	        if (Double.parseDouble(tfNewAmount.getText()) <= 1000 || Double.parseDouble(tfNewAmount.getText()) >= 10000) {
-	        	System.out.print("Hola camaron sin cola");
 	            JOptionPane.showMessageDialog(null, "El monto debe estar entre 1,000 y 10,000.");
 	            return;
 	        }
 	        Recharge updatedRecharge = new Recharge(carnet, newAmount, newDateEntry);
-
 	        boolean rechargeUpdated = RechargeData.updateRecharge(updatedRecharge, carnet);
 
 	        if (rechargeUpdated) {
@@ -119,15 +112,12 @@ public class UIRechargeController {
 			 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UICheckBalance.fxml"));
 	        Parent root = loader.load();
 			Scene scene = new Scene(root);
-	        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-	        Stage stage = new Stage();
+			Stage stage = new Stage();
 	        stage.setScene(scene);
 	        stage.show();
-	        
 	        Stage temp = (Stage) bBack.getScene().getWindow();
 	        temp.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Recharge;
-import domain.Student;
 
 public class RechargeData {
 
-	public static ArrayList<Recharge> RechargetList = new ArrayList();
+	public static ArrayList<Recharge> RechargetList = new ArrayList<Recharge>();
 	private static final String fileName = "student_recharges.json";
 	private static JSONUtils<Recharge> jsonUtils = new JSONUtils<>(fileName);
 	
@@ -34,7 +33,6 @@ public class RechargeData {
 			jsonUtils.saveElement(r);
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -53,7 +51,6 @@ public class RechargeData {
 	    		}
 	    		index++;
 	    	}
-	        
 	        return true;
 	    } catch (IOException e) {
 	        e.printStackTrace();
@@ -67,7 +64,6 @@ public class RechargeData {
 			jsonUtils.updateElementRecharges(r,carnet);
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;

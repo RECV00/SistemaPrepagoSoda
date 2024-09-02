@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 
 import data.DisheData;
 import domain.Dishe;
-import domain.Student;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -167,14 +166,12 @@ public class UIRegisterDishesController {
 					 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIServiceRequest.fxml"));
 			        Parent root = loader.load();
 					Scene scene = new Scene(root);
-			        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());			
-			        Stage stage = new Stage();
+					Stage stage = new Stage();
 			        stage.setScene(scene);
 			        stage.show();			        
 			        Stage temp = (Stage) btnBack.getScene().getWindow();
 			        temp.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

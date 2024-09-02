@@ -6,18 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-//import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.IOException;
-import java.util.Vector;
-
 import javax.swing.JOptionPane;
-import data.DisheData;
-import data.LogicData;
 import data.LogicUIServiceRequestController;
 import data.StudentData;
 import domain.Dishe;
@@ -34,7 +28,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
-
 import javafx.scene.control.TableColumn;
 
 public class UIServiceRequestController {
@@ -67,11 +60,7 @@ public class UIServiceRequestController {
 	private Button bUpdate;
 	@FXML
 	private Label lErrorVa;
-	
-	private Vector<Dishe> disheListM;
-
     private ObservableList<Dishe> disheList;
-    
     private LogicUIServiceRequestController lServiceRequest = new LogicUIServiceRequestController(); // Instancia de LogicData
 
     @FXML
@@ -84,10 +73,9 @@ public class UIServiceRequestController {
         tcDataDishe.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getServiceName()));
         tcPriceDishe.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getServicePrice()));
         
-        tcRequestDishe.setCellValueFactory(cellData -> {
-            Dishe dishe = cellData.getValue();
-            SimpleBooleanProperty property = new SimpleBooleanProperty(dishe.isRequested());
-            property.addListener((observable, oldValue, newValue) -> dishe.setRequested(newValue));
+        tcRequestDishe.setCellValueFactory(cellData -> { Dishe dishe = cellData.getValue();	
+        	SimpleBooleanProperty property = new SimpleBooleanProperty(dishe.isRequested());
+          	property.addListener((observable, oldValue, newValue) -> dishe.setRequested(newValue));
             return property;
         });
         
@@ -143,13 +131,13 @@ public class UIServiceRequestController {
         switch (choice) {
             case 0: // Eliminar
             	lServiceRequest.deleteDishes(selectedDishe, rbLunchDishe.isSelected(), cbServiceDay.getSelectionModel().getSelectedItem());
-                updateTableView(); // Actualiza la tabla después de eliminar
+                updateTableView();
                 notifyAction("Platillo eliminado correctamente");
                 tvDisheData.refresh();
                 break;
                 
             case 1: // Actualizar            
-                updateDishes(selectedDishe); // Llama a updateDishes sin el evento
+                updateDishes(selectedDishe);
                 break;
                 
             case 2: // Solicitar
@@ -168,7 +156,6 @@ public class UIServiceRequestController {
         String selectedDay = cbServiceDay.getSelectionModel().getSelectedItem(); // Día seleccionado
      // Solo cargar los datos si ambos ComboBox y RadioButton están seleccionados
         if (selectedDay != null && !selectedDay.isEmpty() && (rbBreakfastDishe.isSelected() || rbLunchDishe.isSelected())) {
-           // loadDisheList(selectedDay, serviceHours); // Carga los datos según la selección
         	lServiceRequest.loadDisheList(selectedDay, serviceHours, disheList, tvDisheData);
         } else {
             // Limpiar la tabla si no se han realizado las selecciones
@@ -185,15 +172,13 @@ public class UIServiceRequestController {
 	}
 //----------------------------------------------------------------------------------------------------
 	private String validateForm() {
-		
 		String messageError = "";
 		if(cbServiceDay.getValue() == null) {
 			messageError += "  El día del servicio es Requerido";
 		}
-		
 		return messageError;
 	}
-//
+//-----------------------------------------------------------------------------------------------------------------
     @FXML
     public void registerNewDishe(ActionEvent event) {
         try {
@@ -239,15 +224,13 @@ public class UIServiceRequestController {
             JOptionPane.showMessageDialog(null, "Seleccione un platillo para actualizar.");
         }
     }
-    
-   
-
+//-----------------------------------------------------------------------------------------------
     @FXML
     public void returnUIStart(ActionEvent event) {
         // Lógica para regresar al inicio
     	closeWindows();
     }
-    
+//--------------------------------------------------------------------------------------------------- 
     @FXML
 	public void closeWindows() {
 		

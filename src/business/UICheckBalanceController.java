@@ -9,15 +9,12 @@ import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 import data.StudentData;
-import data.LogicUICheckBalanceController;
 import data.RechargeData;
-import domain.Dishe;
 import domain.Recharge;
 import domain.Student;
 import domain.StudentRecharge;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +27,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.control.TableView;
@@ -74,8 +70,10 @@ public class UICheckBalanceController {
 	      
 	      loadConsultaList();
 	  }
+	  
+//	  Manejo de CheckBox
 	  private void setupCheckBoxColumn() {
-		  tcRequestStudent.setCellValueFactory(cellData -> new SimpleObjectProperty<>(false)); // Configura como true por defecto
+		  tcRequestStudent.setCellValueFactory(cellData -> new SimpleObjectProperty<>(false)); 
 		  tcRequestStudent.setCellFactory(col -> new TableCell<StudentRecharge, Boolean>() {
 	            private final CheckBox checkBox = new CheckBox();
 
@@ -100,7 +98,7 @@ public class UICheckBalanceController {
 	            }
 	        });
 	    }
-	// Aqui para el manejo del JOptionPane cuando haya  seleccionado un platillo
+	// Aqui para el ACCION del JOptionPane cuando haya  seleccionado un platillo
 	    private void handleCheckBoxAction(StudentRecharge selectedStudentRecharge) {
 	        if(selectedStudentRecharge != null) {
 	        	
@@ -113,8 +111,7 @@ public class UICheckBalanceController {
 		                null, 
 		                options, 
 		                options[0]);
-		       
-
+		      
 		        switch (choice) {
 		            case 0: // Eliminar
 		            	deleteStudent(selectedStudentRecharge);	            	
@@ -123,7 +120,7 @@ public class UICheckBalanceController {
 		                break;
 		                
 		            case 1: // Actualizar            
-		            	 editStudent(selectedStudentRecharge); // Llama a updateDishes sin el evento
+		            	 editStudent(selectedStudentRecharge); 
 		                break;
 		                
 		            case 2: // Recargar
@@ -137,24 +134,16 @@ public class UICheckBalanceController {
        }
  } 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	   
-		private void notifyAction(String message) {
-			lErrorValidate.setText(message);
-			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3),e -> lErrorValidate.setText("")));
-			timeline.setCycleCount(1);
-			timeline.play();
-		}
 	    @FXML
 	  public void loadConsultaList() {
 		    List<Student> students = StudentData.getStudentList();
 		    List<Recharge> recharges = RechargeData.getRechargeList();
 
-		    
 		    observableList = FXCollections.observableArrayList();
 
-//		    recorrer la lista de estudiantes
+
 		    for (Student student : students) {
-//		         ruscar la recarga de estudiante
-		        for (Recharge recharge : recharges) {
+		        for (Recharge recharge : recharges) { // Validar el carnet es igual
 		            if (recharge.getCarnetStudent().equals(student.getCarnetStudent())) {
 //		                combina datos de los dos json
 		                StudentRecharge studentRecharge = new StudentRecharge(
@@ -171,11 +160,9 @@ public class UICheckBalanceController {
 		    tvDataStudent.setItems(observableList);
 		}
 
-
 	// Event Listener on Button[#bCheckBalance].onAction
 	  @FXML
 	  private void SearchBalance(ActionEvent event) throws IOException {
-		  
 	      String carnet = tfSearchStudent.getText().trim();
 	      
 	      if (carnet.isEmpty()) {
@@ -187,7 +174,7 @@ public class UICheckBalanceController {
 	      List<Recharge> recharges = RechargeData.getRechargeList();
 
 	      observableList = FXCollections.observableArrayList();
-	      
+//	      ASIGNACION DE CLAVE PARA LA BUSQUEDA DE DATO
 	      Map<String, Recharge> rechargeMap = recharges.stream()
 	          .collect(Collectors.toMap(Recharge::getCarnetStudent, recharge -> recharge));
 	      
@@ -215,6 +202,7 @@ public class UICheckBalanceController {
 	      tvDataStudent.setItems(observableList);
 	  }
 
+//	  Levanta ventana de Recargas
 	  public void RechargeStudent(StudentRecharge  selectedStudent) {		
 	        
 			if (selectedStudent != null) {
@@ -237,6 +225,7 @@ public class UICheckBalanceController {
 	        }
 		}	
 		
+//	  Levanta Ventana para editar
 	  public void editStudent(StudentRecharge selectedStudentRecharge) {
 			 
 		    if (selectedStudentRecharge != null) {
@@ -247,17 +236,14 @@ public class UICheckBalanceController {
 		        
 		        if (student != null) {
 		            try {
-		                // Cargar la ventana de registro de estudiante
 		                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterStudent.fxml"));
 		                Parent root = loader.load();		                
 		                UIRegisterStudentController controller = loader.getController();		                		              
-		                controller.populateForm(student);		                
-		                // Mostrar la ventana de registro
+		                controller.setStudentData(student);	
 		                Scene scene = new Scene(root);
 		                Stage stage = new Stage();
 		                stage.setScene(scene);
-		                stage.show();		                
-		                // Cerrar la ventana actual
+		                stage.show();		           
 		                Stage currentStage = (Stage) tvDataStudent.getScene().getWindow();
 		                currentStage.close();
 		                
@@ -271,9 +257,7 @@ public class UICheckBalanceController {
 		}
 		
 		public void deleteStudent(StudentRecharge selectedStudentRecharge) {
-			
 			 if (selectedStudentRecharge != null) {
-				 
 				 String carnet = selectedStudentRecharge.getCarnetStudent();		        
 			        // Buscar el estudiante en el archivo JSON
 			     Student student = StudentData.getStudentByCarnet(carnet);
@@ -315,7 +299,6 @@ public class UICheckBalanceController {
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterStudent.fxml"));
 	            Parent root = loader.load();
 	            UIRegisterStudentController controller = loader.getController();
-//	            controller.initialize();
 	            Scene scene = new Scene(root);
 	            Stage stage = new Stage();
 	            stage.setScene(scene);
@@ -336,16 +319,12 @@ public class UICheckBalanceController {
 				 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIStart.fxml"));
 		        Parent root = loader.load();
 				Scene scene = new Scene(root);
-		        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			
-		        Stage stage = new Stage();
+				Stage stage = new Stage();
 		        stage.setScene(scene);
-		        stage.show();
-		        
+		        stage.show();       
 		        Stage temp = (Stage) bBack.getScene().getWindow();
 		        temp.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -2,9 +2,6 @@ package domain;
 
 import java.time.LocalDate;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-
 public class Student {
 
 	private String carnetStudent;

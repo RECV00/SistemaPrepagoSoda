@@ -26,7 +26,6 @@ public class UIStartController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UICheckBalance.fxml"));
 			Parent root = loader.load();
 			UICheckBalanceController controller = loader.getController();
-//			controller.initialize();
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
@@ -47,7 +46,6 @@ public class UIStartController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIServiceRequest.fxml"));
 			Parent root = loader.load();
 			UIServiceRequestController controller = loader.getController();
-			//controller.initialize();
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);

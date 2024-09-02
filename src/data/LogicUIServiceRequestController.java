@@ -1,9 +1,6 @@
 package data;
 
-import java.util.List;
-
 import javax.swing.JOptionPane;
-
 import domain.Dishe;
 import domain.Student;
 import javafx.collections.FXCollections;
@@ -14,7 +11,6 @@ import javafx.scene.control.TableView;
 public class LogicUIServiceRequestController {
 
 	public LogicUIServiceRequestController() {
-		// TODO Auto-generated constructor stub
 	}
 
 	//cuando se elija el boton de solicitar 
