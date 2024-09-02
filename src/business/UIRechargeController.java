@@ -55,18 +55,18 @@ public class UIRechargeController {
 	           saldo = studentRecharge.getRechargeAmount();
 	        }
 	    }
+	  
 	 @FXML
 	    public void searchRechargeByCarnet(ActionEvent event) {
 	        String carnet = tfCarnetStudent.getText();
 	        
-	        // Buscar la recarga por cédula
+//	        buscar la cedula
 	        Recharge recharge = RechargeData.getRechargeList().stream()
 	            .filter(r -> r.getCarnetStudent().equalsIgnoreCase(carnet))
 	            .findFirst()
 	            .orElse(null);
 	        
 	        if (recharge != null) {
-	            // Mostrar los datos en los campos de texto
 	            tfNewAmount.setText(String.valueOf(recharge.getAmount()));
 	            dpDateEntry.setValue(recharge.getDateEntry());
 	        } else {
@@ -74,27 +74,27 @@ public class UIRechargeController {
 	        }
 	    }
 	    
-	    // Método para guardar los cambios en la recarga
 	    @FXML
 	    public void saveRecharge(ActionEvent event) {
 	        String carnet = tfCarnetStudent.getText().trim();
 	        double newAmount = Double.parseDouble(tfNewAmount.getText())+ saldo;
 	        LocalDate newDateEntry = dpDateEntry.getValue();
 
-	        // Crear un nuevo objeto recarga con los valores actualizados
+	        if (Double.parseDouble(tfNewAmount.getText()) <= 1000 || Double.parseDouble(tfNewAmount.getText()) >= 10000) {
+	        	System.out.print("Hola camaron sin cola");
+	            JOptionPane.showMessageDialog(null, "El monto debe estar entre 1,000 y 10,000.");
+	            return;
+	        }
 	        Recharge updatedRecharge = new Recharge(carnet, newAmount, newDateEntry);
 
 	        boolean rechargeUpdated = RechargeData.updateRecharge(updatedRecharge, carnet);
 
 	        if (rechargeUpdated) {
-	            // Actualizar el monto del estudiante en la lista de estudiantes
 	        	Student student = StudentData.getStudentByCarnet(carnet);
 	            if (student != null) {
 	            	
-	                student.setMoneyAvailable(newAmount); 
+	                student.setMoneyAvailable(newAmount);
 	                
-	             
-
 	                if (StudentData.updateStudent(student,student.getCarnetStudent())) {
 	                    JOptionPane.showMessageDialog(null, "Recarga y monto del estudiante actualizados exitosamente.");
 	                } else {
@@ -120,7 +120,6 @@ public class UIRechargeController {
 	        Parent root = loader.load();
 			Scene scene = new Scene(root);
 	        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		
 	        Stage stage = new Stage();
 	        stage.setScene(scene);
 	        stage.show();
