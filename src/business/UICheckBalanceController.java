@@ -224,10 +224,10 @@ public class UICheckBalanceController {
 	        
 			if (selectedStudent != null) {
 	            try {
-	                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterStudent.fxml"));
+	                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRecharge.fxml"));
 	                Parent root = loader.load();
-	                UIRegisterStudentController controller = loader.getController();
-	                controller.populateForm(selectedStudent); // Pasar la estudiante seleccionada
+	                UIRechargeController controller = loader.getController();
+//	                controller.populateForm(selectedStudent); // Pasar la estudiante seleccionada
 	                Scene scene = new Scene(root);
 					Stage stage = new Stage();
 					stage.setScene(scene);
