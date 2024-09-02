@@ -127,16 +127,22 @@ public class UIRegisterStudentController {
 
 	    if (confirmOption == 1) {
 	        if (isEditing) {
+	        	// Actualizar el estudiante y la recarga
+	            boolean studentUpdated = StudentData.updateStudent(student, studentToEdit.getCarnetStudent());
+	            boolean rechargeUpdated = RechargeData.updateRecharge(recharge, studentToEdit.getCarnetStudent());
+	            
 			    // Actualizar el estudiante y el recargo
-			    if (StudentData.updateStudent(student, studentToEdit.getCarnetStudent())) {
-//			    	&&RechargeData.updateRecharge(recharge, studentToEdit.getCarnetStudent()))
+			    if (studentUpdated && rechargeUpdated) {
 			        notifyAction("Estudiante Actualizado Correctamente");
 			    } else {
 			        notifyAction("Error al actualizar Estudiante");
 			    }
 			} else {
+				
+				boolean studentSaved = StudentData.saveStudent(student);
+	            boolean rechargeSaved = RechargeData.saveRecharge(recharge);
 			    // Guardar el nuevo estudiante y el recargo
-			    if (StudentData.saveStudent(student)) {
+			    if (studentSaved && rechargeSaved) {
 //			    	 && RechargeData.saveRecharge(recharge)
 			        notifyAction("Estudiante Registrado Correctamente");
 			        clearForm();
