@@ -71,7 +71,17 @@ public class StudentData {
 		}
 		return false;
 	}
-	
+
+	// Nuevo método para obtener un estudiante por su carnet
+    public static Student getStudentByCarnet(String carnet) {
+        List<Student> students = getStudentList();
+        for (Student student : students) {
+            if (student.getCarnetStudent().equals(carnet)) {
+                return student;
+            }
+        }
+        return null;
+    }
 	
 	
 }

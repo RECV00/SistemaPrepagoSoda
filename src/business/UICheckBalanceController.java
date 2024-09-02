@@ -67,8 +67,7 @@ public class UICheckBalanceController {
 		  carnetColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCarnetStudent()));
 		  studentColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getStudentName()));
 	      dateRechargesColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRechargeDate()));
-	      amountColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRechargeAmount()));
-	        
+	      amountColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRechargeAmount()));	        
 	      // Configura la columna de CheckBox
 	      setupCheckBoxColumn();
 	      
@@ -117,8 +116,8 @@ public class UICheckBalanceController {
 
 		        switch (choice) {
 		            case 0: // Eliminar
-//		            	deleteStudent(selectedStudentRecharge);	            	
-//		            	loadConsultaList();// Actualiza la tabla después de eliminar		            	
+		            	deleteStudent(selectedStudentRecharge);	            	
+		            	loadConsultaList();// Actualiza la tabla después de eliminar		            	
 		                notifyAction("Estudiante eliminado correctamente");
 		                tvDataStudent.refresh();
 		                break;
@@ -148,10 +147,8 @@ public class UICheckBalanceController {
 	  public void loadConsultaList() {
 		    List<Student> students = StudentData.getStudentList();
 		    List<Recharge> recharges = RechargeData.getRechargeList();
-
 		    
 		    observableList = FXCollections.observableArrayList();
-
 //		    recorrer la lista de estudiantes
 		    for (Student student : students) {
 //		         ruscar la recarga de estudiante
@@ -169,7 +166,6 @@ public class UICheckBalanceController {
 		            }
 		        }
 		    }
-		    System.out.println(observableList);
 		    tvDataStudent.setItems(observableList);
 		}
 
@@ -221,13 +217,13 @@ public class UICheckBalanceController {
 	  }
 
 	  public void RechargeStudent(StudentRecharge  selectedStudent) {		
-	        
+		  		 	        
 			if (selectedStudent != null) {
 	            try {
 	                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterStudent.fxml"));
 	                Parent root = loader.load();
 	                UIRegisterStudentController controller = loader.getController();
-	                controller.populateForm(selectedStudent); // Pasar la estudiante seleccionada
+	               // controller.populateForm(selectedStudent); // Pasar la estudiante seleccionada
 	                Scene scene = new Scene(root);
 					Stage stage = new Stage();
 					stage.setScene(scene);
@@ -242,49 +238,72 @@ public class UICheckBalanceController {
 	        }
 		}	
 		
-		public void editStudent(StudentRecharge  selectedStudent) {		
-	        
-			if (selectedStudent != null) {
-	            try {
-	                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterStudent.fxml"));
-	                Parent root = loader.load();
-	                UIRegisterStudentController controller = loader.getController();
-	                controller.populateForm(selectedStudent); // Pasar la estudiante seleccionada
-	                Scene scene = new Scene(root);
-					Stage stage = new Stage();
-					stage.setScene(scene);
-					stage.show();
-	                // Cerrar la ventana de reporte
-	                Stage currentStage = (Stage) tvDataStudent.getScene().getWindow();
-	                currentStage.close();
-
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        }
-		}
-		
-		
-		public void deleteStudent(Student selectedStudent) {
-			
-			 if (selectedStudent != null) {
-		            int confirmOption = JOptionPane.showConfirmDialog(
-		                null, "¿Está seguro de que desea eliminar este estudiante?", "Confirmar eliminación", 
-		                JOptionPane.YES_NO_OPTION
-		            );
-		            if (confirmOption == JOptionPane.YES_OPTION) {
-		                // Eliminar la estudiante de la lista y del archivo JSON
-		                if (StudentData.deleteStudent((Student) selectedStudent)) {
-		                	loadConsultaList();
-		                    JOptionPane.showMessageDialog(null, "Estudiante eliminado correctamente.");
-		                } else {
-		                    JOptionPane.showMessageDialog(null, "Error al eliminar al Estudiante.");
-		                }
+ public void editStudent(StudentRecharge selectedStudentRecharge) {
+	 
+		    if (selectedStudentRecharge != null) {
+		        
+		    	String carnet = selectedStudentRecharge.getCarnetStudent();		        
+		        // Buscar el estudiante en el archivo JSON
+		        Student student = StudentData.getStudentByCarnet(carnet);
+		        
+		        if (student != null) {
+		            try {
+		                // Cargar la ventana de registro de estudiante
+		                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterStudent.fxml"));
+		                Parent root = loader.load();		                
+		                UIRegisterStudentController controller = loader.getController();		                		              
+		                controller.populateForm(student);		                
+		                // Mostrar la ventana de registro
+		                Scene scene = new Scene(root);
+		                Stage stage = new Stage();
+		                stage.setScene(scene);
+		                stage.show();		                
+		                // Cerrar la ventana actual
+		                Stage currentStage = (Stage) tvDataStudent.getScene().getWindow();
+		                currentStage.close();
+		                
+		            } catch (IOException e) {
+		                e.printStackTrace();
 		            }
 		        } else {
-		            JOptionPane.showMessageDialog(null, "Por favor, seleccione una mascota para eliminar.");
+		            JOptionPane.showMessageDialog(null, "Estudiante no encontrado.");
 		        }
+		    }
 		}
+				
+public void deleteStudent(StudentRecharge selectedStudentRecharge) {
+						
+			 if (selectedStudentRecharge != null) {
+				 
+				 String carnet = selectedStudentRecharge.getCarnetStudent();		        
+			        // Buscar el estudiante en el archivo JSON
+			     Student student = StudentData.getStudentByCarnet(carnet);
+				 
+				 if(student != null) {
+					 
+					 int confirmOption = JOptionPane.showConfirmDialog(
+				                null, "¿Está seguro de que desea eliminar este estudiante?", "Confirmar eliminación", 
+				                JOptionPane.YES_NO_OPTION
+				            );
+				            if (confirmOption == JOptionPane.YES_OPTION) {
+				                // Eliminar la estudiante de la lista y del archivo JSON
+				                if (StudentData.deleteStudent( student)) {
+				                	loadConsultaList();
+				                    JOptionPane.showMessageDialog(null, "Estudiante eliminado correctamente.");
+				                } else {
+				                    JOptionPane.showMessageDialog(null, "Error al eliminar al Estudiante.");
+				                }
+				            } 
+				  }else {
+			            JOptionPane.showMessageDialog(null, "Estudiante no encontrado..");
+			        }
+ 
+			 }else {
+				 
+				 JOptionPane.showMessageDialog(null, "Por favor, seleccione un estudiante para eliminar.");
+			 	}
+	}
+	
 		// Event Listener on Button[#bBack].onAction
 		@FXML
 		 private void returnMain(ActionEvent event) {
@@ -317,8 +336,6 @@ public class UICheckBalanceController {
 				 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIStart.fxml"));
 		        Parent root = loader.load();
 				Scene scene = new Scene(root);
-		        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			
 		        Stage stage = new Stage();
 		        stage.setScene(scene);
 		        stage.show();
