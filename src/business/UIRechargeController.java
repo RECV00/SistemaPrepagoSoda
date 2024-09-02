@@ -11,11 +11,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import data.RechargeData;
+import data.StudentData;
 import domain.Recharge;
+import domain.Student;
 import domain.StudentRecharge;
 import javafx.event.ActionEvent;
 
@@ -41,13 +44,15 @@ public class UIRechargeController {
 	@FXML
 	private Button bBack;
 
+	private double saldo = 0.0;
 	
 	  public void recoveredData(StudentRecharge studentRecharge) {
+		  
 	        if (studentRecharge != null) {
 	        	tfCarnetStudent.setText(studentRecharge.getCarnetStudent());
 	        	tfCarnetStudent.setEditable(false);
 	        	dpDateEntry.setValue(studentRecharge.getRechargeDate());
-//	            tfNewAmount.setText(String.valueOf(studentRecharge.getRechargeAmount()));
+	           saldo = studentRecharge.getRechargeAmount();
 	        }
 	    }
 	 @FXML
@@ -73,16 +78,31 @@ public class UIRechargeController {
 	    @FXML
 	    public void saveRecharge(ActionEvent event) {
 	        String carnet = tfCarnetStudent.getText().trim();
-	        double newAmount = Double.parseDouble(tfNewAmount.getText());
+	        double newAmount = Double.parseDouble(tfNewAmount.getText())+ saldo;
 	        LocalDate newDateEntry = dpDateEntry.getValue();
 
 	        // Crear un nuevo objeto recarga con los valores actualizados
 	        Recharge updatedRecharge = new Recharge(carnet, newAmount, newDateEntry);
-	        
-	        boolean success = RechargeData.updateRecharge(updatedRecharge, carnet);
-	        
-	        if (success) {
-	            JOptionPane.showMessageDialog(null, "Recarga actualizada exitosamente.");
+
+	        boolean rechargeUpdated = RechargeData.updateRecharge(updatedRecharge, carnet);
+
+	        if (rechargeUpdated) {
+	            // Actualizar el monto del estudiante en la lista de estudiantes
+	        	Student student = StudentData.getStudentByCarnet(carnet);
+	            if (student != null) {
+	            	
+	                student.setMoneyAvailable(newAmount); 
+	                
+	             
+
+	                if (StudentData.updateStudent(student,student.getCarnetStudent())) {
+	                    JOptionPane.showMessageDialog(null, "Recarga y monto del estudiante actualizados exitosamente.");
+	                } else {
+	                    JOptionPane.showMessageDialog(null, "Error al actualizar el monto del estudiante.");
+	                }
+	            } else {
+	                JOptionPane.showMessageDialog(null, "Estudiante con carnet " + carnet + " no encontrado.");
+	            }
 	        } else {
 	            JOptionPane.showMessageDialog(null, "Error al actualizar la recarga.");
 	        }
