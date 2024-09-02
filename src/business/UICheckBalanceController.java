@@ -193,10 +193,7 @@ public class UICheckBalanceController {
 	      Map<String, Recharge> rechargeMap = recharges.stream()
 	          .collect(Collectors.toMap(Recharge::getCarnetStudent, recharge -> recharge));
 	      
-	      Student student = students.stream()
-	          .filter(s -> s.getCarnetStudent().equalsIgnoreCase(carnet))
-	          .findFirst()
-	          .orElse(null);
+	      Student student = students.stream().filter(s -> s.getCarnetStudent().equalsIgnoreCase(carnet)).findFirst().orElse(null);
 
 	      if (student != null) {
 	          Recharge recharge = rechargeMap.get(carnet);
@@ -227,7 +224,7 @@ public class UICheckBalanceController {
 	                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRecharge.fxml"));
 	                Parent root = loader.load();
 	                UIRechargeController controller = loader.getController();
-//	                controller.populateForm(selectedStudent); // Pasar la estudiante seleccionada
+	                controller.recoveredData(selectedStudent); // Pasar la estudiante seleccionada
 	                Scene scene = new Scene(root);
 					Stage stage = new Stage();
 					stage.setScene(scene);
@@ -249,7 +246,7 @@ public class UICheckBalanceController {
 	                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterStudent.fxml"));
 	                Parent root = loader.load();
 	                UIRegisterStudentController controller = loader.getController();
-	                controller.populateForm(selectedStudent); // Pasar la estudiante seleccionada
+//	                controller.populateForm(selectedStudent); // Pasar la estudiante seleccionada
 	                Scene scene = new Scene(root);
 					Stage stage = new Stage();
 					stage.setScene(scene);

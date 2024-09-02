@@ -45,8 +45,9 @@ public class UIRechargeController {
 	  public void recoveredData(StudentRecharge studentRecharge) {
 	        if (studentRecharge != null) {
 	        	tfCarnetStudent.setText(studentRecharge.getCarnetStudent());
+	        	tfCarnetStudent.setEditable(false);
 	        	dpDateEntry.setValue(studentRecharge.getRechargeDate());
-	            tfNewAmount.setText(String.valueOf(studentRecharge.getRechargeAmount()));
+//	            tfNewAmount.setText(String.valueOf(studentRecharge.getRechargeAmount()));
 	        }
 	    }
 	 @FXML
