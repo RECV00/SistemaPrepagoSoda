@@ -14,6 +14,7 @@ import javafx.util.Duration;
 
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -87,6 +88,7 @@ public class UIRegisterStudentController {
 	public void initialize(){
 		cbGenderStudent.getItems().addAll("Masculino", "Femenino");
 		cbGenderStudent.getSelectionModel().selectFirst();
+		dpDateEntryStudent.setValue(LocalDate.now());
 	}
 	
 	// Event Listener on Button[#bRegisterStudent].onAction
@@ -172,7 +174,7 @@ public class UIRegisterStudentController {
 			tfNumPhoneStudent.setText("");
 			tfMoneyAvailableStudent.setText("");			
 			cbGenderStudent.getSelectionModel().selectFirst();
-			dpDateEntryStudent.setValue(null);
+			dpDateEntryStudent.setValue(LocalDate.now());
 		}
 //--------------------------------------------------------------------------------------------------		
 		private void notifyAction(String message) {
