@@ -6,7 +6,6 @@ import java.util.List;
 import domain.Dishe;
 
 public class DisheData {
-
 	public static ArrayList<Dishe> disheList = new ArrayList<>();
 	
 	private static String fileMondayB = "monday_breakfast.json";
@@ -126,9 +125,9 @@ public class DisheData {
 				jsonUtilsTuesdayL.saveElement(d);
 			}else if(serviceHours == false && serviceDay.equals("Martes")) {
 				jsonUtilsTuesdayB.saveElement(d);
-			}else if(serviceHours == true && serviceDay.equals("Miercoles")) {
+			}else if(serviceHours == true && serviceDay.equals("Miércoles")) {
 				jsonUtilsWednesdayL.saveElement(d);
-			}else if(serviceHours == false && serviceDay.equals("Miercoles")) {
+			}else if(serviceHours == false && serviceDay.equals("Miércoles")) {
 				jsonUtilsWednesdayB.saveElement(d);
 			}else if(serviceHours == true && serviceDay.equals("Jueves")) {
 				jsonUtilsThursdayL.saveElement(d);
@@ -159,9 +158,9 @@ public class DisheData {
 				jsonUtilsTuesdayL.updateElementDishes(updatedDishe, name);
 			}else if(serviceHours == false && serviceDay.equals("Martes")) {
 				jsonUtilsTuesdayB.updateElementDishes(updatedDishe, name);
-			}else if(serviceHours == true && serviceDay.equals("Miercoles")) {
+			}else if(serviceHours == true && serviceDay.equals("Miércoles")) {
 				jsonUtilsWednesdayL.updateElementDishes(updatedDishe, name);
-			}else if(serviceHours == false && serviceDay.equals("Miercoles")) {
+			}else if(serviceHours == false && serviceDay.equals("Miércoles")) {
 				jsonUtilsWednesdayB.updateElementDishes(updatedDishe, name);
 			}else if(serviceHours == true && serviceDay.equals("Jueves")) {
 				jsonUtilsThursdayL.updateElementDishes(updatedDishe, name);
@@ -272,7 +271,7 @@ public class DisheData {
 //WEDNESDAY BREAKFAST
 		
 
-		public static boolean deleteWebnesday_Breakfast(Dishe d) {
+		public static boolean deleteWednesday_Breakfast(Dishe d) {
 			List<Dishe> listWednesday_Breakfast = getWednesday_BreakfastList();
 			int index =0;
 			try {

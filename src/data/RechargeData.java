@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Recharge;
+import domain.Student;
 
 public class RechargeData {
 
@@ -57,7 +58,7 @@ public class RechargeData {
 	        return false;
 	    }
 	}
-
+	
 	public static boolean updateRecharge(Recharge r,String carnet) {
 		System.out.print(r);
 		try {
@@ -69,4 +70,14 @@ public class RechargeData {
 		return false;
 	}
 	
+	  public static Recharge getRechargeByCarnet(String carnet) {
+	        List<Recharge> recharges = getRechargeList();
+	        for (Recharge recharge : recharges) {
+	            if (recharge.getCarnetStudent().equals(carnet)) {
+	                return recharge;
+	            }
+	        }
+	        return null;
+	    }
+		
 }

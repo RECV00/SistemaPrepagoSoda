@@ -59,7 +59,7 @@ public class UIRegisterDishesController {
 	
 	@FXML
 	public void initialize() {
-		cbServiceDayDishe.getItems().addAll("Lunes","Martes","Miercoles","Jueves","Viernes");
+		cbServiceDayDishe.getItems().addAll("Lunes","Martes","Miércoles","Jueves","Viernes");
 		cbServiceDayDishe.getSelectionModel().selectFirst();
 	}
 	// Event Listener on Button[#btnSaveDishe].onAction
@@ -71,7 +71,7 @@ public class UIRegisterDishesController {
 		if(!messageError.isEmpty()) {
 			notifyAction(messageError);
 			return false;
-		}
+	}
 		
 		Dishe dishe = new Dishe();
 		boolean serviceHours = (rbLunchDishe.isSelected())? true : false;
@@ -80,7 +80,7 @@ public class UIRegisterDishesController {
 		dishe.setServiceName(tfServiceNameDishe.getText());
 		dishe.setServicePrice(Double.parseDouble(tfServicePriceDishe.getText()));
 		
-		String serviceHoursText = serviceHours ? "Desayuno" : "Almuerzo";
+		String serviceHoursText = serviceHours ? "Almuerzo" : "Desayuno";
 		
 		int confirmOption = 
 				JOptionPane.showConfirmDialog(

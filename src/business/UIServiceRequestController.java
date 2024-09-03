@@ -31,7 +31,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 
 public class UIServiceRequestController {
-
+	
     @FXML
     private ComboBox<Student> cbStudentsList;
     @FXML
@@ -62,7 +62,7 @@ public class UIServiceRequestController {
 	private Label lErrorVa;
     private ObservableList<Dishe> disheList;
     private LogicUIServiceRequestController lServiceRequest = new LogicUIServiceRequestController(); // Instancia de LogicData
-
+   
     @FXML
     public void initialize() {
 //        // Configurar ComboBox de estudiantes

@@ -1,1 +1,1 @@
-[{"serviceHours":true,"serviceDay":"Lunes","serviceName":"Casado con Carne","servicePrice":2000.0},{"serviceHours":true,"serviceDay":"Lunes","serviceName":"Sopa Negra con Arroz","servicePrice":1500.0}]
+[{"serviceHours":true,"serviceDay":"Lunes","serviceName":"Sopa Negra con Arroz","servicePrice":1500.0,"selected":false,"requested":false},{"serviceHours":true,"serviceDay":"Lunes","serviceName":"Casado con carne","servicePrice":2000.0,"selected":false,"requested":false}]

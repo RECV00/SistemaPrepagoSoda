@@ -2,6 +2,7 @@ package data;
 
 import javax.swing.JOptionPane;
 import domain.Dishe;
+import domain.Recharge;
 import domain.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,10 +10,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 
 public class LogicUIServiceRequestController {
-
+	
 	public LogicUIServiceRequestController() {
 	}
-
 	//cuando se elija el boton de solicitar 
 	public void handleRequestDishe(Dishe dishe,ComboBox<Student> cbStudentsList ) {
 		
@@ -32,10 +32,15 @@ public class LogicUIServiceRequestController {
 	                JOptionPane.YES_NO_OPTION);
 	        
 	        if (response == JOptionPane.YES_OPTION) {
-	            selectedStudent.setMoneyAvailable(studentBalance - dishe.getServicePrice()); // Actualiza el saldo del estudiante
+	        	
+	        	double newAmount = studentBalance - dishe.getServicePrice();
+	           selectedStudent.setMoneyAvailable(newAmount); // Actualiza el saldo del estudiante
 	           
+	           Recharge recharge =RechargeData.getRechargeByCarnet(selectedStudent.getCarnetStudent());
+	           recharge.setAmount(newAmount);
+	          
 	            // Guardar los cambios en el archivo JSON
-	            if (StudentData.updateStudent(selectedStudent, selectedStudent.getCarnetStudent())) {
+	            if (StudentData.updateStudent(selectedStudent, selectedStudent.getCarnetStudent()) && RechargeData.updateRecharge(recharge, selectedStudent.getCarnetStudent())) {
 	                JOptionPane.showMessageDialog(null, 
 	                        "Solicitud confirmada.\n" +
 	                        "Platillo: " + dishe.getServiceName() + "\n" +
@@ -102,10 +107,10 @@ public class LogicUIServiceRequestController {
 				DisheData.deleteTuesday_Lunch(d);
 			}else if(serviceHours == false && serviceDay.equals("Martes")) {// desayuno
 				DisheData.deleteTuesday_Breakfast(d);
-			}else if(serviceHours == true && serviceDay.equals("Miercoles")) {
+			}else if(serviceHours == true && serviceDay.equals("Miércoles")) {
 				DisheData.deleteWednesday_Lunch(d);
-			}else if(serviceHours == false && serviceDay.equals("Miercoles")) {// desayuno
-				DisheData.deleteWebnesday_Breakfast(d);
+			}else if(serviceHours == false && serviceDay.equals("Miércoles")) {// desayuno
+				DisheData.deleteWednesday_Breakfast(d);
 			}else if(serviceHours == true && serviceDay.equals("Jueves")) {
 				DisheData.deleteThursday_Lunch(d);
 			}else if(serviceHours == false && serviceDay.equals("Jueves")) {// desayuno

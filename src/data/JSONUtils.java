@@ -104,7 +104,6 @@ public void updateElementRecharges(T updatedElement, String carnet) throws IOExc
             break;
         }
     }
-
     if (found) {
         mapper.writeValue(new File(filePath), elements);
     } else {

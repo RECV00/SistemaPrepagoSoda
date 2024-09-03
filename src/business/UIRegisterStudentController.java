@@ -181,33 +181,36 @@ public class UIRegisterStudentController {
 	   
 		    if (carnet.isEmpty()) {		    	
 		        messageError.append("El Carnet es Requerido\n");    
-		        
-		    } else if(!isEditing){
-		    	//valida si el carnet existe
-		    	List<Student> existingStudent = StudentData.getStudentList();
-		    	for(Student student : existingStudent) {
-		    		if(student.getCarnetStudent().equalsIgnoreCase(carnet)) {
-		    		messageError.append("El Carnet ya existe, por favor ingresa un carnet diferente");
-		    		break;
-		    		}
-		    	}
-		    	
-		    }else if (!carnet.matches("[a-zA-Z0-9]{1,10}")) {  // Permite letras y números, máxima de 10 caracteres
-		        messageError.append("El Carnet debe contener solo letras y números y tener un máximo de 10 caracteres\n");
+		    } else if (!isEditing) {
+		        // Valida si el carnet ya existe
+		        List<Student> existingStudent = StudentData.getStudentList();
+		        for (Student student : existingStudent) {
+		            if (student.getCarnetStudent().equalsIgnoreCase(carnet)) {
+		                messageError.append("El Carnet ya existe, por favor ingresa un carnet diferente\n");
+		                break;
+		            }
+		        }
 		    }
-		    
+
+		    // Valida que el carnet tenga un máximo de 10 caracteres
+		    if (carnet.length() > 10) {
+		        messageError.append("El Carnet debe contener un máximo de 10 caracteres\n");
+		    }
 		    
 		    String email = tfEmailStudent.getText();
 		    if (email.isEmpty()) {
 		        messageError.append("El Correo es Requerido\n");
 		    }
 
-		    String phone = tfNumPhoneStudent.getText();
+		    String phone = tfNumPhoneStudent.getText().trim(); // Elimina espacios en blanco
 		    if (phone.isEmpty()) {
 		        messageError.append("El Número Telefónico es Requerido\n");
-		    } else if (!phone.matches("\\d{8,10}")) {  // Debe contener entre 8 y 10 dígitos
+		    } else if (phone.length() < 8 || phone.length() > 10) {
 		        messageError.append("El Teléfono debe contener entre 8 y 10 dígitos\n");
+		    } else if (!phone.matches("\\d+")) {
+		        messageError.append("El Teléfono solo puede contener números\n");
 		    }
+
 
 		    String money = tfMoneyAvailableStudent.getText();
 		    if (money.isEmpty()) {
@@ -215,7 +218,7 @@ public class UIRegisterStudentController {
 		    } else {
 		        try {
 		            double balance = Double.parseDouble(money);
-		            if (balance <= 5000 || balance >= 15000) {
+		            if (balance < 5000 || balance > 15000) {
 		                messageError.append("El Saldo debe estar entre 5000 y 15000\n");
 		            }
 		        } catch (NumberFormatException e) {
