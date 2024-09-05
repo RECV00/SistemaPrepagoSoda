@@ -1,1 +1,1 @@
-[{"serviceHours":true,"serviceDay":"Martes","serviceName":"Arroz con Pollo","servicePrice":1800.0},{"serviceHours":true,"serviceDay":"Martes","serviceName":"Ensalada de Palmito","servicePrice":1200.0}]
+[{"serviceHours":true,"serviceDay":"Martes","serviceName":"Arroz con Pollo","servicePrice":1800.0,"selected":false,"requested":false},{"serviceHours":true,"serviceDay":"Martes","serviceName":"Ensalada de Palmito","servicePrice":1100.0,"selected":false,"requested":false}]

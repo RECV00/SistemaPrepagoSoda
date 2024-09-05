@@ -12,9 +12,6 @@ public class StudentRecharge {
     private  LocalDate rechargeDate;
     private  double rechargeAmount;
     
-    private BooleanProperty selected = new SimpleBooleanProperty(false); // Nuevo atributo
-    private boolean requested;// saber si hay una solicitud 
-	
     public StudentRecharge(String carnetStudent, String studentName, LocalDate rechargeDate,
 			double rechargeAmount) {
 		super();
@@ -51,25 +48,7 @@ public class StudentRecharge {
 		this.rechargeAmount = rechargeAmount;
 	}
 //-------------------------------------------------	
-	 public boolean isSelected() {
-	        return selected.get();
-	    }
-
-	    public void setSelected(boolean selected) {
-	        this.selected.set(selected);
-	    }
-
-	    public BooleanProperty selectedProperty() {
-	        return selected;
-	    }
-	    // Getter y Setter para requested
-	    public boolean isRequested() {
-	        return requested;
-	    }
-
-	    public void setRequested(boolean requested) {
-	        this.requested = requested;
-	    }
+	
 //---------------------------------------------
 	@Override
 	public String toString() {

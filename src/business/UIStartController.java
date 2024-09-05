@@ -17,6 +17,8 @@ public class UIStartController {
 	@FXML
 	private Button bRequestService;
 	@FXML
+	private Button btnShowBinnacle;
+	@FXML
 	private Label lTitule;
 
 	// Event Listener on Button[#bCheckBalance].onAction
@@ -52,6 +54,26 @@ public class UIStartController {
 			stage.show();	
 			stage.setOnCloseRequest(e -> controller.closeWindows());
 			Stage temp = (Stage) this.bRequestService.getScene().getWindow();
+			temp.close();
+			
+		}catch(IOException e){
+			
+		}
+	}
+	
+	@FXML
+	public void showBinnacle(ActionEvent event) {
+		
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIBinnacle.fxml"));
+			Parent root = loader.load();
+			UIBinnacleController controller = loader.getController();
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();	
+			stage.setOnCloseRequest(e -> controller.closeWindows());
+			Stage temp = (Stage) this.btnShowBinnacle.getScene().getWindow();
 			temp.close();
 			
 		}catch(IOException e){

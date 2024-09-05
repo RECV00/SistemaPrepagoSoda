@@ -2,7 +2,9 @@ package data;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import domain.Recharge;
 import domain.Student;
@@ -23,6 +25,22 @@ public class RechargeData {
 		return null;
 		
 	}
+	
+	public static LinkedList<Recharge> getRechargesByCarnet1(String carnet) {
+        try {
+            // Obtener la lista completa de recargas desde el archivo JSON
+            List<Recharge> allRecharges = jsonUtils.getElements(Recharge.class);
+            
+            // Filtrar las recargas por el carnet proporcionado
+            return allRecharges.stream()
+                .filter(recharge -> recharge.getCarnetStudent().equals(carnet))
+                .collect(Collectors.toCollection(LinkedList::new));
+                
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new LinkedList<>(); // Retorna una lista vacía en caso de error
+        }
+    }
 	
 	public static String getRechargeStringFormat(Recharge r) {
 		return "\n Carnet: "+ r.getCarnetStudent().toUpperCase()+"\n Monto: "+ r.getAmount()+"\n Fecha Ingreso: " + r.getDateEntry();	

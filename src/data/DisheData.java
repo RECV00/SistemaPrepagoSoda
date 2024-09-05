@@ -171,7 +171,7 @@ public class DisheData {
 			}else if(serviceHours == false && serviceDay.equals("Viernes")) {
 				jsonUtilsFridayB.updateElementDishes(updatedDishe, name);
 			}else {
-				
+			
 			}
 	    	
 	        return true;

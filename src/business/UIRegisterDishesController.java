@@ -94,7 +94,7 @@ public class UIRegisterDishesController {
 		
 		if (confirmOption == JOptionPane.YES_OPTION) {
 		    if (isEditing) { // actualiza el platillo
-		        if (DisheData.updateDishesByServiceName(dishe, disheToEdit.getServiceName(), serviceHours, cbServiceDayDishe.getSelectionModel().getSelectedItem())) {
+		        if (DisheData.updateDishesByServiceName(dishe, dishe.getServiceName(), serviceHours, cbServiceDayDishe.getSelectionModel().getSelectedItem())) {
 		            notifyAction("Platillo actualizado correctamente");
 		        } else {
 		            notifyAction("Error al actualizar el Platillo");
@@ -144,7 +144,7 @@ public class UIRegisterDishesController {
 				if(tfServicePriceDishe.getText().isEmpty()) {
 					messageError += "  El Precio del servicio es Requerido";
 				}
-				
+			
 				return messageError;
 			}
 			//se llena el formulario con los datos del platillo que se va editar
@@ -152,10 +152,10 @@ public class UIRegisterDishesController {
 				tfServiceNameDishe.setText(((Dishe) selectedDishe).getServiceName());
 				tfServiceNameDishe.setEditable(false);
 				cbServiceDayDishe.getSelectionModel().select(((Dishe) selectedDishe).getServiceDay());
-				rbLunchDishe.setSelected(((Dishe) selectedDishe).isServiceHours());
-				rbBreakfastDishe.setSelected(!((Dishe) selectedDishe).isServiceHours());
-				tfServicePriceDishe.setText(String.valueOf(((Dishe) selectedDishe).getServicePrice()));
-			    isEditing = true;
+				rbLunchDishe.setSelected(((Dishe) selectedDishe).isServiceHours());			
+				rbBreakfastDishe.setSelected(!((Dishe) selectedDishe).isServiceHours());						
+				tfServicePriceDishe.setText(String.valueOf(((Dishe) selectedDishe).getServicePrice()));			    
+				isEditing = true;
 			    disheToEdit = (Dishe) selectedDishe;
 			    }
 	//----------------------------------------------------------------------------------------------		  

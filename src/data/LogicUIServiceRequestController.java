@@ -40,7 +40,7 @@ public class LogicUIServiceRequestController {
 	           recharge.setAmount(newAmount);
 	          
 	            // Guardar los cambios en el archivo JSON
-	            if (StudentData.updateStudent(selectedStudent, selectedStudent.getCarnetStudent()) && RechargeData.updateRecharge(recharge, selectedStudent.getCarnetStudent())) {
+	            if (StudentData.updateStudent(selectedStudent, selectedStudent.getCarnetStudent())) {
 	                JOptionPane.showMessageDialog(null, 
 	                        "Solicitud confirmada.\n" +
 	                        "Platillo: " + dishe.getServiceName() + "\n" +

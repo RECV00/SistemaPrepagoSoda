@@ -86,7 +86,6 @@ public void updateElementDishes(T updatedElement, String name) throws IOExceptio
             break;
         }
     }
-
     if (found) {
         mapper.writeValue(new File(filePath), elements);
     } else {

@@ -44,26 +44,26 @@ public class UICheckBalanceController {
 	@FXML
 	private TextField tfSearchStudent;
 	@FXML
-	private TableView<StudentRecharge> tvDataStudent;
+	private TableView<Student> tvDataStudent;
 	@FXML
-	private TableColumn<StudentRecharge, String> carnetColumn;
+	private TableColumn<Student, String> carnetColumn;
 	@FXML
-	private TableColumn<StudentRecharge, String> studentColumn;
+	private TableColumn<Student, String> studentColumn;
 	@FXML
-	private TableColumn<StudentRecharge, LocalDate> dateRechargesColumn;
+	private TableColumn<Student, LocalDate> dateRechargesColumn;
 	@FXML
-	private TableColumn<StudentRecharge, Double> amountColumn;
+	private TableColumn<Student, Double> amountColumn;
 	@FXML
-    private TableColumn<StudentRecharge, Boolean> tcRequestStudent;
+    private TableColumn<Student, Boolean> tcRequestStudent;
 	
-	private ObservableList<StudentRecharge> observableList;
+	private ObservableList<Student> observableList;
 
 	  @FXML
 	    public void initialize() {
 		  carnetColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCarnetStudent()));
-		  studentColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getStudentName()));
-	      dateRechargesColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRechargeDate()));
-	      amountColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getRechargeAmount()));
+		  studentColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getName()));
+	      dateRechargesColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDateEntry()));
+	      amountColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getMoneyAvailable()));
 	        
 	      // Configura la columna de CheckBox
 	      setupCheckBoxColumn();
@@ -74,12 +74,12 @@ public class UICheckBalanceController {
 //	  Manejo de CheckBox
 	  private void setupCheckBoxColumn() {
 		  tcRequestStudent.setCellValueFactory(cellData -> new SimpleObjectProperty<>(false)); 
-		  tcRequestStudent.setCellFactory(col -> new TableCell<StudentRecharge, Boolean>() {
+		  tcRequestStudent.setCellFactory(col -> new TableCell<Student, Boolean>() {
 	            private final CheckBox checkBox = new CheckBox();
 
 	            {
 	            	checkBox.setOnAction(event -> {
-	                    StudentRecharge item = getTableRow().getItem();
+	                    Student item = getTableRow().getItem();
 	                    if (item != null) {
 	                        handleCheckBoxAction(item);
 	                    }
@@ -99,8 +99,8 @@ public class UICheckBalanceController {
 	        });
 	    }
 	// Aqui para el ACCION del JOptionPane cuando haya  seleccionado un platillo
-	    private void handleCheckBoxAction(StudentRecharge selectedStudentRecharge) {
-	        if(selectedStudentRecharge != null) {
+	    private void handleCheckBoxAction(Student selectedStudent) {
+	        if(selectedStudent != null) {
 	        	
 	        	String[] options = {"Eliminar", "Actualizar", "Recargar saldo"};
 		        int choice = JOptionPane.showOptionDialog(null, 
@@ -114,17 +114,17 @@ public class UICheckBalanceController {
 		      
 		        switch (choice) {
 		            case 0: // Eliminar
-		            	deleteStudent(selectedStudentRecharge);	            	
+		            	deleteStudent(selectedStudent);	            	
 		            	loadConsultaList();// Actualiza la tabla después de eliminar		            	
 		                tvDataStudent.refresh();
 		                break;
 		                
 		            case 1: // Actualizar            
-		            	 editStudent(selectedStudentRecharge); 
+		            	 editStudent(selectedStudent); 
 		                break;
-		                
-		            case 2: // Recargar
-		            	RechargeStudent(selectedStudentRecharge);
+		               
+		            case 2: // Actualizar            
+		            	RechargeStudent(selectedStudent); 
 		                break;
 		                
 		            default:
@@ -136,27 +136,8 @@ public class UICheckBalanceController {
 //---------------------------------------------------------------------------------------------------------------------------------------------------------	   
 	    @FXML
 	  public void loadConsultaList() {
-		    List<Student> students = StudentData.getStudentList();
-		    List<Recharge> recharges = RechargeData.getRechargeList();
-
-		    observableList = FXCollections.observableArrayList();
-
-
-		    for (Student student : students) {
-		        for (Recharge recharge : recharges) { // Validar el carnet es igual
-		            if (recharge.getCarnetStudent().equals(student.getCarnetStudent())) {
-//		                combina datos de los dos json
-		                StudentRecharge studentRecharge = new StudentRecharge(
-		                    student.getCarnetStudent(),
-		                    student.getName(),
-		                    recharge.getDateEntry(),
-		                    recharge.getAmount()
-		                );
-		                observableList.add(studentRecharge);
-		                break;
-		            }
-		        }
-		    }
+		    List<Student> students = StudentData.getStudentList();		    		    
+		    observableList = FXCollections.observableArrayList(students);	   
 		    tvDataStudent.setItems(observableList);
 		}
 
@@ -169,41 +150,23 @@ public class UICheckBalanceController {
 	          JOptionPane.showMessageDialog(null, "Por favor, ingrese un número de carnet.");
 	          return;
 	      }
-
-	      List<Student> students = StudentData.getStudentList();
-	      List<Recharge> recharges = RechargeData.getRechargeList();
-
+	      List<Student> students = StudentData.getStudentList();	     
 	      observableList = FXCollections.observableArrayList();
-//	      ASIGNACION DE CLAVE PARA LA BUSQUEDA DE DATO
-	      Map<String, Recharge> rechargeMap = recharges.stream()
-	          .collect(Collectors.toMap(Recharge::getCarnetStudent, recharge -> recharge));
-	      
+//	      ASIGNACION DE CLAVE PARA LA BUSQUEDA DE DATO	    
 	      Student student = students.stream().filter(s -> s.getCarnetStudent().equalsIgnoreCase(carnet)).findFirst().orElse(null);
 
-	      if (student != null) {
-	          Recharge recharge = rechargeMap.get(carnet);
-	          if (recharge != null) {
-	              StudentRecharge studentRecharge = new StudentRecharge(
-	                  student.getCarnetStudent(),
-	                  student.getName(),
-	                  recharge.getDateEntry(),
-	                  recharge.getAmount()
-	              );
-	              observableList.add(studentRecharge);
+	      if (student != null) {	          
+	              observableList.add(student);
 	          } else {
 	              JOptionPane.showMessageDialog(null, "No se encontraron recargas para el estudiante con carnet " + carnet + ".");
 	              loadConsultaList();
 	          }
-	      } else {
-	          JOptionPane.showMessageDialog(null, "Estudiante con carnet " + carnet + " no encontrado.");
-	          loadConsultaList();
-	      }
-
+	       
 	      tvDataStudent.setItems(observableList);
 	  }
 
-//	  Levanta ventana de Recargas
-	  public void RechargeStudent(StudentRecharge  selectedStudent) {		
+////	  Levanta ventana de Recargas
+	  public void RechargeStudent(Student  selectedStudent) {		
 	        
 			if (selectedStudent != null) {
 	            try {
@@ -226,11 +189,11 @@ public class UICheckBalanceController {
 		}	
 		
 //	  Levanta Ventana para editar
-	  public void editStudent(StudentRecharge selectedStudentRecharge) {
+	  public void editStudent(Student selectedStudent) {
 			 
-		    if (selectedStudentRecharge != null) {
+		    if (selectedStudent != null) {
 		        
-		    	String carnet = selectedStudentRecharge.getCarnetStudent();		        
+		    	String carnet = selectedStudent.getCarnetStudent();		        
 		        // Buscar el estudiante en el archivo JSON
 		        Student student = StudentData.getStudentByCarnet(carnet);
 		        
@@ -256,9 +219,9 @@ public class UICheckBalanceController {
 		    }
 		}
 		
-		public void deleteStudent(StudentRecharge selectedStudentRecharge) {
-			 if (selectedStudentRecharge != null) {
-				 String carnet = selectedStudentRecharge.getCarnetStudent();		        
+		public void deleteStudent(Student selectedStudent) {
+			 if (selectedStudent != null) {
+				 String carnet = selectedStudent.getCarnetStudent();		        
 			        // Buscar el estudiante en el archivo JSON
 			     Student student = StudentData.getStudentByCarnet(carnet);
 				 

@@ -21,5 +21,6 @@
 				<Font name="System Bold Italic" size="20.0" />
 			</font>
 		</Label>
+      <Button fx:id="btnShowBinnacle" layoutX="224.0" layoutY="316.0" mnemonicParsing="false" onAction="#showBinnacle" prefHeight="25.0" prefWidth="117.0" text="Ver bitácora" />
 	</children>
 </AnchorPane>
