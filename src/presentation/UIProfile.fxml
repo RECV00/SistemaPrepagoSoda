@@ -82,10 +82,10 @@
     </HBox>
 
     <!-- Bottom Configuration -->
-    <HBox alignment="CENTER" style="-fx-padding: 10;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <Button fx:id="btnConfiguracion" style="-fx-font-size: 14;" text="Configuración">
+    <HBox alignment="CENTER_LEFT" style="-fx-padding: 10;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Button fx:id="btnConfiguracion" prefHeight="40.0" prefWidth="57.0" style="-fx-font-size: 14;">
             <graphic>
-                <ImageView fitHeight="30" fitWidth="30">
+                <ImageView fitHeight="30" fitWidth="48.0">
                     <image>
                         <Image url="@../../media/settings.png" /> <!-- Cambia a la ruta de tu imagen -->
                     </image>
