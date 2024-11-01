@@ -1,5 +1,6 @@
 package business;
 
+import data.ServerConnection;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,11 +23,16 @@ public class UIProfileController {
     @FXML
     private Button btnConfiguracion; // Botón para la configuración
 
+    private ServerConnection servidor;
+
     @FXML
     public void initialize() {
+        servidor = new ServerConnection(); // Inicializa el servidor
+        new Thread(() -> servidor.startServer()).start(); // Inicia el servidor en un nuevo hilo
+
         // Inicializar cualquier lógica necesaria al cargar la vista
-       // welcomeLabel.setText("Bienvenido al sistema de prepago soda");
-        
+        // welcomeLabel.setText("Bienvenido al sistema de prepago soda");
+
         // Puedes agregar listeners para los botones si es necesario
         btnPuntoDeVenta.setOnAction(event -> openPointOfSale());
         btnInventario.setOnAction(event -> openInventory());
