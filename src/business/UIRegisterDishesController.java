@@ -163,7 +163,7 @@ public class UIRegisterDishesController {
 			public void closeWindows() {
 				
 				try {
-					 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIServiceRequest.fxml"));
+					 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIInventory.fxml"));
 			        Parent root = loader.load();
 					Scene scene = new Scene(root);
 					Stage stage = new Stage();

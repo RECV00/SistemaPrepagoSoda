@@ -15,11 +15,11 @@ public class UIStartController {
 	@FXML
 	private Button bCheckBalance;
 	@FXML
-	private Button bRequestService;
-	@FXML
 	private Button btnShowBinnacle;
 	@FXML
 	private Label lTitule;
+	@FXML
+	private Button btnBack;
 
 	// Event Listener on Button[#bCheckBalance].onAction
 	@FXML
@@ -42,24 +42,7 @@ public class UIStartController {
 		}
 	}
 	
-	@FXML
-	public void UIRequestService(ActionEvent event) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIServiceRequest.fxml"));
-			Parent root = loader.load();
-			UIServiceRequestController controller = loader.getController();
-			Scene scene = new Scene(root);
-			Stage stage = new Stage();
-			stage.setScene(scene);
-			stage.show();	
-			stage.setOnCloseRequest(e -> controller.closeWindows());
-			Stage temp = (Stage) this.bRequestService.getScene().getWindow();
-			temp.close();
-			
-		}catch(IOException e){
-			
-		}
-	}
+
 	
 	@FXML
 	public void showBinnacle(ActionEvent event) {
@@ -80,4 +63,31 @@ public class UIStartController {
 			
 		}
 	}
+	
+	// Event Listener on Button[#bBackStudent].onAction
+		@FXML
+		public void returnProfile(ActionEvent event) {
+			closeWindows();
+		}
+		
+		@FXML
+		public void closeWindows() {
+			
+			try {
+				 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIProfile.fxml"));
+		        Parent root = loader.load();
+				Scene scene = new Scene(root);
+		        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
+		        Stage stage = new Stage();
+		        stage.setScene(scene);
+		        stage.show();
+		        
+		        Stage temp = (Stage) btnBack.getScene().getWindow();
+		        temp.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 }

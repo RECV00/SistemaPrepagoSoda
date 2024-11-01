@@ -9,18 +9,18 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.UIStartController">
 	<children>
-      <ImageView fitHeight="406.0" fitWidth="600.0" layoutX="-1.0" layoutY="-1.0">
+      <ImageView fitHeight="406.0" fitWidth="606.0" layoutX="-1.0" layoutY="-1.0">
          <image>
             <Image url="@../../media/una.jpg" />
          </image>
       </ImageView>
-		<Button fx:id="bCheckBalance" layoutX="70.0" layoutY="316.0" mnemonicParsing="false" onAction="#UICheckBalance" prefHeight="25.0" prefWidth="141.0" text="Consultar Saldo" />
-		<Button fx:id="bRequestService" layoutX="353.0" layoutY="316.0" mnemonicParsing="false" onAction="#UIRequestService" prefHeight="25.0" prefWidth="130.0" text="Solicitar Servicio" />
+		<Button fx:id="bCheckBalance" layoutX="37.0" layoutY="200.0" mnemonicParsing="false" onAction="#UICheckBalance" prefHeight="25.0" prefWidth="141.0" text="Consultar Saldo" />
 		<Label fx:id="lTitule" layoutX="86.0" layoutY="27.0" text="BIENVENIDO AL SISTEMA DE PREPAGO SODA">
 			<font>
 				<Font name="System Bold Italic" size="20.0" />
 			</font>
 		</Label>
-      <Button fx:id="btnShowBinnacle" layoutX="224.0" layoutY="316.0" mnemonicParsing="false" onAction="#showBinnacle" prefHeight="25.0" prefWidth="117.0" text="Ver bitácora" />
+      <Button fx:id="btnShowBinnacle" layoutX="415.0" layoutY="200.0" mnemonicParsing="false" onAction="#showBinnacle" prefHeight="25.0" prefWidth="117.0" text="Ver bitácora" />
+      <Button fx:id="btnBack" layoutX="491.0" layoutY="337.0" mnemonicParsing="false" onAction="#returnProfile" prefHeight="25.0" prefWidth="102.0" text="Regresar" />
 	</children>
 </AnchorPane>

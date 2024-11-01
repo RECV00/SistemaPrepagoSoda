@@ -1,10 +1,16 @@
 package business;
 
+import java.io.IOException;
+
 import data.ServerConnection;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class UIProfileController {
 
@@ -48,15 +54,40 @@ public class UIProfileController {
     }
 
     private void openInventory() {
-        // Lógica para abrir la ventana de Inventario
-        System.out.println("Abriendo Inventario...");
-        // Aquí puedes cargar una nueva vista o hacer algo más
+    	try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIInventory.fxml"));
+			Parent root = loader.load();
+			UIInventoryController controller = loader.getController();
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();	
+			stage.setOnCloseRequest(e -> controller.closeWindows());
+			Stage temp = (Stage) this.btnRegisterStudent.getScene().getWindow();
+			temp.close();
+			
+		}catch(IOException e){
+			
+		}
     }
 
     private void openRegisterStudent() {
-        // Lógica para abrir la ventana de Registro de Estudiantes
-        System.out.println("Abriendo Registro de Estudiantes...");
-        // Aquí puedes cargar una nueva vista o hacer algo más
+    		try {
+    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIStart.fxml"));
+    			Parent root = loader.load();
+    			UIStartController controller = loader.getController();
+    			Scene scene = new Scene(root);
+    			Stage stage = new Stage();
+    			stage.setScene(scene);
+    			stage.show();	
+    			stage.setOnCloseRequest(e -> controller.closeWindows());
+    			Stage temp = (Stage) this.btnRegisterStudent.getScene().getWindow();
+    			temp.close();
+    			
+    		}catch(IOException e){
+    			
+    		}
+    	
     }
 
     private void openUsers() {
