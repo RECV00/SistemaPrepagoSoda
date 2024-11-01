@@ -1,5 +1,7 @@
 package data;
 
+import java.util.LinkedList;
+
 import javax.swing.JOptionPane;
 import domain.Dishe;
 import domain.Recharge;
@@ -96,6 +98,9 @@ public class LogicUIServiceRequestController {
 		            JOptionPane.showMessageDialog(null, "Error al cargar los datos de los Alimentos.");
 		        }
 		    }
+		 
+		
+		 
 	//Eliminar un platillo
 	public void deleteDishes(Dishe d,boolean serviceHours, String serviceDay) {
 			try {
@@ -127,5 +132,40 @@ public class LogicUIServiceRequestController {
 	        JOptionPane.showMessageDialog(null, "Error al eliminar el platillo.");
 	    }
 			
+	}
+	public static LinkedList<Dishe> getDishesForDayAndTime(String serviceDay, String serviceHours) {
+		ObservableList<Dishe> disheList = FXCollections.observableArrayList(); // Inicializa la lista
+
+	    try {
+	        // Lógica para llenar disheList según el día y las horas de servicio
+	        if (serviceHours.equals("almuerzo") && serviceDay.equals("Lunes")) {
+	            disheList = FXCollections.observableArrayList(DisheData.getMonday_LunchList());
+	        } else if (serviceHours.equals("desayuno") && serviceDay.equals("Lunes")) {
+	            disheList = FXCollections.observableArrayList(DisheData.getMonday_BreakfastList());
+	        } else if (serviceHours.equals("almuerzo") && serviceDay.equals("Martes")) {
+	            disheList = FXCollections.observableArrayList(DisheData.getTuesday_LunchList());
+	        } else if (serviceHours.equals("desayuno") && serviceDay.equals("Martes")) {
+	            disheList = FXCollections.observableArrayList(DisheData.getTuesday_BreakfastList());
+	        } else if (serviceHours.equals("almuerzo") && serviceDay.equals("Miércoles")) {
+	            disheList = FXCollections.observableArrayList(DisheData.getWednesday_LunchList());
+	        } else if (serviceHours.equals("desayuno") && serviceDay.equals("Miércoles")) {
+	            disheList = FXCollections.observableArrayList(DisheData.getWednesday_BreakfastList());
+	        } else if (serviceHours.equals("almuerzo") && serviceDay.equals("Jueves")) {
+	            disheList = FXCollections.observableArrayList(DisheData.getThursday_LunchList());
+	        } else if (serviceHours.equals("desayuno") && serviceDay.equals("Jueves")) {
+	            disheList = FXCollections.observableArrayList(DisheData.getThursday_BreakfastList());
+	        } else if (serviceHours.equals("almuerzo") && serviceDay.equals("Viernes")) {
+	            disheList = FXCollections.observableArrayList(DisheData.getFriday_LunchList());
+	        } else if (serviceHours.equals("desayuno") && serviceDay.equals("Viernes")) {
+	            disheList = FXCollections.observableArrayList(DisheData.getFriday_BreakfastList());
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Error al cargar los datos de los Alimentos.");
+	    }
+
+	    // Convertir ObservableList a LinkedList y devolver
+	    return new LinkedList<>(disheList); // Devolver la LinkedList de platos
 	}	
 }
