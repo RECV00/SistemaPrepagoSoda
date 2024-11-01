@@ -36,10 +36,10 @@ public class UserData {
 	        String query = "{call spSaveUser(?, ?, ?, ?)}"; // Definir los parámetros
 	        CallableStatement stmt = cn.prepareCall(query);
 	    
-	        stmt.setInt(2, us.getId());
-	        stmt.setString(3, us.getPassword());
-	        stmt.setDouble(4, us.getTipe());
-	        stmt.setString(5, us.getPhotoRoute());
+	        stmt.setInt(1, us.getId());
+	        stmt.setString(2, us.getPassword());
+	        stmt.setDouble(3, us.getTipe());
+	        stmt.setString(4, us.getPhotoRoute());
 
 	        stmt.execute(); // Ejecutar sin ResultSet si no se espera un resultado
 	        

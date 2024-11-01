@@ -36,21 +36,23 @@ private PasswordField tfPassword;
 	
 	@FXML
 	public void loginRegister(ActionEvent event) {
-	    String userID = tfUserID.getText().trim();
-	    String password = tfPassword.getText();
-	
-	    if (userID.isEmpty() || password.isEmpty()) {
-	        showAlert("Por favor, complete todos los campos.");
-	    return;
-	}
-	
-	// Crear un nuevo usuario y guardar en la base de datos
-	User newUser = new User();
-	newUser.setId(Integer.parseInt(userID)); // Ajusta según tu lógica
-	newUser.setPassword(password);
-	
-	UserData.saveUser(newUser); // Guarda el usuario en la base de datos
-	showAlert("Registro exitoso.");
+		try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterUsers.fxml"));
+            Parent root = loader.load();
+            UIRegisterUsersController controller = loader.getController();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+
+//            stage.setOnCloseRequest(e -> controller.closeWindows());
+            Stage temp = (Stage) this.btnLogin.getScene().getWindow();
+            temp.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al abrir la ventana de registro de platillos.");
+        }
 	}
 	
 	@FXML

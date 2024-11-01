@@ -65,6 +65,8 @@ public class UIRegisterUsersController {
         String password = tfPassword.getText();
         String userType = cbType.getValue();
 
+        char userChar = (userType != null && !userType.isEmpty()) ? userType.charAt(0) : '\0'; // '\0' como valor por defecto
+
         if (userID.isEmpty() || password.isEmpty() || userType == null || selectedPhotoFile == null) {
             showAlert("Error", "Todos los campos son obligatorios.");
             return;
@@ -77,7 +79,7 @@ public class UIRegisterUsersController {
             Files.copy(selectedPhotoFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
             // Crear el usuario y guardarlo en la base de datos
-            User user = new User(Integer.parseInt(userID), password, userType.charAt(0), photoFileName);
+            User user = new User(Integer.parseInt(userID), password, userChar, photoFileName);
             UserData.saveUser(user);
 
             showAlert("Éxito", "Usuario registrado correctamente.");
