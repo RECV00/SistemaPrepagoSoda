@@ -51,7 +51,7 @@ private PasswordField tfPassword;
 
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al abrir la ventana de registro de platillos.");
+            JOptionPane.showMessageDialog(null, "Error al abrir la ventana de registro de Usuarios.");
         }
 	}
 	
@@ -94,7 +94,7 @@ private PasswordField tfPassword;
 	
 	        } catch (IOException e) {
 	            e.printStackTrace();
-	            JOptionPane.showMessageDialog(null, "Error al abrir la ventana de registro de platillos.");
+	            JOptionPane.showMessageDialog(null, "Error al abrir la ventana de profile.");
 	        }
 	    } else {
 	    showAlert("Usuario o contraseña incorrectos.");
