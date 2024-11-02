@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 
+import business.UISaleController;
 import domain.Dishe;
 import domain.Order;
 import domain.User;
@@ -15,6 +16,12 @@ import domain.User;
 public class ServerConnection {
 
     private ServerSocket serverSocket;
+    private UISaleController uiSaleController; // Referencia a UISaleController
+    
+ // Constructor que recibe UISaleController
+    public ServerConnection(UISaleController uiSaleController) {
+        this.uiSaleController = uiSaleController;
+    }
 
     public void startServer() {
         try {
@@ -86,6 +93,7 @@ public class ServerConnection {
             }
         }
 
+
         private void validateUser(String userID, String password) {
             // Verificar si el usuario existe en la base de datos
             LinkedList<User> users = UserData.getUsers(); // Asumiendo que tienes una clase UserData que maneja la lista de usuarios
@@ -100,6 +108,7 @@ public class ServerConnection {
 
             if (loginSuccessful) {
                 out.println("SUCCESS," + userID); // Respuesta de éxito
+                uiSaleController.userLoggedIn(userID); // Notificar a UISaleController sobre el inicio de sesión
             } else {
                 out.println("ERROR,Credenciales inválidas");
             }
@@ -143,6 +152,7 @@ public class ServerConnection {
                     OrderData.saveOrder(order);
                 }
                 out.println("SUCCESS, Compra realizada exitosamente");
+                uiSaleController.updateOrderHistory(orders); // Notificar a UISaleController sobre la compra realizada
             } catch (Exception e) {
                 e.printStackTrace();
                 out.println("ERROR, Error al procesar la compra");

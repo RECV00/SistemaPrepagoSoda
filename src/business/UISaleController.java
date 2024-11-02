@@ -9,6 +9,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import domain.Order;
+
+import java.util.LinkedList;
 
 public class UISaleController {
 
@@ -30,19 +35,21 @@ public class UISaleController {
 
     // Panel del Carrito de Compras
     @FXML
-    private TableView<?> cartTableView;
+    private TableView<Order> cartTableView; // Cambiado a Order para reflejar la tabla del carrito
     @FXML
-    private TableColumn<?, ?> descriptionColumn;
+    private TableColumn<Order, String> descriptionColumn; // Cambiado para reflejar los tipos de datos
     @FXML
-    private TableColumn<?, ?> quantityColumn;
+    private TableColumn<Order, Integer> quantityColumn;
     @FXML
-    private TableColumn<?, ?> priceColumn;
+    private TableColumn<Order, Double> priceColumn;
     @FXML
-    private TableColumn<?, ?> totalColumn;
+    private TableColumn<Order, Double> totalColumn;
     @FXML
     private TextField discountField;
     @FXML
     private Label totalLabel;
+
+    private ObservableList<Order> cartItems; // Lista observable para los elementos del carrito
 
     // Métodos de inicialización y lógica
     @FXML
@@ -51,6 +58,7 @@ public class UISaleController {
         // Puedes usarlo para inicializar los valores de los ComboBox, cargar productos, etc.
         initializeComboBoxes();
         loadProducts();
+        initializeCart();
     }
 
     private void initializeComboBoxes() {
@@ -76,13 +84,36 @@ public class UISaleController {
         return button;
     }
 
+    private void initializeCart() {
+        cartItems = FXCollections.observableArrayList(); // Inicializa la lista observable
+        cartTableView.setItems(cartItems); // Asocia la lista a la tabla
+    }
+
     private void addToCart(String productName) {
         // Lógica para agregar el producto al carrito de compras
         // Aquí podrías manejar la cantidad, calcular el total, etc.
         System.out.println("Producto agregado al carrito: " + productName);
+
+        // Simulando la adición de un pedido al carrito
+        Order order = new Order(productName, 1, 100.0, 'P', "1"); // Reemplaza con datos reales
+        cartItems.add(order); // Agrega el pedido a la lista observable
     }
 
-    // Otros métodos para manejar eventos y actualizar la interfaz
+    // Método para manejar el inicio de sesión
+    public void userLoggedIn(String userId) {
+        userNameLabel.setText("Usuario: " + userId); // Actualiza la etiqueta con el ID del usuario
+        System.out.println("Usuario ha iniciado sesión: " + userId);
+    }
+
+    // Método para actualizar el historial de órdenes
+    public void updateOrderHistory(LinkedList<Order> orders) {
+        // Actualiza la tabla o el historial con las órdenes procesadas
+        for (Order order : orders) {
+            cartItems.add(order); // Agrega cada orden a la lista del carrito
+        }
+        System.out.println("Historial de órdenes actualizado.");
+    }
+
     @FXML
     private void applyDiscount() {
         // Lógica para aplicar el descuento basado en el valor del campo discountField
@@ -93,6 +124,7 @@ public class UISaleController {
     @FXML
     private void calculateTotal() {
         // Lógica para calcular el total del carrito de compras
-        totalLabel.setText("RD$1,500"); // Actualiza el total en el label
+        double total = cartItems.stream().mapToDouble(Order::getTotal).sum(); // Sumar los totales de las órdenes
+        totalLabel.setText("RD$" + total); // Actualiza el total en el label
     }
 }
