@@ -113,20 +113,19 @@ public class ServerConnection {
         }
 
         private void sendDishList(String day, String time) {
-            // Suponiendo que tenemos un método en alguna clase para obtener los platos según el día y horario
-            System.out.print(" DIA:"+day+"Horario:"+time);
-        	LinkedList<Dishe> dishes = LogicUIServiceRequestController.getDishesForDayAndTime(day, time);           
-        	System.out.println(dishes); 
-        	StringBuilder response = new StringBuilder("DISH_LIST");
+            System.out.print(" DIA:" + day + " Horario:" + time);
+            LinkedList<Dishe> dishes = LogicUIServiceRequestController.getDishesForDayAndTime(day, time);
+            System.out.println(dishes);
+            StringBuilder response = new StringBuilder("DISH_LIST");
             for (Dishe dish : dishes) {
                 response.append(",").append(dish.getServiceName()).append(",").append(dish.getServicePrice());
-                System.out.print("Platillos"+dish.toString());
+                System.out.print("Platillos " + dish.toString());
             }
-            System.out.println(response.toString()); // Enviar la lista de platos al cliente
-            
-            
-            System.out.print("Lista de Comida"+response.toString());
-        }
+            System.out.println("Enviando al cliente: " + response.toString());
+
+            // Enviar la respuesta al cliente
+            out.println(response.toString());
+           }
 
         private void processPurchase(String[] parts) {
             if (userId == null) {
