@@ -47,7 +47,7 @@ public class UIProfileController {
         // Puedes agregar listeners para los botones si es necesario
         btnPuntoDeVenta.setOnAction(event -> openPointOfSale());
         btnInventario.setOnAction(event -> openInventory());
-        btnRegisterStudent.setOnAction(event -> openRegisterStudent());
+        btnRegisterStudent.setOnAction(event -> openViewStudent());
         btnUsuarios.setOnAction(event -> openUsers());
         btnConfiguracion.setOnAction(event -> openConfiguration());
     
@@ -73,13 +73,12 @@ public class UIProfileController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UISale.fxml"));
 			Parent root = loader.load();
 			UISaleController controller = loader.getController();
-			
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.show();	
 			stage.setOnCloseRequest(e -> controller.closeWindows());
-			Stage temp = (Stage) this.btnRegisterStudent.getScene().getWindow();
+			Stage temp = (Stage) this.btnPuntoDeVenta.getScene().getWindow();
 			temp.close();
 			
 		}catch(IOException e){
@@ -97,7 +96,7 @@ public class UIProfileController {
 			stage.setScene(scene);
 			stage.show();	
 			stage.setOnCloseRequest(e -> controller.closeWindows());
-			Stage temp = (Stage) this.btnRegisterStudent.getScene().getWindow();
+			Stage temp = (Stage) this.btnInventario.getScene().getWindow();
 			temp.close();
 			
 		}catch(IOException e){
@@ -105,7 +104,7 @@ public class UIProfileController {
 		}
     }
 
-    private void openRegisterStudent() {
+    private void openViewStudent() {
     		try {
     			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIStart.fxml"));
     			Parent root = loader.load();
@@ -126,9 +125,21 @@ public class UIProfileController {
 
     
     private void openUsers() {
-        // Lógica para abrir la ventana de Usuarios
-        System.out.println("Abriendo Usuarios...");
-        // Aquí puedes cargar una nueva vista o hacer algo más
+       	try {
+    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewUsers.fxml"));
+    			Parent root = loader.load();
+    			UIViewUsersController controller = loader.getController();
+    			Scene scene = new Scene(root);
+    			Stage stage = new Stage();
+    			stage.setScene(scene);
+    			stage.show();	
+    			stage.setOnCloseRequest(e -> controller.closeWindows());
+    			Stage temp = (Stage) this.btnUsuarios.getScene().getWindow();
+    			temp.close();
+    			
+    		}catch(IOException e){
+    			
+    		}
     }
 
     private void openConfiguration() {
