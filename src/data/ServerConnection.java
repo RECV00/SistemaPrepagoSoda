@@ -112,7 +112,7 @@ public class ServerConnection {
             }
 
             if (loginSuccessful) {
-                out.println("SUCCESS," + userID); // Respuesta de éxito
+                out.println("SUCCESS"+","+userID); // Respuesta de éxito
                 uiSaleController.userLoggedIn(userID); // Notificar a UISaleController sobre el inicio de sesión              
             } else {
                 out.println("ERROR,Credenciales inválidas");

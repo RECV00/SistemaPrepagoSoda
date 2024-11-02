@@ -129,7 +129,7 @@ public class UISaleController {
         userNameLabel.setText("Usuario: " + userId); // Actualiza la etiqueta con el ID del usuario
         System.out.println("Usuario ha iniciado sesión: " + userId);
         
-        loadUserProfile(userId); // Cargar la foto de perfil del usuario
+        //loadUserProfile(userId); // Cargar la foto de perfil del usuario
     }
     public void loadUserProfile(String userId) {
         // Obtener la ruta de la foto del usuario usando el ID de usuario
