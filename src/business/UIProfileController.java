@@ -3,12 +3,15 @@ package business;
 import java.io.IOException;
 
 import data.ServerConnection;
+import data.UserData;
+import domain.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -45,8 +48,30 @@ public class UIProfileController {
         btnRegisterStudent.setOnAction(event -> openRegisterStudent());
         btnUsuarios.setOnAction(event -> openUsers());
         btnConfiguracion.setOnAction(event -> openConfiguration());
+    
+        // Cargar el perfil del usuario al iniciar
+        loadUserProfile("userID");
     }
+    public void loadUserProfile(String userId) {
+        User currentUser = UserData.getUserById(userId); // Obtener el usuario desde la fuente de datos
 
+        if (currentUser != null) {
+         
+            // Cargar la dirección de la foto del usuario
+            String photoPath = currentUser.getPhotoRoute(); // Obtener la ruta de la foto
+            if (photoPath != null && !photoPath.isEmpty()) {
+                // Cargar la imagen en el ImageView
+                Image userImage = new Image("file:" + photoPath); // Asegúrate de que la ruta sea correcta
+                userIcon.setImage(userImage); // Establecer la imagen en el ImageView
+            } else {
+                System.out.println("No se encontró la foto del usuario.");
+                userIcon.setImage(null); // Limpiar el ImageView si no hay imagen
+            }
+        } else {
+            System.out.println("Error: Usuario no encontrado.");
+            // Maneja el error, tal vez mostrando un mensaje en la UI
+        }
+    }
     private void openPointOfSale() {
         // Lógica para abrir la ventana de Punto de Venta
         System.out.println("Abriendo Punto de Venta...");

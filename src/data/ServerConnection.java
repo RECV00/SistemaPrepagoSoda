@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
 
+import business.UIProfileController;
 import business.UISaleController;
 import domain.Dishe;
 import domain.Order;
@@ -15,12 +16,15 @@ import domain.User;
 
 public class ServerConnection {
 
+
     private ServerSocket serverSocket;
     private UISaleController uiSaleController; // Referencia a UISaleController
-    
- // Constructor que recibe UISaleController
-    public ServerConnection(UISaleController uiSaleController) {
+    private UIProfileController uiProfileController; // Nueva referencia a UIProfileController
+
+    // Constructor que recibe UISaleController y UIProfileController
+    public ServerConnection(UISaleController uiSaleController, UIProfileController uiProfileController) {
         this.uiSaleController = uiSaleController;
+        this.uiProfileController = uiProfileController; // Inicializar la nueva referencia
     }
 
     public void startServer() {
@@ -87,12 +91,14 @@ public class ServerConnection {
                 case "PURCHASE":
                     processPurchase(parts);
                     break;
+//                case "UPDATE_PROFILE":
+//                    updateUserProfile(parts);
+//                    break;
                 default:
                     System.out.println("Comando no reconocido: " + command);
                     break;
             }
         }
-
 
         private void validateUser(String userID, String password) {
             // Verificar si el usuario existe en la base de datos
@@ -109,6 +115,7 @@ public class ServerConnection {
             if (loginSuccessful) {
                 out.println("SUCCESS," + userID); // Respuesta de éxito
                 uiSaleController.userLoggedIn(userID); // Notificar a UISaleController sobre el inicio de sesión
+                uiProfileController.loadUserProfile(userID); // Cargar el perfil del usuario
             } else {
                 out.println("ERROR,Credenciales inválidas");
             }
@@ -158,6 +165,21 @@ public class ServerConnection {
                 out.println("ERROR, Error al procesar la compra");
             }
         }
+
+//        private void updateUserProfile(String[] parts) {
+//            if (userId == null) {
+//                out.println("ERROR,Usuario no autenticado");
+//                return; // Salir si el usuario no ha iniciado sesión
+//            }
+//
+//            String newProfileData = parts[1]; // Asumiendo que se pasa la nueva información del perfil
+//            boolean updateSuccessful = uiProfileController.updateProfile(userId, newProfileData);
+//            if (updateSuccessful) {
+//                out.println("SUCCESS, Perfil actualizado exitosamente");
+//            } else {
+//                out.println("ERROR, Error al actualizar el perfil");
+//            }
+//        }
 
         public char getOrderState(String stateInput) {
             switch (stateInput.toLowerCase()) {
