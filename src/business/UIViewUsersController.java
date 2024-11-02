@@ -110,7 +110,7 @@ public class UIViewUsersController {
     }
     
     @FXML
-    public void returnUIStart(ActionEvent event) {
+    public void returnMain(ActionEvent event) {
         // Lógica para regresar al inicio
     	closeWindows();
     }
