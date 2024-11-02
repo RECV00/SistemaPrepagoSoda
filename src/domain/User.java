@@ -37,6 +37,23 @@ public class User {
 		this.moneyAvailable = moneyAvailable;
 	}
 
+	
+	public User(int id, String password, String tipe, String photoRoute, String name, String email, int phone,
+			boolean isActive, LocalDate dateEntry, boolean gender, double moneyAvailable) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.tipe = tipe;
+		this.photoRoute = photoRoute;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.isActive = isActive;
+		this.dateEntry = dateEntry;
+		this.gender = gender;
+		this.moneyAvailable = moneyAvailable;
+	}
+
 	public int getId_tbuser() {
 		return id_tbuser;
 	}
