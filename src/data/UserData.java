@@ -27,7 +27,7 @@ public class UserData {
 	        stmt.setString(6, us.getName());
 	        stmt.setString(7, us.getEmail());
 	        stmt.setInt(8, us.getPhone());
-	        stmt.setBoolean(9, us.isActive());
+	        stmt.setBoolean(9, us.getIsActive());
 	        stmt.setDate(10, Date.valueOf(us.getDateEntry())); 
 	        stmt.setBoolean(11, us.getGender());
 	        stmt.setDouble(12, us.getMoneyAvailable());
@@ -54,7 +54,7 @@ public class UserData {
 	        stmt.setString(5, us.getName());
 	        stmt.setString(6, us.getEmail());
 	        stmt.setInt(7, us.getPhone());
-	        stmt.setBoolean(8, us.isActive());
+	        stmt.setBoolean(8, us.getIsActive());
 	        stmt.setDate(9, Date.valueOf(us.getDateEntry())); 
 	        stmt.setBoolean(10, us.getGender());
 	        stmt.setDouble(11, us.getMoneyAvailable());
@@ -99,7 +99,7 @@ public class UserData {
 	            user.setName(rs.getString(6));
 	            user.setEmail(rs.getString(7));
 	            user.setPhone(rs.getInt(8));
-	            user.setActive(Boolean.parseBoolean(rs.getString(9)));
+	            user.setActive(rs.getInt(9) == 1); // Convierte 1 o 0 a booleano
 
 	            // Verifica si el resultado de getDate() no es null antes de convertirlo
 	            java.sql.Date sqlDate = rs.getDate(10);
@@ -109,7 +109,7 @@ public class UserData {
 	                user.setDateEntry(null); // O maneja el caso según tu lógica
 	            }
 
-	            user.setGender(Boolean.parseBoolean(rs.getString(11)));
+	            user.setGender(rs.getBoolean(11));
 	            user.setMoneyAvailable(rs.getDouble(12));
 	            list.add(user);
 	        }
@@ -120,6 +120,7 @@ public class UserData {
 	    
 	    return list;
 	}
+
 
 
 	public static String getPhotoLinkByCedula(int cedula) {

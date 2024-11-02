@@ -11,7 +11,7 @@ public class User {
 	private String name; 
 	private String email;
 	private int phone;
-	boolean isActive;
+	private boolean isActive;
 	private LocalDate dateEntry;
 	private boolean gender;
 	private double moneyAvailable;
@@ -118,7 +118,9 @@ public class User {
 		this.phone = phone;
 	}
 
-	public boolean isActive() {
+
+
+	public boolean getIsActive() {
 		return isActive;
 	}
 

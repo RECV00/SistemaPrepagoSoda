@@ -106,9 +106,9 @@ public class UIProfileController {
 
     private void openViewStudent() {
     		try {
-    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIStart.fxml"));
+    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewStudent.fxml"));
     			Parent root = loader.load();
-    			UIStartController controller = loader.getController();
+    			UIViewStudentController controller = loader.getController();
     			Scene scene = new Scene(root);
     			Stage stage = new Stage();
     			stage.setScene(scene);
@@ -126,9 +126,9 @@ public class UIProfileController {
     
     private void openUsers() {
        	try {
-    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewUsers.fxml"));
+    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewAdmin.fxml"));
     			Parent root = loader.load();
-    			UIViewUsersController controller = loader.getController();
+    			UIViewAdminController controller = loader.getController();
     			Scene scene = new Scene(root);
     			Stage stage = new Stage();
     			stage.setScene(scene);

@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,7 +20,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
-public class UIViewUsersController {
+public class UIViewAdminController {
 
     @FXML
     private TableView<User> userTable;
@@ -66,6 +67,7 @@ public class UIViewUsersController {
 
     private ObservableList<User> userList;
 
+
     @FXML
     public void initialize() {
         // Inicializar las columnas de la tabla
@@ -73,8 +75,34 @@ public class UIViewUsersController {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        
+        // Personalizar columna de género
         genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        genderColumn.setCellFactory(column -> new TableCell<User, Boolean>() {
+            protected void updateItem(Boolean gender, boolean empty) {
+                super.updateItem(gender, empty);
+                if (empty || gender == null) {
+                    setText(null);
+                } else {
+                    setText(gender ? "Femenino" : "Masculino");
+                }
+            }
+        });
+
+        // Personalizar columna de estado activo
         isActiveColumn.setCellValueFactory(new PropertyValueFactory<>("isActive"));
+        isActiveColumn.setCellFactory(column -> new TableCell<User, Boolean>() {
+      
+            protected void updateItem(Boolean isActive, boolean empty) {
+                super.updateItem(isActive, empty);
+                if (empty || isActive == null) {
+                    setText(null);
+                } else {
+                    setText(isActive ? "Activo" : "Inactivo");
+                }
+            }
+        });
+
         moneyAvailableColumn.setCellValueFactory(new PropertyValueFactory<>("moneyAvailable"));
         dateEntryColumn.setCellValueFactory(new PropertyValueFactory<>("dateEntry"));
         photoColumn.setCellValueFactory(new PropertyValueFactory<>("photoRoute"));
@@ -83,6 +111,7 @@ public class UIViewUsersController {
 
         loadUsers();
     }
+
 
     private void loadUsers() {
         userList = FXCollections.observableArrayList();
