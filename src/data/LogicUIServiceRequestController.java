@@ -138,25 +138,25 @@ public class LogicUIServiceRequestController {
 
 	    try {
 	        // Lógica para llenar disheList según el día y las horas de servicio
-	        if (serviceHours.equals("almuerzo") && serviceDay.equals("Lunes")) {
+	        if (serviceHours.equals("Almuerzo") && serviceDay.equals("Lunes")) {
 	            disheList = FXCollections.observableArrayList(DisheData.getMonday_LunchList());
-	        } else if (serviceHours.equals("desayuno") && serviceDay.equals("Lunes")) {
+	        } else if (serviceHours.equals("Desayuno") && serviceDay.equals("Lunes")) {
 	            disheList = FXCollections.observableArrayList(DisheData.getMonday_BreakfastList());
-	        } else if (serviceHours.equals("almuerzo") && serviceDay.equals("Martes")) {
+	        } else if (serviceHours.equals("Almuerzo") && serviceDay.equals("Martes")) {
 	            disheList = FXCollections.observableArrayList(DisheData.getTuesday_LunchList());
-	        } else if (serviceHours.equals("desayuno") && serviceDay.equals("Martes")) {
+	        } else if (serviceHours.equals("Desayuno") && serviceDay.equals("Martes")) {
 	            disheList = FXCollections.observableArrayList(DisheData.getTuesday_BreakfastList());
-	        } else if (serviceHours.equals("almuerzo") && serviceDay.equals("Miércoles")) {
+	        } else if (serviceHours.equals("Almuerzo") && serviceDay.equals("Miércoles")) {
 	            disheList = FXCollections.observableArrayList(DisheData.getWednesday_LunchList());
-	        } else if (serviceHours.equals("desayuno") && serviceDay.equals("Miércoles")) {
+	        } else if (serviceHours.equals("Desayuno") && serviceDay.equals("Miércoles")) {
 	            disheList = FXCollections.observableArrayList(DisheData.getWednesday_BreakfastList());
-	        } else if (serviceHours.equals("almuerzo") && serviceDay.equals("Jueves")) {
+	        } else if (serviceHours.equals("Almuerzo") && serviceDay.equals("Jueves")) {
 	            disheList = FXCollections.observableArrayList(DisheData.getThursday_LunchList());
-	        } else if (serviceHours.equals("desayuno") && serviceDay.equals("Jueves")) {
+	        } else if (serviceHours.equals("Desayuno") && serviceDay.equals("Jueves")) {
 	            disheList = FXCollections.observableArrayList(DisheData.getThursday_BreakfastList());
-	        } else if (serviceHours.equals("almuerzo") && serviceDay.equals("Viernes")) {
+	        } else if (serviceHours.equals("Almuerzo") && serviceDay.equals("Viernes")) {
 	            disheList = FXCollections.observableArrayList(DisheData.getFriday_LunchList());
-	        } else if (serviceHours.equals("desayuno") && serviceDay.equals("Viernes")) {
+	        } else if (serviceHours.equals("Desayuno") && serviceDay.equals("Viernes")) {
 	            disheList = FXCollections.observableArrayList(DisheData.getFriday_BreakfastList());
 	        }
 
