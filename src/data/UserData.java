@@ -117,14 +117,11 @@ public class UserData {
 	    try {
 	        Connection cn = DBConnection.getConecction();
 	        String query = "{call spGetPhotoLinkByCedula(?)}";
-	        CallableStatement stmt = cn.prepareCall(query);
-	        
+	        CallableStatement stmt = cn.prepareCall(query);	        
 	        // Establece el parámetro de cédula
-	        stmt.setInt(2, cedula);
-	        
+	        stmt.setInt(2, cedula);	        
 	        // Ejecuta el SP y obtiene el resultado
-	        ResultSet rs = stmt.executeQuery();
-	        
+	        ResultSet rs = stmt.executeQuery();	        
 	        // Si hay un resultado, obtener el enlace de la foto
 	        if (rs.next()) {
 	            photoLink = rs.getString("photoRoute");

@@ -33,11 +33,17 @@ public class UIProfileController {
     private Button btnConfiguracion; // Botón para la configuración
 
     private ServerConnection servidor;
+    private UISaleController uiSaleController; // Referencia a UISaleController
 
+    // Constructor que recibe UISaleController
+    public UIProfileController(UISaleController uiSaleController) {
+        this.uiSaleController = uiSaleController; // Inicializa la referencia
+    }
+    
     @FXML
     public void initialize() {
-        servidor = new ServerConnection(); // Inicializa el servidor
-        new Thread(() -> servidor.startServer()).start(); // Inicia el servidor en un nuevo hilo
+    	servidor = new ServerConnection(uiSaleController, this); // Inicializa el servidor con las referencias necesarias
+        new Thread(() -> servidor.startServer()).start();// Inicia el servidor en un nuevo hilo
 
         // Inicializar cualquier lógica necesaria al cargar la vista
         // welcomeLabel.setText("Bienvenido al sistema de prepago soda");
@@ -53,24 +59,18 @@ public class UIProfileController {
         loadUserProfile("userID");
     }
     public void loadUserProfile(String userId) {
-        User currentUser = UserData.getUserById(userId); // Obtener el usuario desde la fuente de datos
+        // Obtener la ruta de la foto del usuario usando el ID de usuario
+        String photoPath = UserData.getPhotoLinkByCedula(Integer.parseInt(userId)); 
 
-        if (currentUser != null) {
-         
-            // Cargar la dirección de la foto del usuario
-            String photoPath = currentUser.getPhotoRoute(); // Obtener la ruta de la foto
-            if (photoPath != null && !photoPath.isEmpty()) {
-                // Cargar la imagen en el ImageView
-                Image userImage = new Image("file:" + photoPath); // Asegúrate de que la ruta sea correcta
-                userIcon.setImage(userImage); // Establecer la imagen en el ImageView
-            } else {
-                System.out.println("No se encontró la foto del usuario.");
-                userIcon.setImage(null); // Limpiar el ImageView si no hay imagen
-            }
+        if (photoPath != null && !photoPath.isEmpty()) {
+            // Cargar la imagen en el ImageView
+            Image userImage = new Image("file:" + photoPath); // Asegúrate de que la ruta sea correcta
+            userIcon.setImage(userImage); // Establecer la imagen en el ImageView
         } else {
-            System.out.println("Error: Usuario no encontrado.");
-            // Maneja el error, tal vez mostrando un mensaje en la UI
+            System.out.println("No se encontró la foto del usuario.");
+            userIcon.setImage(null); // Limpiar el ImageView si no hay imagen
         }
+
     }
     private void openPointOfSale() {
         // Lógica para abrir la ventana de Punto de Venta
