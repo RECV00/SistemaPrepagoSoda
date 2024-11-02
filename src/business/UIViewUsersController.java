@@ -88,7 +88,7 @@ public class UIViewUsersController {
         userList = FXCollections.observableArrayList();
         LinkedList<User> users = UserData.getUsers();
         for (User user : users) {
-            if ("Estudiante".equals(user.getTipe())) {
+            if ("Personal".equals(user.getTipe())) {
                 userList.add(user);
             }
         }
@@ -119,7 +119,7 @@ public class UIViewUsersController {
 	public void closeWindows() {
 		
 		try {
-			 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIStart.fxml"));
+			 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIProfile.fxml"));
 	        Parent root = loader.load();
 			Scene scene = new Scene(root);		
 	        Stage stage = new Stage();

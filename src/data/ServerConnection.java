@@ -24,7 +24,7 @@ public class ServerConnection {
     }
     public void startServer() {
         try {
-            serverSocket = new ServerSocket(12351); // Puerto del servidor
+            serverSocket = new ServerSocket(12353); // Puerto del servidor
             System.out.println("Servidor iniciado, esperando conexiones...");
 
             while (true) {
@@ -116,12 +116,16 @@ public class ServerConnection {
             // Suponiendo que tenemos un método en alguna clase para obtener los platos según el día y horario
             System.out.print(" DIA:"+day+"Horario:"+time);
         	LinkedList<Dishe> dishes = LogicUIServiceRequestController.getDishesForDayAndTime(day, time);           
-            StringBuilder response = new StringBuilder("DISH_LIST");
+        	System.out.println(dishes); 
+        	StringBuilder response = new StringBuilder("DISH_LIST");
             for (Dishe dish : dishes) {
                 response.append(",").append(dish.getServiceName()).append(",").append(dish.getServicePrice());
+                System.out.print("Platillos"+dish.toString());
             }
-            out.println(response.toString()); // Enviar la lista de platos al cliente
-            System.out.print(response.toString());
+            System.out.println(response.toString()); // Enviar la lista de platos al cliente
+            
+            
+            System.out.print("Lista de Comida"+response.toString());
         }
 
         private void processPurchase(String[] parts) {
