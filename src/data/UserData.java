@@ -80,6 +80,7 @@ public class UserData {
 			e.printStackTrace();
 		}
 	}
+	
 	public static LinkedList<User> getUsers() {
 	    LinkedList<User> list = new LinkedList<>();
 	    try {
@@ -99,7 +100,15 @@ public class UserData {
 	            user.setEmail(rs.getString(7));
 	            user.setPhone(rs.getInt(8));
 	            user.setActive(Boolean.parseBoolean(rs.getString(9)));
-	            user.setDateEntry(rs.getDate(10).toLocalDate());
+
+	            // Verifica si el resultado de getDate() no es null antes de convertirlo
+	            java.sql.Date sqlDate = rs.getDate(10);
+	            if (sqlDate != null) {
+	                user.setDateEntry(sqlDate.toLocalDate()); // Conversión a LocalDate
+	            } else {
+	                user.setDateEntry(null); // O maneja el caso según tu lógica
+	            }
+
 	            user.setGender(Boolean.parseBoolean(rs.getString(11)));
 	            user.setMoneyAvailable(rs.getDouble(12));
 	            list.add(user);
@@ -111,6 +120,7 @@ public class UserData {
 	    
 	    return list;
 	}
+
 
 	public static String getPhotoLinkByCedula(int cedula) {
 	    String photoLink = null;

@@ -115,6 +115,7 @@ public class UIProfileController {
     	
     }
 
+    
     private void openUsers() {
         // Lógica para abrir la ventana de Usuarios
         System.out.println("Abriendo Usuarios...");
