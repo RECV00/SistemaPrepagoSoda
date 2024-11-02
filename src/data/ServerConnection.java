@@ -19,7 +19,8 @@ public class ServerConnection {
 
     private ServerSocket serverSocket;
     private UISaleController uiSaleController; // Referencia a UISaleController
-    private UIProfileController uiProfileController; // Nueva referencia a UIProfileController
+    @SuppressWarnings("unused")
+	private UIProfileController uiProfileController; // Nueva referencia a UIProfileController
 
     // Constructor que recibe UISaleController y UIProfileController
     public ServerConnection(UISaleController uiSaleController, UIProfileController uiProfileController) {
@@ -91,9 +92,7 @@ public class ServerConnection {
                 case "PURCHASE":
                     processPurchase(parts);
                     break;
-//                case "UPDATE_PROFILE":
-//                    updateUserProfile(parts);
-//                    break;
+
                 default:
                     System.out.println("Comando no reconocido: " + command);
                     break;
@@ -114,8 +113,7 @@ public class ServerConnection {
 
             if (loginSuccessful) {
                 out.println("SUCCESS," + userID); // Respuesta de éxito
-                uiSaleController.userLoggedIn(userID); // Notificar a UISaleController sobre el inicio de sesión
-                uiProfileController.loadUserProfile(userID); // Cargar el perfil del usuario
+                uiSaleController.userLoggedIn(userID); // Notificar a UISaleController sobre el inicio de sesión              
             } else {
                 out.println("ERROR,Credenciales inválidas");
             }
@@ -165,21 +163,6 @@ public class ServerConnection {
                 out.println("ERROR, Error al procesar la compra");
             }
         }
-
-//        private void updateUserProfile(String[] parts) {
-//            if (userId == null) {
-//                out.println("ERROR,Usuario no autenticado");
-//                return; // Salir si el usuario no ha iniciado sesión
-//            }
-//
-//            String newProfileData = parts[1]; // Asumiendo que se pasa la nueva información del perfil
-//            boolean updateSuccessful = uiProfileController.updateProfile(userId, newProfileData);
-//            if (updateSuccessful) {
-//                out.println("SUCCESS, Perfil actualizado exitosamente");
-//            } else {
-//                out.println("ERROR, Error al actualizar el perfil");
-//            }
-//        }
 
         public char getOrderState(String stateInput) {
             switch (stateInput.toLowerCase()) {

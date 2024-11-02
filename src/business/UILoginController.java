@@ -83,6 +83,7 @@ private PasswordField tfPassword;
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
 	            Parent root = loader.load();
 	            UIProfileController controller = loader.getController();
+	            controller.loadUserProfile(userID);
 	            Scene scene = new Scene(root);
 	            Stage stage = new Stage();
 	            stage.setScene(scene);

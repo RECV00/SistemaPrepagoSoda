@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import data.ServerConnection;
 import data.UserData;
-import domain.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -56,7 +55,7 @@ public class UIProfileController {
         btnConfiguracion.setOnAction(event -> openConfiguration());
     
         // Cargar el perfil del usuario al iniciar
-        loadUserProfile("userID");
+        
     }
     public void loadUserProfile(String userId) {
         // Obtener la ruta de la foto del usuario usando el ID de usuario
@@ -73,9 +72,22 @@ public class UIProfileController {
 
     }
     private void openPointOfSale() {
-        // Lógica para abrir la ventana de Punto de Venta
-        System.out.println("Abriendo Punto de Venta...");
-        // Aquí puedes cargar una nueva vista o hacer algo más
+    	try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UISale.fxml"));
+			Parent root = loader.load();
+			UISaleController controller = loader.getController();
+			
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();	
+			stage.setOnCloseRequest(e -> controller.closeWindows());
+			Stage temp = (Stage) this.btnRegisterStudent.getScene().getWindow();
+			temp.close();
+			
+		}catch(IOException e){
+			
+		}
     }
 
     private void openInventory() {

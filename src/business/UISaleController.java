@@ -13,7 +13,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import domain.Order;
 
+import javafx.scene.image.Image;
 import java.util.LinkedList;
+
+import data.UserData;
 
 public class UISaleController {
 
@@ -99,12 +102,7 @@ public class UISaleController {
         cartItems.add(order); // Agrega el pedido a la lista observable
     }
 
-    // Método para manejar el inicio de sesión
-    public void userLoggedIn(String userId) {
-        userNameLabel.setText("Usuario: " + userId); // Actualiza la etiqueta con el ID del usuario
-        System.out.println("Usuario ha iniciado sesión: " + userId);
-    }
-
+  
     // Método para actualizar el historial de órdenes
     public void updateOrderHistory(LinkedList<Order> orders) {
         // Actualiza la tabla o el historial con las órdenes procesadas
@@ -127,4 +125,28 @@ public class UISaleController {
         double total = cartItems.stream().mapToDouble(Order::getTotal).sum(); // Sumar los totales de las órdenes
         totalLabel.setText("RD$" + total); // Actualiza el total en el label
     }
+    public void userLoggedIn(String userId) {
+        userNameLabel.setText("Usuario: " + userId); // Actualiza la etiqueta con el ID del usuario
+        System.out.println("Usuario ha iniciado sesión: " + userId);
+        
+        loadUserProfile(userId); // Cargar la foto de perfil del usuario
+    }
+    public void loadUserProfile(String userId) {
+        // Obtener la ruta de la foto del usuario usando el ID de usuario
+        String photoPath = UserData.getPhotoLinkByCedula(Integer.parseInt(userId)); 
+
+        if (photoPath != null && !photoPath.isEmpty()) {
+            // Cargar la imagen en el ImageView
+            Image userImage = new Image("file:" + photoPath); // Asegúrate de que la ruta sea correcta
+            userProfileImage.setImage(userImage); // Establecer la imagen en el ImageView
+        } else {
+            System.out.println("No se encontró la foto del usuario.");
+            userProfileImage.setImage(null); // Limpiar el ImageView si no hay imagen
+        }
+    }
+
+	public Object closeWindows() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
