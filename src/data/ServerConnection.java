@@ -24,7 +24,7 @@ public class ServerConnection {
     }
     public void startServer() {
         try {
-            serverSocket = new ServerSocket(12348); // Puerto del servidor
+            serverSocket = new ServerSocket(12349); // Puerto del servidor
             System.out.println("Servidor iniciado, esperando conexiones...");
 
             while (true) {
