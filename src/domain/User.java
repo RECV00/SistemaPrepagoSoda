@@ -1,31 +1,48 @@
 package domain;
 
+import java.time.LocalDate;
+
 public class User {
 	private int id_tbuser;
 	private int id;
 	private String password;
-	private char tipe;
+	private String tipe;
 	private String photoRoute;
+	private String name; 
+	private String email;
+	private int phone;
+	boolean isActive;
+	private LocalDate dateEntry;
+	private boolean gender;
+	private double moneyAvailable;
 	
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(int id_tbuser, int id, String password, char tipe, String photoRoute) {
+	public User(int id_tbuser, int id, String password, String tipe, String photoRoute, String name, String email,
+			int phone, boolean isActive, LocalDate dateEntry, boolean gender, double moneyAvailable) {
 		super();
 		this.id_tbuser = id_tbuser;
 		this.id = id;
 		this.password = password;
 		this.tipe = tipe;
 		this.photoRoute = photoRoute;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.isActive = isActive;
+		this.dateEntry = dateEntry;
+		this.gender = gender;
+		this.moneyAvailable = moneyAvailable;
 	}
 
-	public User(int id, String password, char tipe, String photoRoute) {
-		super();
-		this.id = id;
-		this.password = password;
-		this.tipe = tipe;
-		this.photoRoute = photoRoute;
+	public int getId_tbuser() {
+		return id_tbuser;
+	}
+
+	public void setId_tbuser(int id_tbuser) {
+		this.id_tbuser = id_tbuser;
 	}
 
 	public int getId() {
@@ -44,11 +61,11 @@ public class User {
 		this.password = password;
 	}
 
-	public char getTipe() {
+	public String getTipe() {
 		return tipe;
 	}
 
-	public void setTipe(char tipe) {
+	public void setTipe(String tipe) {
 		this.tipe = tipe;
 	}
 
@@ -60,20 +77,67 @@ public class User {
 		this.photoRoute = photoRoute;
 	}
 
-	public int getId_tbuser() {
-		return id_tbuser;
+	public String getName() {
+		return name;
 	}
 
-	public void setId_tbuser(int id_tbuser) {
-		this.id_tbuser = id_tbuser;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public int getPhone() {
+		return phone;
+	}
+
+	public void setPhone(int phone) {
+		this.phone = phone;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public LocalDate getDateEntry() {
+		return dateEntry;
+	}
+
+	public void setDateEntry(LocalDate dateEntry) {
+		this.dateEntry = dateEntry;
+	}
+
+	public boolean getGender() {
+		return gender;
+	}
+
+	public void setGender(boolean gender) {
+		this.gender = gender;
+	}
+
+	public double getMoneyAvailable() {
+		return moneyAvailable;
+	}
+
+	public void setMoneyAvailable(double moneyAvailable) {
+		this.moneyAvailable = moneyAvailable;
 	}
 
 	@Override
 	public String toString() {
 		return "User [id_tbuser=" + id_tbuser + ", id=" + id + ", password=" + password + ", tipe=" + tipe
-				+ ", photoRoute=" + photoRoute + "]";
+				+ ", photoRoute=" + photoRoute + ", name=" + name + ", email=" + email + ", phone=" + phone
+				+ ", isActive=" + isActive + ", dateEntry=" + dateEntry + ", gender=" + gender + ", moneyAvailable="
+				+ moneyAvailable + "]";
 	}
-
-
-	
 }
