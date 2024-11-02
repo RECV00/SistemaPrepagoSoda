@@ -32,18 +32,21 @@ public class UIProfileController {
     private Button btnConfiguracion; // Botón para la configuración
 
     private ServerConnection servidor;
-    private UISaleController uiSaleController; // Referencia a UISaleController
+    @SuppressWarnings("unused")
+	private UISaleController uiSaleController; // Referencia a UISaleController
 
-    // Constructor que recibe UISaleController
-    public UIProfileController(UISaleController uiSaleController) {
-        this.uiSaleController = uiSaleController; // Inicializa la referencia
+    public UIProfileController() {
+        // Constructor vacío
     }
-    
+
+    public void setUISaleController(UISaleController uiSaleController) {
+        this.uiSaleController = uiSaleController; 
+        servidor = new ServerConnection(uiSaleController, this); 
+        new Thread(() -> servidor.startServer()).start(); 
+    }
     @FXML
     public void initialize() {
-    	servidor = new ServerConnection(uiSaleController, this); // Inicializa el servidor con las referencias necesarias
-        new Thread(() -> servidor.startServer()).start();// Inicia el servidor en un nuevo hilo
-
+    	
         // Inicializar cualquier lógica necesaria al cargar la vista
         // welcomeLabel.setText("Bienvenido al sistema de prepago soda");
 
