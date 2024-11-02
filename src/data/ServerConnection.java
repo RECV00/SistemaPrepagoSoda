@@ -114,14 +114,14 @@ public class ServerConnection {
 
         private void sendDishList(String day, String time) {
             // Suponiendo que tenemos un método en alguna clase para obtener los platos según el día y horario
-            LinkedList<Dishe> dishes = LogicUIServiceRequestController.getDishesForDayAndTime(day, time);
+            System.out.print(" DIA:"+day+"Horario:"+time);
+        	LinkedList<Dishe> dishes = LogicUIServiceRequestController.getDishesForDayAndTime(day, time);           
             StringBuilder response = new StringBuilder("DISH_LIST");
-
             for (Dishe dish : dishes) {
                 response.append(",").append(dish.getServiceName()).append(",").append(dish.getServicePrice());
             }
-
             out.println(response.toString()); // Enviar la lista de platos al cliente
+            System.out.print(response.toString());
         }
 
         private void processPurchase(String[] parts) {
