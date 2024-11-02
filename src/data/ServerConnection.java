@@ -18,16 +18,10 @@ public class ServerConnection {
 
 
     private ServerSocket serverSocket;
-    private UISaleController uiSaleController; // Referencia a UISaleController
-    @SuppressWarnings("unused")
-	private UIProfileController uiProfileController; // Nueva referencia a UIProfileController
-
-    // Constructor que recibe UISaleController y UIProfileController
-    public ServerConnection(UISaleController uiSaleController, UIProfileController uiProfileController) {
-        this.uiSaleController = uiSaleController;
-        this.uiProfileController = uiProfileController; // Inicializar la nueva referencia
+   
+    public ServerConnection() {
+        // Constructor vacío, o puedes pasar configuraciones si lo necesitas
     }
-
     public void startServer() {
         try {
             serverSocket = new ServerSocket(12348); // Puerto del servidor
@@ -42,7 +36,6 @@ public class ServerConnection {
             e.printStackTrace();
         }
     }
-
     private class ClientHandler extends Thread {
         private Socket socket;
         private PrintWriter out;
@@ -112,9 +105,7 @@ public class ServerConnection {
             }
 
             if (loginSuccessful) {
-                out.println("SUCCESS"+","+userID); // Respuesta de éxito
-                uiSaleController.userLoggedIn(userID); // Notificar a UISaleController sobre el inicio de sesión              
-            } else {
+                out.println("SUCCESS"+","+userID); // Respuesta de éxito                
                 out.println("ERROR,Credenciales inválidas");
             }
         }
@@ -157,7 +148,7 @@ public class ServerConnection {
                     OrderData.saveOrder(order);
                 }
                 out.println("SUCCESS, Compra realizada exitosamente");
-                uiSaleController.updateOrderHistory(orders); // Notificar a UISaleController sobre la compra realizada
+               
             } catch (Exception e) {
                 e.printStackTrace();
                 out.println("ERROR, Error al procesar la compra");

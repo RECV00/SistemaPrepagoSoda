@@ -16,6 +16,7 @@ import domain.Order;
 import javafx.scene.image.Image;
 import java.util.LinkedList;
 
+import data.ServerConnection;
 import data.UserData;
 
 public class UISaleController {
@@ -53,7 +54,13 @@ public class UISaleController {
     private Label totalLabel;
 
     private ObservableList<Order> cartItems; // Lista observable para los elementos del carrito
-
+   
+//    private ServerConnection serverConnection;
+//
+//    public UISaleController() {
+//        this.serverConnection = new ServerConnection();
+//        new Thread(() -> serverConnection.startServer()).start(); // Iniciar el servidor en un nuevo hilo
+//    }
     // Métodos de inicialización y lógica
     @FXML
     public void initialize() {

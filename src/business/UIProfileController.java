@@ -31,18 +31,12 @@ public class UIProfileController {
     @FXML
     private Button btnConfiguracion; // Botón para la configuración
 
-    private ServerConnection servidor;
-    @SuppressWarnings("unused")
-	private UISaleController uiSaleController; // Referencia a UISaleController
+    
+    private ServerConnection serverConnection;
 
     public UIProfileController() {
-        // Constructor vacío
-    }
-
-    public void setUISaleController(UISaleController uiSaleController) {
-        this.uiSaleController = uiSaleController; 
-        servidor = new ServerConnection(uiSaleController, this); 
-        new Thread(() -> servidor.startServer()).start(); 
+        this.serverConnection = new ServerConnection();
+        new Thread(() -> serverConnection.startServer()).start(); // Iniciar el servidor en un nuevo hilo
     }
     @FXML
     public void initialize() {
