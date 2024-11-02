@@ -2,47 +2,92 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="664.0" prefWidth="446.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.UIRegisterUsersController">
-    <VBox alignment="CENTER" layoutX="112.0" layoutY="46.0" spacing="15" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 0);">
+<AnchorPane prefHeight="665.0" prefWidth="502.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.UIRegisterUsersController">
+    <GridPane alignment="CENTER" hgap="20" layoutX="44.0" layoutY="15.0" prefHeight="653.0" prefWidth="427.0" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 0);" vgap="15">
         
-        <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;" text="Registro de Usuario" />
+        <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;" text="Registro de Usuario" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
         
-        <!-- Campo de ID de Usuario -->
-        <VBox alignment="CENTER_LEFT" spacing="5" style="-fx-padding: 10px;">
-            <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="ID del Usuario:" />
-            <TextField fx:id="tfUserID" promptText="Ingrese su ID de usuario" style="-fx-background-color: #f0f0f0; -fx-border-radius: 5px; -fx-background-radius: 5px;" />
-        </VBox>
+        <!-- ID del Usuario -->
+        <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="ID del Usuario:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="tfUserID" promptText="Ingrese su ID de usuario" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         
-        <!-- Campo de Contraseña -->
-        <VBox alignment="CENTER_LEFT" spacing="5" style="-fx-padding: 10px;">
-            <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Contraseña:" />
-            <PasswordField fx:id="tfPassword" promptText="Ingrese su contraseña" style="-fx-background-color: #f0f0f0; -fx-border-radius: 5px; -fx-background-radius: 5px;" />
-        </VBox>
+        <!-- Contraseña -->
+        <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Contraseña:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <PasswordField fx:id="tfPassword" promptText="Ingrese su contraseña" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         
-        <!-- ComboBox de Tipo de Usuario -->
-        <VBox alignment="CENTER_LEFT" spacing="5" style="-fx-padding: 10px;">
-            <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Tipo de Usuario:" />
-            <ComboBox fx:id="cbType" promptText="Seleccione un tipo" style="-fx-background-color: #f0f0f0; -fx-border-radius: 5px; -fx-background-radius: 5px;" />
-        </VBox>
-        
-        <!-- Sección para Foto de Perfil -->
-        <VBox alignment="CENTER" spacing="5" style="-fx-padding: 10px;">
-            <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Foto de Perfil:" />
-            <ImageView fx:id="photoPreview" fitHeight="100" fitWidth="100" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 5, 0.2, 0, 1);" />
-            <Button fx:id="btnSelectPhoto" onAction="#handleSelectPhoto" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px;" text="Adjuntar Foto" />
-        </VBox>
-        
+        <!-- Tipo de Usuario -->
+        <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Tipo de Usuario:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <ComboBox fx:id="cbType" promptText="Seleccione un tipo" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+        <!-- Nombre -->
+        <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <TextField fx:id="tfName" promptText="Ingrese su nombre" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+        <!-- Correo Electrónico -->
+        <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Correo Electrónico:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <TextField fx:id="tfEmail" promptText="Ingrese su correo electrónico" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+        <!-- Teléfono -->
+        <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+        <TextField fx:id="tfPhone" promptText="Ingrese su número de teléfono" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+        <!-- Activo -->
+        <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Activo:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+        <ComboBox fx:id="cbActive" promptText="¿Está activo?" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+        <!-- Fecha de Entrada -->
+        <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Fecha de Entrada:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+
+        <!-- Género -->
+        <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Género:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+        <ComboBox fx:id="cbGender" promptText="Seleccione el género" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+
+        <!-- Dinero Disponible -->
+        <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Dinero Disponible:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+        <TextField fx:id="tfMoneyAvailable" promptText="Ingrese el monto disponible" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+
+        <!-- Foto de Perfil -->
+        <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Foto de Perfil:" GridPane.rowIndex="12" />
+        <ImageView fx:id="photoPreview" fitHeight="100" fitWidth="100" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+        <Button fx:id="btnSelectPhoto" onAction="#handleSelectPhoto" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Adjuntar Foto" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+
         <!-- Botón para Registrar Usuario -->
-        <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10px;">
-            <Button fx:id="btnRegister" onAction="#handleRegister" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-padding: 8px 16px;" text="Registrar" />
-        </HBox>
-    </VBox>
+        <Button fx:id="btnRegister" onAction="#handleRegister" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px;" text="Registrar" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="14" />
+      <DatePicker fx:id="dbDateEntry" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+      <Button fx:id="btnBack" layoutX="172.0" layoutY="632.0" onAction="#returnMain" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px;" text="Regresar" GridPane.rowIndex="14" />
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+        
+    </GridPane>
 </AnchorPane>
