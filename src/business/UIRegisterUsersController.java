@@ -52,7 +52,7 @@ public class UIRegisterUsersController {
     private File selectedPhotoFile;
     private boolean isEditing = false; // Indicador de modo de edición
     private User currentUser; // Usuario actual en modo de edición
-
+    private int tbuser;
     // Initialize method to set up ComboBoxes
     @FXML
     public void initialize() {
@@ -77,6 +77,7 @@ public class UIRegisterUsersController {
     @FXML
     private void handleRegister() {
         // Obtener datos de entrada
+    	
         int userID = Integer.parseInt(tfUserID.getText());
         String password = tfPassword.getText();
         String userType = cbType.getValue();
@@ -101,12 +102,14 @@ public class UIRegisterUsersController {
         }
 
         // Crear el objeto User
-        User newUser = new User(userID, password, userType, photoFileName, name, email, phone, isActive, dateEntry, gender, moneyAvailable);
+       
         
         if (isEditing) {
+        	User newUser = new User(tbuser,userID, password, userType, photoFileName, name, email, phone, isActive, dateEntry, gender, moneyAvailable);
             UserData.updateUser(newUser); // Actualizar usuario
         } else {
-            UserData.saveUser(newUser); // Registrar nuevo usuario
+        	 User newUser1 = new User(userID, password, userType, photoFileName, name, email, phone, isActive, dateEntry, gender, moneyAvailable);
+            UserData.saveUser(newUser1); // Registrar nuevo usuario
         }
 
         // Limpiar campos después de la operación
@@ -124,7 +127,7 @@ public class UIRegisterUsersController {
         tfPhone.setText(String.valueOf(user.getPhone()));
         cbActive.setValue(user.getIsActive() ? "Sí" : "No");
         dbDateEntry.setValue(user.getDateEntry());
-        cbGender.setValue(user.getGender() ? "Masculino" : "Femenino");
+        cbGender.setValue(String.valueOf(user.getGender()? "Femenino" : "Maculino" ));
         tfMoneyAvailable.setText(String.valueOf(user.getMoneyAvailable()));
 
         // Habilitar campos para la edición
@@ -139,6 +142,8 @@ public class UIRegisterUsersController {
         }
 
         isEditing = true; // Establecer que estamos en modo edición
+        tbuser = user.getId_tbuser();
+        System.out.println("ID al cargar: " + user.getId_tbuser()); // Al cargar
     }
 
 

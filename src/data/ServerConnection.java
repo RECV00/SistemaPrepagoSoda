@@ -24,7 +24,7 @@ public class ServerConnection {
 
     public void startServer() {
         try {
-            serverSocket = new ServerSocket(12355); // Puerto del servidor
+            serverSocket = new ServerSocket(12359); // Puerto del servidor
             System.out.println("Servidor iniciado, esperando conexiones...");
 
             while (true) {
@@ -150,7 +150,7 @@ public class ServerConnection {
                         return; // Salir si hay un error en el formato
                     }
 
-                    char isState = getOrderState("pendiente"); // Definir el estado inicial como "pendiente"
+                    char isState = getOrderState("P"); // Definir el estado inicial como "pendiente"
 
                     // Crear la orden
                     Order order = new Order(dishName, amount, total, isState, userId); // Utiliza userId

@@ -15,11 +15,11 @@ public class UserData {
 	public static void updateUser(User us) {
 	    try {
 	        Connection cn = DBConnection.getConecction();
-	        String query = "{call spUpdateUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"; // Definir los parámetros, incluyendo el ID
+	        String query = "{call spUpdateUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 	        CallableStatement stmt = cn.prepareCall(query);
 
 	        // Establece cada parámetro en el orden correcto
-	        stmt.setInt(1, us.getId_tbuser());
+	        stmt.setInt(1, us.getId_tbuser()); // ID del registro que se está actualizando
 	        stmt.setInt(2, us.getId());
 	        stmt.setString(3, us.getPassword());
 	        stmt.setString(4, us.getTipe());
@@ -32,12 +32,16 @@ public class UserData {
 	        stmt.setBoolean(11, us.getGender());
 	        stmt.setDouble(12, us.getMoneyAvailable());
 
-	        stmt.execute(); // Ejecutar sin ResultSet si no se espera un resultado
+	        // Imprimir parámetros para debug
+	        System.out.println("Ejecutando update con ID: " + us.getId_tbuser() + ", Nombre: " + us.getName());
+
+	        stmt.execute();
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
 	}
+
 
 
 	public static void saveUser(User us) {
