@@ -147,6 +147,7 @@ public class ServerConnection {
                     // Crear la orden
                     Order order = new Order(dishName, amount, total, isState, userId); // Utiliza userId
                     orders.add(order);
+                    OrderData.saveOrder(order);
                 } else {
                     out.println("ERROR, Información de compra incompleta");
                     return; // Salir si la información de compra no es completa

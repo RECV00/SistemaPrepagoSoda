@@ -83,9 +83,9 @@ public class UIRegisterUsersController {
         String name = tfName.getText();
         String email = tfEmail.getText();
         int phone = Integer.parseInt(tfPhone.getText());
-        boolean isActive = "Sí".equals(cbActive.getValue());
+        boolean isActive = Boolean.parseBoolean(cbActive.getSelectionModel().getSelectedItem());
         LocalDate dateEntry = dbDateEntry.getValue();
-        boolean gender = "Masculino".equals(cbGender.getValue()); // Cambiado aquí
+        boolean gender = Boolean.parseBoolean(cbGender.getSelectionModel().getSelectedItem()); // Cambiado aquí
         double moneyAvailable = tfMoneyAvailable.isDisabled() ? 0.0 : Double.parseDouble(tfMoneyAvailable.getText());
 
         // Guardar la imagen con el ID del usuario en la carpeta "media"
