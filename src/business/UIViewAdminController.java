@@ -135,7 +135,24 @@ public class UIViewAdminController {
 
     @FXML
     private void handleUpdate() {
-        // Implementar lógica para actualizar un usuario
+    	User selectedUser = userTable.getSelectionModel().getSelectedItem();
+
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterUsers.fxml"));
+			Parent root = loader.load();
+			UIRegisterUsersController controller = loader.getController();
+			controller.loadUserData(selectedUser); 
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();	
+			stage.setOnCloseRequest(e -> controller.closeWindows());
+			Stage temp = (Stage) this.btnUpdate.getScene().getWindow();
+			temp.close();
+			
+		}catch(IOException e){
+			
+		}
     }
     
     @FXML

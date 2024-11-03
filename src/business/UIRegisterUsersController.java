@@ -50,6 +50,8 @@ public class UIRegisterUsersController {
     private Button btnSelectPhoto;
 
     private File selectedPhotoFile;
+    private boolean isEditing = false; // Indicador de modo de edición
+    private User currentUser; // Usuario actual en modo de edición
 
     // Initialize method to set up ComboBoxes
     @FXML
@@ -83,8 +85,8 @@ public class UIRegisterUsersController {
         int phone = Integer.parseInt(tfPhone.getText());
         boolean isActive = "Sí".equals(cbActive.getValue());
         LocalDate dateEntry = dbDateEntry.getValue();
-        boolean gender = "Masculino".equals(cbGender.getValue());
-        double moneyAvailable = tfMoneyAvailable.isDisabled() ? 0.0 : Double.parseDouble(tfMoneyAvailable.getText()); // Establecer a 0.0 si está deshabilitado
+        boolean gender = "Masculino".equals(cbGender.getValue()); // Cambiado aquí
+        double moneyAvailable = tfMoneyAvailable.isDisabled() ? 0.0 : Double.parseDouble(tfMoneyAvailable.getText());
 
         // Guardar la imagen con el ID del usuario en la carpeta "media"
         String photoFileName = "media/" + userID + ".png";
@@ -101,12 +103,44 @@ public class UIRegisterUsersController {
         // Crear el objeto User
         User newUser = new User(userID, password, userType, photoFileName, name, email, phone, isActive, dateEntry, gender, moneyAvailable);
         
-        // Guardar el usuario en la base de datos
-        UserData.saveUser(newUser);
+        if (isEditing) {
+            UserData.updateUser(newUser); // Actualizar usuario
+        } else {
+            UserData.saveUser(newUser); // Registrar nuevo usuario
+        }
 
-        // Limpiar campos después del registro
+        // Limpiar campos después de la operación
         clearFields();
     }
+
+
+    public void loadUserData(User user) {
+        currentUser = user;
+        tfUserID.setText(String.valueOf(user.getId()));
+        tfPassword.setText(user.getPassword());
+        cbType.setValue(user.getTipe());
+        tfName.setText(user.getName());
+        tfEmail.setText(user.getEmail());
+        tfPhone.setText(String.valueOf(user.getPhone()));
+        cbActive.setValue(user.getIsActive() ? "Sí" : "No");
+        dbDateEntry.setValue(user.getDateEntry());
+        cbGender.setValue(user.getGender() ? "Masculino" : "Femenino");
+        tfMoneyAvailable.setText(String.valueOf(user.getMoneyAvailable()));
+
+        // Habilitar campos para la edición
+        tfUserID.setDisable(false); // Asegúrate de que esté habilitado
+        tfMoneyAvailable.setDisable(user.getTipe().equals("Personal")); // Habilitar según el tipo
+
+        // Cargar imagen
+        File photoFile = new File(user.getPhotoRoute());
+        if (photoFile.exists()) {
+            Image image = new Image(photoFile.toURI().toString());
+            photoPreview.setImage(image);
+        }
+
+        isEditing = true; // Establecer que estamos en modo edición
+    }
+
 
     @FXML
     private void handleSelectPhoto() {
@@ -140,6 +174,7 @@ public class UIRegisterUsersController {
         cbGender.setValue(null);
         tfMoneyAvailable.clear();
         photoPreview.setImage(null); // Limpiar la imagen
+        isEditing = false; // Restablecer a modo de registro
     }
     
     @FXML
