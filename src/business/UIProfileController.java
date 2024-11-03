@@ -21,7 +21,9 @@ public class UIProfileController {
     @FXML
     private ImageView userIcon; // Icono del usuario
     @FXML
-    private Button btnPuntoDeVenta; // Botón para acceder al punto de venta
+    private Button btnPedidos; 
+    @FXML 
+    private Button btnBinnacle;
     @FXML
     private Button btnInventario; // Botón para acceder al inventario
     @FXML
@@ -45,11 +47,12 @@ public class UIProfileController {
         // welcomeLabel.setText("Bienvenido al sistema de prepago soda");
 
         // Puedes agregar listeners para los botones si es necesario
-        btnPuntoDeVenta.setOnAction(event -> openPointOfSale());
+    	btnPedidos.setOnAction(event -> openPointOfSale());
         btnInventario.setOnAction(event -> openInventory());
         btnRegisterStudent.setOnAction(event -> openViewStudent());
         btnUsuarios.setOnAction(event -> openUsers());
         btnConfiguracion.setOnAction(event -> openConfiguration());
+        btnBinnacle.setOnAction(event -> openBinnacle());
     
         // Cargar el perfil del usuario al iniciar
         
@@ -78,7 +81,7 @@ public class UIProfileController {
 			stage.setScene(scene);
 			stage.show();	
 			stage.setOnCloseRequest(e -> controller.closeWindows());
-			Stage temp = (Stage) this.btnPuntoDeVenta.getScene().getWindow();
+			Stage temp = (Stage) this.btnPedidos.getScene().getWindow();
 			temp.close();
 			
 		}catch(IOException e){
@@ -141,7 +144,23 @@ public class UIProfileController {
     			
     		}
     }
-
+    private void openBinnacle() {
+    	try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIBinnacle.fxml"));
+			Parent root = loader.load();
+			UIViewAdminController controller = loader.getController();
+			Scene scene = new Scene(root);
+			Stage stage = new Stage();
+			stage.setScene(scene);
+			stage.show();	
+			stage.setOnCloseRequest(e -> controller.closeWindows());
+			Stage temp = (Stage) this.btnUsuarios.getScene().getWindow();
+			temp.close();
+			
+		}catch(IOException e){
+			
+		}
+    }
     private void openConfiguration() {
         // Lógica para abrir la ventana de Configuración
         System.out.println("Abriendo Configuración...");

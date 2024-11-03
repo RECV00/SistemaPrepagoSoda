@@ -6,28 +6,22 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.LinkedList;
-
-
 import domain.Dishe;
 import domain.Order;
 import domain.User;
 
 public class ServerConnection {
 
-
 	private ServerSocket serverSocket;
 
     public ServerConnection() {
         // Constructor vacío, o puedes pasar configuraciones si lo necesitas
     }
-
     public void startServer() {
         try {
             serverSocket = new ServerSocket(12360); // Puerto del servidor
             System.out.println("Servidor iniciado, esperando conexiones...");
-
             while (true) {
                 Socket clientSocket = serverSocket.accept(); // Esperar a que un cliente se conecte
                 System.out.println("Cliente conectado: " + clientSocket.getInetAddress());

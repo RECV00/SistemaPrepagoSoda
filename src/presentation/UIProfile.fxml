@@ -24,7 +24,7 @@
     <HBox alignment="CENTER" spacing="20" style="-fx-padding: 20;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
         
         <VBox alignment="CENTER" prefHeight="450.0" prefWidth="192.0">
-            <Button fx:id="btnPuntoDeVenta" prefHeight="144.0" prefWidth="146.0" style="-fx-font-size: 14; -fx-pref-width: 150; -fx-pref-height: 150;">
+            <Button fx:id="btnPedidos" prefHeight="144.0" prefWidth="146.0" style="-fx-font-size: 14; -fx-pref-width: 150; -fx-pref-height: 150;">
                 <graphic>
                     <ImageView fitHeight="134.0" fitWidth="148.0">
                         <image>
@@ -72,13 +72,23 @@
                     </ImageView>
                 </graphic>
             </Button>
-         <Label text="USUARIOS" />
+         <Label text="PERSONAL" />
+        </VBox>
+        
+        <!-- Nuevo botón Bitácora -->
+        <VBox alignment="CENTER" prefHeight="450.0" prefWidth="218.0">
+            <Button fx:id="btnBinnacle" prefWidth="158.0" style="-fx-font-size: 14; -fx-pref-width: 150; -fx-pref-height: 150;">
+                <graphic>
+                    <ImageView fitHeight="125.0" fitWidth="134.0">
+                        <image>
+                            <Image url="@../../media/binnacle.png" /> 
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+         <Label text="BITÁCORA" />
         </VBox>
 
-        <VBox alignment="CENTER" />
-        
-        <VBox alignment="CENTER" />
-        
     </HBox>
 
     <!-- Bottom Configuration -->
