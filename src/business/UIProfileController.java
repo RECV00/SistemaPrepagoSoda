@@ -88,9 +88,9 @@ public class UIProfileController {
 
     private void openInventory() {
     	try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIInventory.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewDishes.fxml"));
 			Parent root = loader.load();
-			UIInventoryController controller = loader.getController();
+			UIViewDishesController controller = loader.getController();
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
