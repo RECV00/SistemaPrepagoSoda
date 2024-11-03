@@ -57,29 +57,32 @@ private PasswordField tfPassword;
 	
 	@FXML
 	public void loginAdmin(ActionEvent event) {
-	    String userID = tfUserID.getText().trim();
+	    String userID = tfUserID.getText();
 	    String password = tfPassword.getText();
-	
+
 	    if (userID.isEmpty() || password.isEmpty()) {
 	        showAlert("Por favor, complete todos los campos.");
-	    return;
-	}
-	
-	   
-	// Verificar si el usuario existe en la base de datos
-	LinkedList<User> users = UserData.getUsers();
-	boolean loginSuccessful = false;
-	
-	for (User user : users) {
-	    if (user.getId() == Integer.parseInt(userID) && user.getPassword().equals(password)) {
-	        loginSuccessful = true;
-	        break;
+	        return;
 	    }
-	}
-	
-	if (loginSuccessful) {
-	    showAlert("Inicio de sesión exitoso.");
-		    try {
+
+	    // Verificar si el usuario existe en la base de datos
+	    LinkedList<User> users = UserData.getUsers();
+	    boolean loginSuccessful = false;
+
+	    for (User user : users) {
+	        // Asegúrate de que el ID se está comparando correctamente
+	        // Usamos equals() para comparar objetos de tipo Integer
+	        if (user.getId() == Integer.parseInt(userID)
+	                && user.getPassword().equals(password)
+	                && user.getTipe().equals("Personal")) { // Verificar que el tipo sea "personal"
+	            loginSuccessful = true;
+	            break;
+	        }
+	    }
+
+	    if (loginSuccessful) {
+	        showAlert("Inicio de sesión exitoso.");
+	        try {
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
 	            Parent root = loader.load();
 	            UIProfileController controller = loader.getController();
@@ -88,19 +91,20 @@ private PasswordField tfPassword;
 	            Stage stage = new Stage();
 	            stage.setScene(scene);
 	            stage.show();
-	
-//	            stage.setOnCloseRequest(e -> controller.closeWindows());
+
+	            // Cerrar la ventana de inicio de sesión
 	            Stage temp = (Stage) this.btnLogin.getScene().getWindow();
 	            temp.close();
-	
+
 	        } catch (IOException e) {
 	            e.printStackTrace();
-	            JOptionPane.showMessageDialog(null, "Error al abrir la ventana de profile.");
+	            JOptionPane.showMessageDialog(null, "Error al abrir la ventana de perfil.");
 	        }
 	    } else {
-	    showAlert("Usuario o contraseña incorrectos.");
+	        showAlert("Usuario o contraseña incorrectos o no tiene acceso.");
 	    }
 	}
+
 	
 	private void showAlert(String message) {
 	    Alert alert = new Alert(Alert.AlertType.INFORMATION);
