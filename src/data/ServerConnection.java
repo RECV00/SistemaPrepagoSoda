@@ -16,14 +16,15 @@ import domain.User;
 public class ServerConnection {
 
 
-    private ServerSocket serverSocket;
-   
+	private ServerSocket serverSocket;
+
     public ServerConnection() {
         // Constructor vacío, o puedes pasar configuraciones si lo necesitas
     }
+
     public void startServer() {
         try {
-            serverSocket = new ServerSocket(12354); // Puerto del servidor
+            serverSocket = new ServerSocket(12353); // Puerto del servidor
             System.out.println("Servidor iniciado, esperando conexiones...");
 
             while (true) {
@@ -35,6 +36,7 @@ public class ServerConnection {
             e.printStackTrace();
         }
     }
+
     private class ClientHandler extends Thread {
         private Socket socket;
         private PrintWriter out;
@@ -84,7 +86,6 @@ public class ServerConnection {
                 case "PURCHASE":
                     processPurchase(parts);
                     break;
-
                 default:
                     System.out.println("Comando no reconocido: " + command);
                     break;
@@ -104,15 +105,14 @@ public class ServerConnection {
             }
 
             if (loginSuccessful) {
-                out.println("SUCCESS"+","+userID); // Respuesta de éxito   
-            }else {
-                
+                out.println("SUCCESS," + userID); // Respuesta de éxito   
+            } else {
                 out.println("ERROR,Credenciales inválidas");
             }
         }
 
         private void sendDishList(String day, String time) {
-            System.out.print(" DIA:" + day + " Horario:" + time);
+            System.out.print("DIA: " + day + " Horario: " + time);
             LinkedList<Dishe> dishes = LogicUIServiceRequestController.getDishesForDayAndTime(day, time);
             System.out.println(dishes);
             StringBuilder response = new StringBuilder("DISH_LIST");
@@ -124,7 +124,7 @@ public class ServerConnection {
 
             // Enviar la respuesta al cliente
             out.println(response.toString());
-           }
+        }
 
         private void processPurchase(String[] parts) {
             if (userId == null) {
@@ -132,27 +132,38 @@ public class ServerConnection {
                 return; // Salir si el usuario no ha iniciado sesión
             }
 
+            // Crear una lista de órdenes
             LinkedList<Order> orders = new LinkedList<>();
 
-            for (int i = 1; i < parts.length; i += 3) { // Cambiado para empezar desde 1
-                String nameProduct = parts[i];
-                int amount = Integer.parseInt(parts[i + 1]);
-                double total = Double.parseDouble(parts[i + 2]);
+            // Procesar los elementos de la compra
+            for (int i = 1; i < parts.length; i += 3) { // Comenzamos desde 1 para obtener los datos correctos
+                if (i + 2 < parts.length) { // Asegurarnos de que hay suficientes elementos
+                    String dishName = parts[i]; // Nombre del platillo
+                    int amount = Integer.parseInt(parts[i + 1]); // Cantidad (no se utiliza aquí)
+                    double total = Double.parseDouble(parts[i + 2]); // Total (no se utiliza aquí)
 
-                char isState = getOrderState("pendiente"); // Aquí decides el estado
+                    char isState = getOrderState("pendiente"); // Definir el estado inicial como "pendiente"
 
-                // Crear la orden y agregarla a la lista
-                Order order = new Order(nameProduct, amount, total, isState, userId); // Utiliza userId
-                orders.add(order);
+                    // Crear la orden
+                    Order order = new Order(dishName, amount, total, isState, userId); // Utiliza userId
+                    orders.add(order);
+                } else {
+                    out.println("ERROR, Información de compra incompleta");
+                    return; // Salir si la información de compra no es completa
+                }
             }
 
             try {
-                // Guardar todas las órdenes
+                // Guardar todas las órdenes y construir la respuesta
+                StringBuilder response = new StringBuilder("ORDER_STATUS_RESPONSE");
                 for (Order order : orders) {
                     OrderData.saveOrder(order);
+                    // Agregar información del nombre y estado de la orden a la respuesta
+                    response.append(",").append(order.getNameProduct())
+                            .append(",").append(order.getIsState()); // Obtener el estado de la orden
                 }
-                out.println("SUCCESS, Compra realizada exitosamente");
-               
+
+                out.println(response.toString());
             } catch (Exception e) {
                 e.printStackTrace();
                 out.println("ERROR, Error al procesar la compra");
@@ -175,4 +186,5 @@ public class ServerConnection {
             }
         }
     }
+
 }

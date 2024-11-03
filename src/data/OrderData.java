@@ -40,7 +40,6 @@ public class OrderData {
 	        stmt.setString(1, or.getNameProduct());
 	        stmt.setInt(2, or.getAmount());
 	        stmt.setDouble(3, or.getTotal());
-//	       setString para almacenar el char como una cadena
 	        stmt.setString(4, String.valueOf(or.getIsState()));
 	        stmt.setString(5, or.getIdStudent());
 
