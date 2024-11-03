@@ -128,7 +128,7 @@ public class ServerConnection {
 
         private void processPurchase(String[] parts) {
             if (userId == null) {
-                out.println("ERROR,Usuario no autenticado");
+                out.println("ERROR, Usuario no autenticado");
                 return; // Salir si el usuario no ha iniciado sesión
             }
 
@@ -139,15 +139,22 @@ public class ServerConnection {
             for (int i = 1; i < parts.length; i += 3) { // Comenzamos desde 1 para obtener los datos correctos
                 if (i + 2 < parts.length) { // Asegurarnos de que hay suficientes elementos
                     String dishName = parts[i]; // Nombre del platillo
-                    int amount = Integer.parseInt(parts[i + 1]); // Cantidad (no se utiliza aquí)
-                    double total = Double.parseDouble(parts[i + 2]); // Total (no se utiliza aquí)
+                    int amount;
+                    double total;
+
+                    try {
+                        amount = Integer.parseInt(parts[i + 1]); // Cantidad
+                        total = Double.parseDouble(parts[i + 2]); // Total
+                    } catch (NumberFormatException e) {
+                        out.println("ERROR, Formato de cantidad o total inválido");
+                        return; // Salir si hay un error en el formato
+                    }
 
                     char isState = getOrderState("pendiente"); // Definir el estado inicial como "pendiente"
 
                     // Crear la orden
                     Order order = new Order(dishName, amount, total, isState, userId); // Utiliza userId
                     orders.add(order);
-                    OrderData.saveOrder(order);
                 } else {
                     out.println("ERROR, Información de compra incompleta");
                     return; // Salir si la información de compra no es completa
