@@ -167,22 +167,25 @@ public class UIViewStudentController {
 	// Event Listener on Button[#btnRecharge].onAction
 	@FXML
 	public void handleRecharge() {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRecharge.fxml"));
-			Parent root = loader.load();
-			UIRechargeController controller = loader.getController();
-			Scene scene = new Scene(root);
-			Stage stage = new Stage();
-			stage.setScene(scene);
-			stage.show();	
-			stage.setOnCloseRequest(e -> controller.closeWindows());
-			Stage temp = (Stage) this.btnRecharge.getScene().getWindow();
-			temp.close();
-			
-		}catch(IOException e){
-			
-		}
+		User selectedUser = userTable.getSelectionModel().getSelectedItem();
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRecharge.fxml"));
+	        Parent root = loader.load();
+	        UIRechargeController controller = loader.getController();
+	        controller.recoveredData(selectedUser);  // Asegúrate de pasar el usuario seleccionado
+	        Scene scene = new Scene(root);
+	        Stage stage = new Stage();
+	        stage.setScene(scene);
+	        stage.show();    
+	        stage.setOnCloseRequest(e -> controller.closeWindows());
+	        Stage temp = (Stage) this.btnRecharge.getScene().getWindow();
+	        temp.close();
+	        
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
+
     @FXML
     public void returnMain(ActionEvent event) {
         // Lógica para regresar al inicio

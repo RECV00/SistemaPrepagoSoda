@@ -146,6 +146,26 @@ public class UserData {
 	    }
 	    return photoLink;
 	}
-
+	
+	public static User getStudentByCarnet(int cedula) {
+	    User photoLink = null;
+	    try {
+	        Connection cn = DBConnection.getConecction();
+	        String query = "{call spGetPhotoLinkByCedula(?)}";
+	        CallableStatement stmt = cn.prepareCall(query);	        
+	        // Establece el parámetro de cédula
+	        stmt.setInt(2, cedula);	        
+	        // Ejecuta el SP y obtiene el resultado
+	        ResultSet rs = stmt.executeQuery();	        
+	        // Si hay un resultado, obtener el enlace de la foto
+	        if (rs.next()) {
+//	            photoLink = rs.getString("photoRoute");
+	        } 
+	    } catch (SQLException e) {
+	        System.out.println("UserData.getPhotoLinkByCedula: " + e.getMessage());
+	    }
+	    return photoLink;
+	   
+	}
 
 }

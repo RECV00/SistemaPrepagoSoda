@@ -30,7 +30,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 
-public class UIServiceRequestController {
+public class UIViewDishesController {
 	
     @FXML
     private ComboBox<Student> cbStudentsList;
@@ -65,8 +65,6 @@ public class UIServiceRequestController {
    
     @FXML
     public void initialize() {
-//        // Configurar ComboBox de estudiantes
-       cbStudentsList.setItems(FXCollections.observableArrayList(StudentData.getStudentList()));
 //        // Configurar ComboBox de días
        cbServiceDay.getItems().addAll("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
 //        // Configurar columnas de la TableView
@@ -138,12 +136,6 @@ public class UIServiceRequestController {
                 
             case 1: // Actualizar            
                 updateDishes(selectedDishe);
-                break;
-                
-            case 2: // Solicitar
-            	lServiceRequest.handleRequestDishe(selectedDishe, cbStudentsList);
-            	lServiceRequest.updateComboBox(cbStudentsList); 
-            	tvDisheData.refresh();
                 break;
                 
             default:

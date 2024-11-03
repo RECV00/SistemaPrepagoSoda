@@ -15,9 +15,11 @@ import java.util.stream.Collectors;
 
 import data.RechargeData;
 import data.StudentData;
+import data.UserData;
 import domain.Recharge;
 import domain.Student;
 import domain.StudentRecharge;
+import domain.User;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TableColumn;
@@ -60,7 +62,7 @@ public class UIBinnacleController {
         // Convertir las recargas a objetos StudentRecharge usando LinkedList<StudentRecharge>
         LinkedList<StudentRecharge> studentRecharges = recharges.stream().map(recharge -> {
             // Obtener el nombre del estudiante asociado al carnet
-            Student student = StudentData.getStudentByCarnet(recharge.getCarnetStudent());
+            User student = UserData.getStudentByCarnet(Integer.parseInt(recharge.getCarnetStudent()));
             String studentName = student != null ? student.getName() : "Desconocido";
             
             return new StudentRecharge(

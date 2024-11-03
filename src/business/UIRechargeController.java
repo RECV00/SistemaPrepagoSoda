@@ -12,9 +12,11 @@ import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import data.RechargeData;
 import data.StudentData;
+import data.UserData;
 import domain.StudentRecharge;
 import domain.Recharge;
 import domain.Student;
+import domain.User;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.DatePicker;
@@ -38,12 +40,12 @@ public class UIRechargeController {
     private Button bBack;
 
     private double saldo = 0.0;
-    private Student currentStudent;
+    private User currentStudent;
 
-    public void recoveredData(Student student) {
+    public void recoveredData(User student) {
         if (student != null) {
             currentStudent = student;
-            tfCarnetStudent.setText(student.getCarnetStudent());
+            tfCarnetStudent.setText(String.valueOf(student.getId()));
             tfCarnetStudent.setEditable(false);
             dpDateEntry.setValue(LocalDate.now());
             saldo = student.getMoneyAvailable();
@@ -61,27 +63,24 @@ public class UIRechargeController {
             return;
         }
 
-        // Crear un nuevo objeto StudentRecharge y guardarlo
-        String carnet = String.valueOf(currentStudent.getCarnetStudent());
+        // Crear un nuevo objeto StudentRecharge y guardarlo en JSON
+        String carnet = String.valueOf(currentStudent.getId());
+        StudentRecharge newRecharge = new StudentRecharge(String.valueOf(currentStudent.getId()), currentStudent.getName(), newDateEntry, newAmount);
+        Recharge recharge = new Recharge(carnet, amountToAdd, newDateEntry);
         
-        StudentRecharge newRecharge = new StudentRecharge(currentStudent.getCarnetStudent(), currentStudent.getName(), newDateEntry, newAmount);
-        Recharge recharge = new Recharge(carnet, amountToAdd,newDateEntry);
-        
-        boolean rechargeSaved = RechargeData.saveRecharge(recharge);
+        boolean rechargeSaved = RechargeData.saveRecharge(recharge); // Guardar en JSON
 
-        if (rechargeSaved) {
-            currentStudent.setMoneyAvailable(newAmount);
-            boolean studentUpdated = StudentData.updateStudent(currentStudent, currentStudent.getCarnetStudent());
-
-            if (studentUpdated) {
-                JOptionPane.showMessageDialog(null, "Recarga guardada y monto actualizado exitosamente.");
+            if (rechargeSaved) {
+                // Ahora actualizar también en la base de datos
+                currentStudent.setMoneyAvailable(newAmount);
+                UserData.updateUser(currentStudent);  // Este método actualizará la base de datos
+                JOptionPane.showMessageDialog(null, "Recarga guardada y monto actualizado exitosamente en JSON y base de datos.");
             } else {
-                JOptionPane.showMessageDialog(null, "Error al actualizar el monto del estudiante.");
+                JOptionPane.showMessageDialog(null, "Error al actualizar el monto del estudiante en JSON.");
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Error al guardar la recarga en el archivo JSON.");
-        }
+       
     }
+
 
     @FXML
     public void returnMain(ActionEvent event) {

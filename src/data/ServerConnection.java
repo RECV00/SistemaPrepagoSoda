@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 
@@ -84,8 +85,8 @@ public class ServerConnection {
                     sendDishList(day, time);
                     break;
                 case "PURCHASE":
-                    processPurchase(parts);
-                    System.out.println("ESTE ES PURCHASE:   "+parts);
+                    userId = parts[1]; // Extraer la cédula o ID del usuario desde el índice 1
+                    processPurchase(parts, userId);
                     break;
                 default:
                     System.out.println("Comando no reconocido: " + command);
@@ -127,19 +128,17 @@ public class ServerConnection {
             out.println(response.toString());
         }
 
-        private void processPurchase(String[] parts) {
-        	 System.out.println("PARTES:   "+parts);
-            if (userId == null) {
+        private void processPurchase(String[] parts, String userId) {
+            if (userId == null || userId.isEmpty()) {
                 out.println("ERROR, Usuario no autenticado");
-                return; // Salir si el usuario no ha iniciado sesión
+                return; // Salir si el usuario no ha iniciado sesión o no se recibió un ID
             }
 
-            // Crear una lista de órdenes
             LinkedList<Order> orders = new LinkedList<>();
 
-            // Procesar los elementos de la compra
-            for (int i = 1; i < parts.length; i += 3) { // Comenzamos desde 1 para obtener los datos correctos
-                if (i + 2 < parts.length) { // Asegurarnos de que hay suficientes elementos
+            // Procesar cada orden
+            for (int i = 2; i < parts.length; i += 3) { // Iniciar en 2 para saltar el userId
+                if (i + 2 < parts.length) {
                     String dishName = parts[i]; // Nombre del platillo
                     int amount;
                     double total;
@@ -147,40 +146,31 @@ public class ServerConnection {
                     try {
                         amount = Integer.parseInt(parts[i + 1]); // Cantidad
                         total = Double.parseDouble(parts[i + 2]); // Total
-                        System.out.println("TRY FOR:   "+parts);
                     } catch (NumberFormatException e) {
                         out.println("ERROR, Formato de cantidad o total inválido");
                         return; // Salir si hay un error en el formato
                     }
 
-                    char isState = getOrderState("P"); // Definir el estado inicial como "pendiente"
+                    char isState = getOrderState("pendiente"); // Estado inicial como "pendiente"
 
-                    // Crear la orden
-                    Order order = new Order(dishName, amount, total, isState, userId); // Utiliza userId
+                    // Crear y guardar la orden
+                    Order order = new Order(dishName, amount, total, isState, userId);
                     orders.add(order);
-                    System.out.println("ORDESSS:  "+order);
-                    OrderData.saveOrder(order);
+                    OrderData.saveOrder(order); // Guardar la orden en la base de datos
                 } else {
                     out.println("ERROR, Información de compra incompleta");
                     return; // Salir si la información de compra no es completa
                 }
             }
 
-            try {
-                // Guardar todas las órdenes y construir la respuesta
-                StringBuilder response = new StringBuilder("ORDER_STATUS_RESPONSE");
-                for (Order order : orders) {
-                    OrderData.saveOrder(order);
-                    // Agregar información del nombre y estado de la orden a la respuesta
-                    response.append(",").append(order.getNameProduct())
-                            .append(",").append(order.getIsState()); // Obtener el estado de la orden
-                }
-
-                out.println(response.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-                out.println("ERROR, Error al procesar la compra");
+            // Enviar el estado de las órdenes al cliente
+            StringBuilder response = new StringBuilder("ORDER_STATUS_RESPONSE");
+            for (Order order : orders) {
+                response.append(",").append(order.getNameProduct())
+                        .append(",").append(order.getIsState()); // Agregar nombre del platillo y estado
             }
+
+            out.println(response.toString());
         }
 
         public char getOrderState(String stateInput) {

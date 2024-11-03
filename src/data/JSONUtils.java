@@ -10,6 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import domain.Student;
 import domain.Dishe;
 import domain.Recharge;
+import domain.User;
 public class JSONUtils<T> {
 
 //	ruta
@@ -44,12 +45,12 @@ public List<T> getElements(Class<T> temp) throws IOException{
 	return mapper.readValue(file, mapper.getTypeFactory().constructCollectionType(List.class, temp));
 }
 
-public void updateElementStudent(T updatedElement, String carnet) throws IOException {
+public void updateElementStudent(T updatedElement, int carnet) throws IOException {
     List<T> elements = getElements((Class<T>) updatedElement.getClass());
     boolean found = false;
     for (int i = 0; i < elements.size(); i++) {
         T element = elements.get(i);
-        if (((Student) element).getCarnetStudent().equalsIgnoreCase(carnet)) {
+        if (((User) element).getId()==carnet) {
             elements.set(i, updatedElement);
             found = true;
             break;
