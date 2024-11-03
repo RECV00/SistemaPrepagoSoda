@@ -24,7 +24,7 @@ public class ServerConnection {
 
     public void startServer() {
         try {
-            serverSocket = new ServerSocket(12359); // Puerto del servidor
+            serverSocket = new ServerSocket(12360); // Puerto del servidor
             System.out.println("Servidor iniciado, esperando conexiones...");
 
             while (true) {
@@ -85,6 +85,7 @@ public class ServerConnection {
                     break;
                 case "PURCHASE":
                     processPurchase(parts);
+                    System.out.println("ESTE ES PURCHASE:   "+parts);
                     break;
                 default:
                     System.out.println("Comando no reconocido: " + command);
@@ -127,6 +128,7 @@ public class ServerConnection {
         }
 
         private void processPurchase(String[] parts) {
+        	 System.out.println("PARTES:   "+parts);
             if (userId == null) {
                 out.println("ERROR, Usuario no autenticado");
                 return; // Salir si el usuario no ha iniciado sesión
@@ -145,6 +147,7 @@ public class ServerConnection {
                     try {
                         amount = Integer.parseInt(parts[i + 1]); // Cantidad
                         total = Double.parseDouble(parts[i + 2]); // Total
+                        System.out.println("TRY FOR:   "+parts);
                     } catch (NumberFormatException e) {
                         out.println("ERROR, Formato de cantidad o total inválido");
                         return; // Salir si hay un error en el formato
@@ -155,6 +158,8 @@ public class ServerConnection {
                     // Crear la orden
                     Order order = new Order(dishName, amount, total, isState, userId); // Utiliza userId
                     orders.add(order);
+                    System.out.println("ORDESSS:  "+order);
+                    OrderData.saveOrder(order);
                 } else {
                     out.println("ERROR, Información de compra incompleta");
                     return; // Salir si la información de compra no es completa
