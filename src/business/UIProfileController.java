@@ -99,17 +99,14 @@ public class UIProfileController {
     	try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewDishes.fxml"));
 			Parent root = loader.load();
-		
+			UIViewDishesController controller = loader.getController();
+			controller.setServerConnection(serverConnection);
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.show();	
-			
-			if(fxmlPath.equals("presentation/UIViewDishes.fxml")) {
-				UIViewDishesController controller = loader.getController();
-				controller.setServerConnection(serverConnection);
-			}			
-			Stage temp = (Stage) this.btnInventario.getScene().getWindow();
+			stage.setOnCloseRequest(e -> controller.closeWindows());
+			Stage temp = (Stage) this.btnRegisterStudent.getScene().getWindow();
 			temp.close();
 			
 		}catch(IOException e){
