@@ -94,7 +94,27 @@ public static LinkedList<Order > getOrders(){
 	return list;
 }
 		
-		
+public static void updateOrderState(String nameProduct, String idStudent, char newState) {
+    try {
+        Connection cn = DBConnection.getConecction();
+        
+        // Llamada al procedimiento almacenado para actualizar el estado de la orden
+        String query = "{call spUpdateOrderState(?, ?, ?)}";
+        CallableStatement stmt = cn.prepareCall(query);
+        
+        // Establecer los parámetros
+        stmt.setString(1, nameProduct);
+        stmt.setString(2, idStudent);
+        stmt.setString(3, String.valueOf(newState));
+        
+        // Ejecutar el procedimiento almacenado
+        stmt.executeUpdate();
+        
+    } catch (SQLException e) {
+        System.out.println("UserData.updateOrderState: " + e.getMessage());
+    }
+}
+
 }
 
 
