@@ -13,9 +13,7 @@
     <!-- Top Header -->
     <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #d32f2f; -fx-padding: 10;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <ImageView fx:id="userIcon" fitHeight="40" fitWidth="40">
-            <image>
-                <Image url="@../../media/user.png" /> <!-- Cambia a la ruta de tu imagen de usuario -->
-            </image>
+            
         </ImageView>
         <Label style="-fx-font-size: 20; -fx-text-fill: white;" text="BIENVENIDO AL SISTEMA DE PREPAGO SODA" />
     </HBox>

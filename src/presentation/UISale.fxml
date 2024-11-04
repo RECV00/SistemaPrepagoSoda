@@ -44,11 +44,11 @@
         </AnchorPane>
 
         <!-- Panel del Carrito de Compras -->
-        <AnchorPane prefHeight="538.0" prefWidth="486.0">
+        <AnchorPane prefHeight="538.0" prefWidth="482.0">
             <VBox layoutX="10.0" layoutY="10.0" prefWidth="430.0" spacing="10.0">
                 <TableView fx:id="cartTableView" prefHeight="300.0">
                     <columns>
-                        <TableColumn fx:id="studentIdColumn" prefWidth="80.0" text="ID Estudiante" /> <!-- Nueva columna para ID Estudiante -->
+                        <TableColumn fx:id="studentIdColumn" prefWidth="80.0" text="ID Estudiante" /> 
                         <TableColumn fx:id="descriptionColumn" prefWidth="114.0" text="Descripción" />
                         <TableColumn fx:id="quantityColumn" prefWidth="85.0" text="Cantidad" />
                         <TableColumn fx:id="totalColumn" prefWidth="78.0" text="Total" />

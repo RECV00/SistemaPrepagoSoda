@@ -36,34 +36,40 @@ public class UIProfileController {
     
     private ServerConnection serverConnection;
 
+
     public UIProfileController() {
-        this.serverConnection = new ServerConnection();
-        new Thread(() -> serverConnection.startServer()).start(); // Iniciar el servidor en un nuevo hilo
+        // Solo se inicia el servidor la primera vez
+        if (serverConnection == null) {
+            serverConnection = new ServerConnection();
+            new Thread(() -> serverConnection.startServer()).start(); // Iniciar el servidor en un nuevo hilo
+        }
     }
-    @FXML
-    public void initialize() {
-    	
+//    @FXML
+    public void initialize(String userId) {
+    	// Cargar el perfil del usuario al iniciar
+        loadUserProfile(userId);
+    	 System.out.println("CEDULAr:"+ userId);
         // Inicializar cualquier lógica necesaria al cargar la vista
         // welcomeLabel.setText("Bienvenido al sistema de prepago soda");
 
         // Puedes agregar listeners para los botones si es necesario
-    	btnPedidos.setOnAction(event -> openPointOfSale());
+    	btnPedidos.setOnAction(event -> openPointOfSale(userId));
         btnInventario.setOnAction(event -> openInventory());
         btnRegisterStudent.setOnAction(event -> openViewStudent());
         btnUsuarios.setOnAction(event -> openUsers());
         btnConfiguracion.setOnAction(event -> openConfiguration());
         btnBinnacle.setOnAction(event -> openBinnacle());
-    
-        // Cargar el perfil del usuario al iniciar
+        
         
     }
     public void loadUserProfile(String userId) {
         // Obtener la ruta de la foto del usuario usando el ID de usuario
-        String photoPath = UserData.getPhotoLinkByCedula(Integer.parseInt(userId)); 
-
+        String photoPath = "media/402480420.png"; 
+        System.out.println("LINK:"+UserData.getPhotoLinkByCedula(Integer.parseInt(userId)));
         if (photoPath != null && !photoPath.isEmpty()) {
             // Cargar la imagen en el ImageView
-            Image userImage = new Image("file:" + photoPath); // Asegúrate de que la ruta sea correcta
+        	Image userImage = new Image("file:"+photoPath);
+ // Asegúrate de que la ruta sea correcta
             userIcon.setImage(userImage); // Establecer la imagen en el ImageView
         } else {
             System.out.println("No se encontró la foto del usuario.");
@@ -71,11 +77,14 @@ public class UIProfileController {
         }
 
     }
-    private void openPointOfSale() {
+    private void openPointOfSale(String userId) {
     	try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UISale.fxml"));
 			Parent root = loader.load();
 			UISaleController controller = loader.getController();
+			controller.loadUserProfile(userId);
+			controller.userLoggedIn(userId);
+			controller.setServerConnection(serverConnection);
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
@@ -94,6 +103,7 @@ public class UIProfileController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewDishes.fxml"));
 			Parent root = loader.load();
 			UIViewDishesController controller = loader.getController();
+			controller.setServerConnection(serverConnection);
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
@@ -112,6 +122,7 @@ public class UIProfileController {
     			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewStudent.fxml"));
     			Parent root = loader.load();
     			UIViewStudentController controller = loader.getController();
+    			controller.setServerConnection(serverConnection);
     			Scene scene = new Scene(root);
     			Stage stage = new Stage();
     			stage.setScene(scene);
@@ -132,6 +143,7 @@ public class UIProfileController {
     			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewAdmin.fxml"));
     			Parent root = loader.load();
     			UIViewAdminController controller = loader.getController();
+    			controller.setServerConnection(serverConnection);
     			Scene scene = new Scene(root);
     			Stage stage = new Stage();
     			stage.setScene(scene);
@@ -149,6 +161,7 @@ public class UIProfileController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIBinnacle.fxml"));
 			Parent root = loader.load();
 			UIBinnacleController controller = loader.getController();
+			controller.setServerConnection(serverConnection);
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);

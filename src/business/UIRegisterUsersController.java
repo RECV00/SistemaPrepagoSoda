@@ -56,7 +56,7 @@ public class UIRegisterUsersController {
     // Initialize method to set up ComboBoxes
     @FXML
     public void initialize() {
-        cbType.getItems().addAll("Personal", "Estudiante");
+        cbType.getItems().addAll("Estudiante","Personal");
         cbType.getSelectionModel().selectFirst();
         cbActive.getItems().addAll("Sí", "No");
         cbActive.getSelectionModel().selectFirst();
@@ -130,10 +130,8 @@ public class UIRegisterUsersController {
         cbGender.setValue(String.valueOf(user.getGender()? "Femenino" : "Maculino" ));
         tfMoneyAvailable.setText(String.valueOf(user.getMoneyAvailable()));
 
-        // Habilitar campos para la edición
-        tfUserID.setDisable(false); // Asegúrate de que esté habilitado
-        tfMoneyAvailable.setDisable(user.getTipe().equals("Personal")); // Habilitar según el tipo
-
+        tfUserID.setDisable(true); 
+        tfMoneyAvailable.setDisable(true);
         // Cargar imagen
         File photoFile = new File(user.getPhotoRoute());
         if (photoFile.exists()) {

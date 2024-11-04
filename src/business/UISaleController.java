@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
@@ -17,6 +18,7 @@ import javafx.util.Callback;
 
 import domain.Order;
 import data.OrderData;
+import data.ServerConnection;
 import data.UserData;
 
 import java.io.IOException;
@@ -61,7 +63,12 @@ public class UISaleController {
     private Button bBack;
     
     private ObservableList<Order> cartItems;
-
+    
+    private ServerConnection serverConnection;
+    
+    public void setServerConnection(ServerConnection serverConnection) {
+        this.serverConnection = serverConnection;
+    }
     // Inicialización y lógica
     @FXML
     public void initialize() {
@@ -80,16 +87,16 @@ public class UISaleController {
         cartTableView.setItems(cartItems);
 
         // Configurar columnas
-        descriptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNameProduct()));
-        quantityColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAmount()));
-        totalColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotal()));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("nameProduct"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
 
         // Configurar columna de estado
-        stateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getIsState())));
+        stateColumn.setCellValueFactory(new PropertyValueFactory<>("isState"));
         stateColumn.setCellFactory(getStateCellFactory());
 
         // Configurar columna de ID Estudiante
-        studentIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIdStudent()));
+        studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("idStudent"));
     }
 
     private void loadOrdersFromDatabase() {
