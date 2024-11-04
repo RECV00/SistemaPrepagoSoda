@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.PasswordField;
 import javafx.event.ActionEvent;
+import data.ServerConnection;
 import data.UserData;
 import domain.User;
 
@@ -29,9 +30,15 @@ private TextField tfUserID;
 @FXML
 private PasswordField tfPassword;
 
+ private ServerConnection serverConnection;
+
+  public void setServerConnection(ServerConnection serverConnection) {
+    this.serverConnection = serverConnection;
+  }
+  
     @FXML
     public void initialize() {
-    
+
 	}
 	
 	@FXML
@@ -86,6 +93,7 @@ private PasswordField tfPassword;
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
 	            Parent root = loader.load();
 	            UIProfileController controller = loader.getController();
+	            controller.setServerConnection(serverConnection); 
 	            controller.loadUserProfile(userID);
 	            controller.initialize(userID);
 	            Scene scene = new Scene(root);
