@@ -87,8 +87,8 @@ public class UIProfileController {
 			stage.show();
 			if(fxmlPath.equals("presentation/UISale.fxml")) {
 				UISaleController controller = loader.getController();
-				controller.loadUserProfile(userId);
-				controller.userLoggedIn(userId);
+//				controller.loadUserProfile(userId);
+//				controller.userLoggedIn(userId);
 				controller.setServerConnection(serverConnection);
 			}
 			

@@ -32,16 +32,6 @@ public class UISaleController {
     @FXML
     private Label userNameLabel;
 
-    // Panel de Productos
-    @FXML
-    private ComboBox<String> categoryComboBox;
-    @FXML
-    private ComboBox<String> priceComboBox;
-    @FXML
-    private TextField searchField;
-    @FXML
-    private FlowPane productsFlowPane;
-
     // Panel del Carrito de Compras
     @FXML
     private TableView<Order> cartTableView;
@@ -55,8 +45,6 @@ public class UISaleController {
     private TableColumn<Order, String> stateColumn;
     @FXML
     private TableColumn<Order, String> studentIdColumn; // Columna de ID Estudiante
-    @FXML
-    private TextField discountField;
     @FXML
     private Label totalLabel;
     @FXML
@@ -72,14 +60,8 @@ public class UISaleController {
     // Inicialización y lógica
     @FXML
     public void initialize() {
-        initializeComboBoxes();
         initializeCart();
         loadOrdersFromDatabase();
-    }
-
-    private void initializeComboBoxes() {
-        categoryComboBox.getItems().addAll("Bebidas", "Comidas Rápidas", "Postres");
-        priceComboBox.getItems().addAll("Menor a $50", "$50 - $100", "Mayor a $100");
     }
 
     private void initializeCart() {
@@ -93,7 +75,7 @@ public class UISaleController {
 
         // Configurar columna de estado
         stateColumn.setCellValueFactory(new PropertyValueFactory<>("isState"));
-        stateColumn.setCellFactory(getStateCellFactory());
+//        stateColumn.setCellFactory(getStateCellFactory());
 
         // Configurar columna de ID Estudiante
         studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("idStudent"));
