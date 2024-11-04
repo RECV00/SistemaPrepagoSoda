@@ -119,12 +119,6 @@ public class UISaleController {
         System.out.println("Historial de órdenes actualizado.");
     }
 
-    @FXML
-    private void applyDiscount() {
-        // Lógica para aplicar el descuento basado en el valor del campo discountField
-        String discountText = discountField.getText();
-        System.out.println("Aplicando descuento: " + discountText);
-    }
 
     @FXML
     private void calculateTotal() {
