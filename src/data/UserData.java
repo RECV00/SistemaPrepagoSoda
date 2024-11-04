@@ -243,6 +243,29 @@ public class UserData {
 
 	    return studentName;  // Retorna el nombre del estudiante
 	}
+	public static boolean hasSufficientFunds(int cedula, double orderTotal) {
+	    boolean hasFunds = false;
+
+	    try {
+	        Connection cn = DBConnection.getConecction();
+	        String query = "{call spCheckStudentFunds(?, ?, ?)}";
+	        CallableStatement stmt = cn.prepareCall(query);
+	        stmt.setInt(1, cedula);
+	        stmt.setDouble(2, orderTotal);
+	        
+	        // Registro de salida
+	        stmt.registerOutParameter(3, java.sql.Types.BOOLEAN);
+	        stmt.execute();
+	        
+	        // Obtener el valor de retorno
+	        hasFunds = stmt.getBoolean(3);
+	        
+	    } catch (SQLException e) {
+	        System.out.println("UserData.hasSufficientFunds: " + e.getMessage());
+	    }
+
+	    return hasFunds;
+	}
 
 
 }
