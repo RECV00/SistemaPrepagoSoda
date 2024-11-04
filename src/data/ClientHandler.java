@@ -138,22 +138,21 @@ public class ClientHandler extends Thread {
                 Order order = new Order(dishName, amount, total, isState, userId);
                 orders.add(order);
                 OrderData.saveOrder(order); // Guardar la orden
+           
+                // Notificar al cliente del estado inicial
+                notifyOrderStatusToClient(dishName, isState);
             } else {
                 out.println("ERROR, Información de compra incompleta");
                 return; // Salir si la información de compra no es completa
             }
-        }
-
-        // Enviar el estado de las órdenes al cliente
-        StringBuilder response = new StringBuilder("ORDER_STATUS_RESPONSE");
-        for (Order order : orders) {
-            response.append(",").append(order.getNameProduct())
-                    .append(",").append(order.getIsState()); // Agregar nombre del platillo y estado
-        }
-
-        out.println(response.toString());
+        }     
     }
-
+    public void notifyOrderStatusToClient(String dishName, char newState) {
+        StringBuilder response = new StringBuilder("ORDER_STATUS_UPDATE");
+        response.append(",").append(dishName).append(",").append(newState);
+        out.println(response.toString()); // Enviar la respuesta al cliente
+    }
+    
     public char getOrderState(String stateInput) {
         switch (stateInput.toLowerCase()) {
             case "pendiente":

@@ -43,6 +43,10 @@ public class UIProfileController {
             new Thread(() -> serverConnection.startServer()).start(); // Iniciar el servidor en un nuevo hilo
         
     }
+    
+    public void setServerConnection(ServerConnection serverConnection) {
+        this.serverConnection = serverConnection;
+    }
 //    @FXML
     public void initialize(String userId) {
     	// Cargar el perfil del usuario al iniciar

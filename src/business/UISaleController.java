@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.util.Callback;
 
 import domain.Order;
+import data.ClientHandler;
 import data.OrderData;
 import data.ServerConnection;
 import data.UserData;
@@ -55,6 +56,8 @@ public class UISaleController {
     private ObservableList<Order> cartItems;
     
     private ServerConnection serverConnection;
+    
+    private  ClientHandler clientHandler;
     
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
@@ -140,36 +143,12 @@ public class UISaleController {
         }
     }
 
-    // Configuración de la columna de estado con un ComboBox en cada celda para cambiar el estado
-    private Callback<TableColumn<Order, String>, TableCell<Order, String>> getStateCellFactory() {
-        return column -> new TableCell<>() {
-            private final ComboBox<String> comboBox = new ComboBox<>();
-
-            {
-                comboBox.getItems().addAll("Pendiente", "Preparado", "Entregado");
-                comboBox.setOnAction(event -> {
-                    Order order = getTableView().getItems().get(getIndex());
-                    char newState = comboBox.getValue().charAt(0);
-                    updateOrderState(order, newState);
-                });
-            }
-
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setGraphic(null);
-                } else {
-                    comboBox.setValue(getStateString(item.charAt(0)));
-                    setGraphic(comboBox);
-                }
-            }
-        };
-    }
-
+   
     private void updateOrderState(Order order, char newState) {
         OrderData.updateOrderState(order.getNameProduct(), order.getIdStudent(), newState);
         order.setIsState(newState); // Actualiza el estado localmente en el objeto `Order`
+     // Llamar a ClientHandler para notificar al cliente del cambio de estado
+        clientHandler.notifyOrderStatusToClient(order.getNameProduct(), newState);
         cartTableView.refresh(); // Refresca la tabla para mostrar el nuevo estado
     }
 
@@ -202,6 +181,10 @@ public class UISaleController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
             Parent root = loader.load();
+         // Obtener el controlador de la nueva ventana
+            UIProfileController profileController = loader.getController();
+            // Pasar la conexión del servidor al controlador de perfil
+            profileController.setServerConnection(serverConnection);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
