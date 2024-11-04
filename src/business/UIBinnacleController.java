@@ -44,11 +44,11 @@ public class UIBinnacleController {
 	@FXML
 	private TableView<StudentRecharge> tvBinnacleStudentRecharge;
 	
-	 private ServerConnection serverConnection;
-		public void setServerConnection(ServerConnection serverConnection) {
-			this.serverConnection = serverConnection;
-			
-		}
+//	 private ServerConnection serverConnection;
+//		public void setServerConnection(ServerConnection serverConnection) {
+//			this.serverConnection = serverConnection;
+//			
+//		}
 	 @FXML
 	    public void initialize() {
 		 tvStudentCarnet.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCarnetStudent()));

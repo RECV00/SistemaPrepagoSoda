@@ -70,10 +70,10 @@ public class UIViewAdminController {
     
     private ServerConnection serverConnection;
 	 
-	 public void setServerConnection(ServerConnection serverConnection) {
-			this.serverConnection = serverConnection;
-			
-		}
+//	 public void setServerConnection(ServerConnection serverConnection) {
+//			this.serverConnection = serverConnection;
+//			
+//		}
 
     @FXML
     public void initialize() {

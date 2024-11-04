@@ -21,29 +21,27 @@ import javax.swing.JOptionPane;
 
 public class UILoginController {
 
-@FXML
-private Button btnRegister;
-@FXML
-private Button btnLogin;
-@FXML
-private TextField tfUserID;
-@FXML
-private PasswordField tfPassword;
-
- private ServerConnection serverConnection;
-
-  public void setServerConnection(ServerConnection serverConnection) {
-    this.serverConnection = serverConnection;
-  }
-  
     @FXML
-    public void initialize() {
+    private Button btnRegister;
+    @FXML
+    private Button btnLogin;
+    @FXML
+    private TextField tfUserID;
+    @FXML
+    private PasswordField tfPassword;
 
-	}
-	
-	@FXML
-	public void loginRegister(ActionEvent event) {
-		try {
+    private ServerConnection serverConnection;
+
+//    @FXML
+//    public void initialize() {
+//        // Iniciar el servidor aquí
+//        serverConnection = new ServerConnection();
+//        serverConnection.startServer(); // Inicia el servidor al iniciar el controlador
+//    }
+
+    @FXML
+    public void loginRegister(ActionEvent event) {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterUsers.fxml"));
             Parent root = loader.load();
             UIRegisterUsersController controller = loader.getController();
@@ -52,7 +50,6 @@ private PasswordField tfPassword;
             stage.setScene(scene);
             stage.show();
 
-//            stage.setOnCloseRequest(e -> controller.closeWindows());
             Stage temp = (Stage) this.btnLogin.getScene().getWindow();
             temp.close();
 
@@ -60,65 +57,66 @@ private PasswordField tfPassword;
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al abrir la ventana de registro de Usuarios.");
         }
-	}
-	
-	@FXML
-	public void loginAdmin(ActionEvent event) {
-	    String userID = tfUserID.getText();
-	    String password = tfPassword.getText();
+    }
 
-	    if (userID.isEmpty() || password.isEmpty()) {
-	        showAlert("Por favor, complete todos los campos.");
-	        return;
-	    }
+    @FXML
+    public void loginAdmin(ActionEvent event) {
+        String userID = tfUserID.getText();
+        String password = tfPassword.getText();
 
-	    // Verificar si el usuario existe en la base de datos
-	    LinkedList<User> users = UserData.getUsers();
-	    boolean loginSuccessful = false;
+        if (userID.isEmpty() || password.isEmpty()) {
+            showAlert("Por favor, complete todos los campos.");
+            return;
+        }
 
-	    for (User user : users) {
-	        // Asegúrate de que el ID se está comparando correctamente
-	        // Usamos equals() para comparar objetos de tipo Integer
-	        if (user.getId() == Integer.parseInt(userID)
-	                && user.getPassword().equals(password)
-	                && user.getTipe().equals("Personal")) { // Verificar que el tipo sea "personal"
-	            loginSuccessful = true;
-	            break;
-	        }
-	    }
+        LinkedList<User> users = UserData.getUsers();
+        boolean loginSuccessful = false;
 
-	    if (loginSuccessful) {
-	        showAlert("Inicio de sesión exitoso.");
-	        try {
-	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
-	            Parent root = loader.load();
-	            UIProfileController controller = loader.getController();
-	            controller.setServerConnection(serverConnection); 
-	            controller.loadUserProfile(userID);
-	            controller.initialize(userID);
-	            Scene scene = new Scene(root);
-	            Stage stage = new Stage();
-	            stage.setScene(scene);
-	            stage.show();
+        for (User user : users) {
+            if (user.getId() == Integer.parseInt(userID)
+                    && user.getPassword().equals(password)
+                    && user.getTipe().equals("Personal")) {
+                loginSuccessful = true;
+                break;
+            }
+        }
 
-	            // Cerrar la ventana de inicio de sesión
-	            Stage temp = (Stage) this.btnLogin.getScene().getWindow();
-	            temp.close();
+        if (loginSuccessful) {
+            showAlert("Inicio de sesión exitoso.");
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
+                Parent root = loader.load();
+                UIProfileController controller = loader.getController();
+               // controller.setServerConnection(serverConnection); 
+                controller.loadUserProfile(userID);
+                controller.initialize(userID);
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
 
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	            JOptionPane.showMessageDialog(null, "Error al abrir la ventana de perfil.");
-	        }
-	    } else {
-	        showAlert("Usuario o contraseña incorrectos o no tiene acceso.");
-	    }
-	}
+                Stage temp = (Stage) this.btnLogin.getScene().getWindow();
+                temp.close();
 
-	
-	private void showAlert(String message) {
-	    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-	    alert.setHeaderText(null); // No mostrar encabezado
-	        alert.setContentText(message);
-	        alert.showAndWait();
-	    }
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al abrir la ventana de perfil.");
+            }
+        } else {
+            showAlert("Usuario o contraseña incorrectos o no tiene acceso.");
+        }
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public void stopServer() {
+        if (serverConnection != null) {
+            serverConnection.stopServer(); // Detener el servidor cuando se cierre la aplicación
+        }
+    }
 }

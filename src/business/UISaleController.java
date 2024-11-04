@@ -182,9 +182,9 @@ public class UISaleController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
             Parent root = loader.load();
          // Obtener el controlador de la nueva ventana
-            UIProfileController profileController = loader.getController();
+            //UIProfileController profileController = loader.getController();
             // Pasar la conexión del servidor al controlador de perfil
-            profileController.setServerConnection(serverConnection);
+            //profileController.setServerConnection(serverConnection);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);

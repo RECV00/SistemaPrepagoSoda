@@ -14,30 +14,27 @@ public class ClientHandler extends Thread {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
-    private String userId; // ID del usuario conectado
+    private String userId;
 
     public ClientHandler(Socket socket) {
         this.socket = socket;
     }
 
     public void run() {
-        try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-             
-            this.out = out; // Guardar la referencia de PrintWriter
+        try {
+            this.out = new PrintWriter(socket.getOutputStream(), true);
+            this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("Mensaje recibido: " + inputLine);
                 processRequest(inputLine);
             }
         } catch (IOException e) {
+            System.err.println("Error de comunicación con el cliente:");
             e.printStackTrace();
         } finally {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            closeResources();
         }
     }
 
@@ -47,7 +44,7 @@ public class ClientHandler extends Thread {
 
         switch (command) {
             case "LOGIN":
-                userId = parts[1]; // Guardar el ID del usuario al iniciar sesión
+                userId = parts[1];
                 String password = parts[2];
                 validateUser(userId, password);
                 break;
@@ -57,7 +54,7 @@ public class ClientHandler extends Thread {
                 sendDishList(day, time);
                 break;
             case "PURCHASE":
-                userId = parts[1]; // Extraer el ID del usuario desde el índice 1
+                userId = parts[1];
                 processPurchase(parts, userId);
                 break;
             default:
@@ -68,109 +65,103 @@ public class ClientHandler extends Thread {
     }
 
     private void validateUser(String userID, String password) {
-        // Verificar si el usuario existe en la base de datos
-        LinkedList<User> users = UserData.getUsers(); // Asumiendo que tienes una clase UserData que maneja la lista de usuarios
-        boolean loginSuccessful = false;
-
-        for (User user : users) {
-            if (user.getId() == Integer.parseInt(userID) && user.getPassword().equals(password)) {
-                loginSuccessful = true;
-                break;
-            }
-        }
+        LinkedList<User> users = UserData.getUsers();
+        boolean loginSuccessful = users.stream().anyMatch(user -> 
+            String.valueOf(user.getId()).equals(userID) && user.getPassword().equals(password)
+        );
 
         if (loginSuccessful) {
-            out.println("SUCCESS," + userID); // Respuesta de éxito
+            out.println("SUCCESS," + userID);
         } else {
             out.println("ERROR, Credenciales inválidas");
         }
     }
 
     private void sendDishList(String day, String time) {
-        System.out.print("DIA: " + day + " Horario: " + time);
         LinkedList<Dishe> dishes = LogicUIServiceRequestController.getDishesForDayAndTime(day, time);
         StringBuilder response = new StringBuilder("DISH_LIST");
+
         for (Dishe dish : dishes) {
             response.append(",").append(dish.getServiceName()).append(",").append(dish.getServicePrice());
-            System.out.print("Platillos " + dish.toString());
         }
-        System.out.println("Enviando al cliente: " + response.toString());
 
-        // Enviar la respuesta al cliente
+        System.out.println("Enviando al cliente: " + response);
         out.println(response.toString());
     }
 
     private void processPurchase(String[] parts, String userId) {
         if (userId == null || userId.isEmpty()) {
             out.println("ERROR, Usuario no autenticado");
-            return; // Salir si el usuario no ha iniciado sesión o no se recibió un ID
+            return;
         }
 
         LinkedList<Order> orders = new LinkedList<>();
 
-        // Procesar cada orden
-        for (int i = 2; i < parts.length; i += 3) { // Iniciar en 2 para saltar el userId y command
+        for (int i = 2; i < parts.length; i += 3) {
             if (i + 2 < parts.length) {
-                String dishName = parts[i]; // Nombre del platillo
+                String dishName = parts[i];
                 int amount;
                 double total;
 
                 try {
-                    amount = Integer.parseInt(parts[i + 1]); // Cantidad
-                    total = Double.parseDouble(parts[i + 2]); // Total
+                    amount = Integer.parseInt(parts[i + 1]);
+                    total = Double.parseDouble(parts[i + 2]);
                     if (amount <= 0 || total <= 0) {
                         out.println("ERROR, Cantidad o total debe ser positivo");
                         return;
                     }
                 } catch (NumberFormatException e) {
                     out.println("ERROR, Formato de cantidad o total inválido");
-                    return; // Salir si hay un error en el formato
+                    return;
                 }
 
-                // Verificar si el usuario tiene fondos suficientes
                 if (!UserData.hasSufficientFunds(Integer.parseInt(userId), total)) {
                     out.println("INSUFFICIENT_FUNDS, Fondos insuficientes para completar la compra.");
-                    return; // Salir si el usuario no tiene fondos suficientes
+                    return;
                 }
 
-                // Restar el monto del pedido del saldo del usuario
-                UserData.updateStudentFunds(Integer.parseInt(userId), -total); // Restar el total del pedido
+                UserData.updateStudentFunds(Integer.parseInt(userId), -total);
 
-                char isState = getOrderState("pendiente"); // Estado inicial como "pendiente"
+                char isState = getOrderState("pendiente");
 
-                // Crear y guardar la orden
                 Order order = new Order(dishName, amount, total, isState, userId);
                 orders.add(order);
-                OrderData.saveOrder(order); // Guardar la orden
-           
-                // Notificar al cliente del estado inicial
+                OrderData.saveOrder(order);
+
                 notifyOrderStatusToClient(dishName, isState);
             } else {
                 out.println("ERROR, Información de compra incompleta");
-                return; // Salir si la información de compra no es completa
+                return;
             }
-        }     
+        }
     }
-    
+
     public void notifyOrderStatusToClient(String dishName, char newState) {
         StringBuilder response = new StringBuilder("ORDER_STATUS_UPDATE");
         response.append(",").append(dishName).append(",").append(newState);
-        out.println(response.toString()); // Enviar la respuesta al cliente
+        out.println(response.toString());
     }
-    
+
     public char getOrderState(String stateInput) {
         switch (stateInput.toLowerCase()) {
-            case "pendiente":
-                return 'P';
-            case "listo":
-                return 'L';
-            case "preparacion":
-                return 'I';
-            case "entregado":
-                return 'E';
+            case "pendiente": return 'P';
+            case "listo": return 'L';
+            case "preparacion": return 'I';
+            case "entregado": return 'E';
             default:
                 System.out.println("Estado no reconocido: " + stateInput);
-                return 'U'; // Estado desconocido
+                return 'U';
+        }
+    }
+
+    private void closeResources() {
+        try {
+            if (in != null) in.close();
+            if (out != null) out.close();
+            if (socket != null && !socket.isClosed()) socket.close();
+        } catch (IOException e) {
+            System.err.println("Error al cerrar los recursos del cliente:");
+            e.printStackTrace();
         }
     }
 }

@@ -72,12 +72,13 @@ public class UIViewStudentController {
 	private Button btnBack;
 
 	 private ObservableList<User> userList;
-	 private ServerConnection serverConnection;
-	 
-	 public void setServerConnection(ServerConnection serverConnection) {
-			this.serverConnection = serverConnection;
-			
-		}
+	
+//	 private ServerConnection serverConnection;
+//	 
+//	 public void setServerConnection(ServerConnection serverConnection) {
+//			this.serverConnection = serverConnection;
+//			
+//		}
 	  @FXML
 	    public void initialize() {
 	        // Inicializar las columnas de la tabla
