@@ -21,10 +21,10 @@ public class ClientHandler extends Thread {
     }
 
     public void run() {
-        try {
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
+        try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+             
+            this.out = out; // Guardar la referencia de PrintWriter
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("Mensaje recibido: " + inputLine);
@@ -57,11 +57,12 @@ public class ClientHandler extends Thread {
                 sendDishList(day, time);
                 break;
             case "PURCHASE":
-                userId = parts[1]; // Extraer la cédula o ID del usuario desde el índice 1
+                userId = parts[1]; // Extraer el ID del usuario desde el índice 1
                 processPurchase(parts, userId);
                 break;
             default:
                 System.out.println("Comando no reconocido: " + command);
+                out.println("ERROR, Comando no reconocido: " + command);
                 break;
         }
     }
@@ -79,16 +80,15 @@ public class ClientHandler extends Thread {
         }
 
         if (loginSuccessful) {
-            out.println("SUCCESS," + userID); // Respuesta de éxito   
+            out.println("SUCCESS," + userID); // Respuesta de éxito
         } else {
-            out.println("ERROR,Credenciales inválidas");
+            out.println("ERROR, Credenciales inválidas");
         }
     }
 
     private void sendDishList(String day, String time) {
         System.out.print("DIA: " + day + " Horario: " + time);
         LinkedList<Dishe> dishes = LogicUIServiceRequestController.getDishesForDayAndTime(day, time);
-        System.out.println(dishes);
         StringBuilder response = new StringBuilder("DISH_LIST");
         for (Dishe dish : dishes) {
             response.append(",").append(dish.getServiceName()).append(",").append(dish.getServicePrice());
@@ -118,6 +118,10 @@ public class ClientHandler extends Thread {
                 try {
                     amount = Integer.parseInt(parts[i + 1]); // Cantidad
                     total = Double.parseDouble(parts[i + 2]); // Total
+                    if (amount <= 0 || total <= 0) {
+                        out.println("ERROR, Cantidad o total debe ser positivo");
+                        return;
+                    }
                 } catch (NumberFormatException e) {
                     out.println("ERROR, Formato de cantidad o total inválido");
                     return; // Salir si hay un error en el formato
@@ -147,6 +151,7 @@ public class ClientHandler extends Thread {
             }
         }     
     }
+    
     public void notifyOrderStatusToClient(String dishName, char newState) {
         StringBuilder response = new StringBuilder("ORDER_STATUS_UPDATE");
         response.append(",").append(dishName).append(",").append(newState);
