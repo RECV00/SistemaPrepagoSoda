@@ -63,6 +63,9 @@ public class UIViewDishesController {
 	private Label lErrorVa;
 	
 	 private ServerConnection serverConnection;
+	 public void setServerConnection(ServerConnection serverConnection) {
+			this.serverConnection = serverConnection;
+		}
 	 
     private ObservableList<Dishe> disheList;
     private LogicUIServiceRequestController lServiceRequest = new LogicUIServiceRequestController(); // Instancia de LogicData
@@ -233,6 +236,10 @@ public class UIViewDishesController {
 		try {
 			 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIProfile.fxml"));
 	        Parent root = loader.load();
+	        // Obtener el controlador de la nueva ventana
+            UIProfileController profileController = loader.getController();
+            // Pasar la conexión del servidor al controlador de perfil
+            profileController.setServerConnection(serverConnection);
 			Scene scene = new Scene(root);		
 	        Stage stage = new Stage();
 	        stage.setScene(scene);
@@ -244,7 +251,5 @@ public class UIViewDishesController {
 			e.printStackTrace();
 		}
 	}
-	public void setServerConnection(ServerConnection serverConnection) {
-		this.serverConnection = serverConnection;
-	}
+	
 }

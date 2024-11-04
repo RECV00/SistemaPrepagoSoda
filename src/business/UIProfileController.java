@@ -32,18 +32,9 @@ public class UIProfileController {
     private Button btnUsuarios; // Botón para gestionar usuarios
     @FXML
     private Button btnConfiguracion; // Botón para la configuración
-
-    
+ 
     private ServerConnection serverConnection;
 
-
-    public UIProfileController() {
-        // Solo se inicia el servidor la primera vez       
-            this.serverConnection = new ServerConnection();
-            new Thread(() -> serverConnection.startServer()).start(); // Iniciar el servidor en un nuevo hilo
-        
-    }
-    
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }

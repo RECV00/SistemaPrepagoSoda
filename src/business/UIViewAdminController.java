@@ -67,7 +67,13 @@ public class UIViewAdminController {
     
 
     private ObservableList<User> userList;
+    
     private ServerConnection serverConnection;
+	 
+	 public void setServerConnection(ServerConnection serverConnection) {
+			this.serverConnection = serverConnection;
+			
+		}
 
     @FXML
     public void initialize() {
@@ -181,9 +187,6 @@ public class UIViewAdminController {
 	}
 
 
-	public void setServerConnection(ServerConnection serverConnection) {
-		// TODO Auto-generated method stub
-		
-	}
+
 }
 

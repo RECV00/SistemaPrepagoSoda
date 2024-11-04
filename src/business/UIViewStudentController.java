@@ -73,6 +73,11 @@ public class UIViewStudentController {
 
 	 private ObservableList<User> userList;
 	 private ServerConnection serverConnection;
+	 
+	 public void setServerConnection(ServerConnection serverConnection) {
+			this.serverConnection = serverConnection;
+			
+		}
 	  @FXML
 	    public void initialize() {
 	        // Inicializar las columnas de la tabla
@@ -197,8 +202,9 @@ public class UIViewStudentController {
 	public void closeWindows() {
 		
 		try {
-			 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIProfile.fxml"));
+			FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIProfile.fxml"));
 	        Parent root = loader.load();
+	        
 			Scene scene = new Scene(root);		
 	        Stage stage = new Stage();
 	        stage.setScene(scene);
@@ -212,8 +218,5 @@ public class UIViewStudentController {
 	}
 
 
-	public void setServerConnection(ServerConnection serverConnection) {
-		this.serverConnection = serverConnection;
-		
-	}
+	
 }
