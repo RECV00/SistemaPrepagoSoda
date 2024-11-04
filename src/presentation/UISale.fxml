@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -35,11 +36,11 @@
                 <HBox spacing="10.0" />
                 <FlowPane fx:id="productsFlowPane" hgap="10.0" prefWidth="430.0" vgap="10.0" />
             </VBox>
-         <ImageView fitHeight="538.0" fitWidth="440.0">
-            <image>
-               <Image url="@../../media/Soda.png" />
-            </image>
-         </ImageView>
+            <ImageView fitHeight="538.0" fitWidth="440.0">
+                <image>
+                    <Image url="@../../media/Soda.png" />
+                </image>
+            </ImageView>
         </AnchorPane>
 
         <!-- Panel del Carrito de Compras -->
@@ -47,19 +48,20 @@
             <VBox layoutX="10.0" layoutY="10.0" prefWidth="430.0" spacing="10.0">
                 <TableView fx:id="cartTableView" prefHeight="300.0">
                     <columns>
+                        <TableColumn fx:id="studentIdColumn" prefWidth="80.0" text="ID Estudiante" /> <!-- Nueva columna para ID Estudiante -->
                         <TableColumn fx:id="descriptionColumn" prefWidth="114.0" text="Descripción" />
                         <TableColumn fx:id="quantityColumn" prefWidth="85.0" text="Cantidad" />
-                        <TableColumn fx:id="priceColumn" prefWidth="71.0" text="Precio" />
                         <TableColumn fx:id="totalColumn" prefWidth="78.0" text="Total" />
-                  <TableColumn prefWidth="106.0" text="Estado" />
+                        <TableColumn fx:id="stateColumn" prefWidth="106.0" text="Estado" />
                     </columns>
                 </TableView>
                 
-                   <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                <HBox alignment="CENTER_RIGHT" spacing="10.0">
                     <Label text="Total:" />
                     <Label fx:id="totalLabel" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #d32f2f;" text="RD$1,500" />
                 </HBox>
             </VBox>
+         <Button fx:id="bBack" layoutX="378.0" layoutY="499.0" mnemonicParsing="false" onAction="#returnProfile" text="Regresar" />
         </AnchorPane>
 
     </SplitPane>

@@ -1,23 +1,26 @@
 package business;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import domain.Order;
-
 import javafx.scene.image.Image;
-import java.util.LinkedList;
+import javafx.util.Callback;
 
-import data.ServerConnection;
+import domain.Order;
+import data.OrderData;
 import data.UserData;
+
+import java.io.IOException;
+import java.util.LinkedList;
 
 public class UISaleController {
 
@@ -39,115 +42,149 @@ public class UISaleController {
 
     // Panel del Carrito de Compras
     @FXML
-    private TableView<Order> cartTableView; // Cambiado a Order para reflejar la tabla del carrito
+    private TableView<Order> cartTableView;
     @FXML
-    private TableColumn<Order, String> descriptionColumn; // Cambiado para reflejar los tipos de datos
+    private TableColumn<Order, String> descriptionColumn;
     @FXML
     private TableColumn<Order, Integer> quantityColumn;
     @FXML
-    private TableColumn<Order, Double> priceColumn;
-    @FXML
     private TableColumn<Order, Double> totalColumn;
+    @FXML
+    private TableColumn<Order, String> stateColumn;
+    @FXML
+    private TableColumn<Order, String> studentIdColumn; // Columna de ID Estudiante
     @FXML
     private TextField discountField;
     @FXML
     private Label totalLabel;
+    @FXML
+    private Button bBack;
+    
+    private ObservableList<Order> cartItems;
 
-    private ObservableList<Order> cartItems; // Lista observable para los elementos del carrito
-   
-//    private ServerConnection serverConnection;
-//
-//    public UISaleController() {
-//        this.serverConnection = new ServerConnection();
-//        new Thread(() -> serverConnection.startServer()).start(); // Iniciar el servidor en un nuevo hilo
-//    }
-    // Métodos de inicialización y lógica
+    // Inicialización y lógica
     @FXML
     public void initialize() {
-        // Este método se llama automáticamente después de que se carga el archivo FXML
-        // Puedes usarlo para inicializar los valores de los ComboBox, cargar productos, etc.
         initializeComboBoxes();
-        loadProducts();
         initializeCart();
+        loadOrdersFromDatabase();
     }
 
     private void initializeComboBoxes() {
-        // Agregar categorías y precios de ejemplo
         categoryComboBox.getItems().addAll("Bebidas", "Comidas Rápidas", "Postres");
         priceComboBox.getItems().addAll("Menor a $50", "$50 - $100", "Mayor a $100");
     }
 
-    private void loadProducts() {
-        // Crear y agregar botones de productos a productsFlowPane como ejemplo
-        Button product1 = createProductButton("Sopita Dona Gallina");
-        Button product2 = createProductButton("Galleta de Chocolate");
-        Button product3 = createProductButton("Jugo de Naranja");
-
-        productsFlowPane.getChildren().addAll(product1, product2, product3);
-    }
-
-    private Button createProductButton(String productName) {
-        Button button = new Button(productName);
-        button.setPrefSize(100, 100);
-        button.setStyle("-fx-background-color: #d32f2f; -fx-text-fill: white;");
-        button.setOnAction(event -> addToCart(productName));
-        return button;
-    }
-
     private void initializeCart() {
-        cartItems = FXCollections.observableArrayList(); // Inicializa la lista observable
-        cartTableView.setItems(cartItems); // Asocia la lista a la tabla
+        cartItems = FXCollections.observableArrayList();
+        cartTableView.setItems(cartItems);
+
+        // Configurar columnas
+        descriptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNameProduct()));
+        quantityColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getAmount()));
+        totalColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getTotal()));
+
+        // Configurar columna de estado
+        stateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getIsState())));
+        stateColumn.setCellFactory(getStateCellFactory());
+
+        // Configurar columna de ID Estudiante
+        studentIdColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIdStudent()));
     }
 
-    private void addToCart(String productName) {
-        // Lógica para agregar el producto al carrito de compras
-        // Aquí podrías manejar la cantidad, calcular el total, etc.
-        System.out.println("Producto agregado al carrito: " + productName);
-
-        // Simulando la adición de un pedido al carrito
-        Order order = new Order(productName, 1, 100.0, 'P', "1"); // Reemplaza con datos reales
-        cartItems.add(order); // Agrega el pedido a la lista observable
+    private void loadOrdersFromDatabase() {
+        LinkedList<Order> orders = OrderData.getOrders(); // Obtiene las órdenes de la base de datos
+        cartItems.addAll(orders);
     }
 
-  
-    // Método para actualizar el historial de órdenes
+    // Actualizar el historial de órdenes
     public void updateOrderHistory(LinkedList<Order> orders) {
-        // Actualiza la tabla o el historial con las órdenes procesadas
-        for (Order order : orders) {
-            cartItems.add(order); // Agrega cada orden a la lista del carrito
-        }
+        cartItems.clear();
+        cartItems.addAll(orders);
         System.out.println("Historial de órdenes actualizado.");
     }
 
-
     @FXML
     private void calculateTotal() {
-        // Lógica para calcular el total del carrito de compras
-        double total = cartItems.stream().mapToDouble(Order::getTotal).sum(); // Sumar los totales de las órdenes
-        totalLabel.setText("RD$" + total); // Actualiza el total en el label
+        double total = cartItems.stream().mapToDouble(Order::getTotal).sum();
+        totalLabel.setText("RD$" + total);
     }
-    public void userLoggedIn(String userId) {
-        userNameLabel.setText("Usuario: " + userId); // Actualiza la etiqueta con el ID del usuario
-        System.out.println("Usuario ha iniciado sesión: " + userId);
-        
-        //loadUserProfile(userId); // Cargar la foto de perfil del usuario
-    }
-    public void loadUserProfile(String userId) {
-        // Obtener la ruta de la foto del usuario usando el ID de usuario
-        String photoPath = UserData.getPhotoLinkByCedula(Integer.parseInt(userId)); 
 
+    public void userLoggedIn(String userId) {
+        userNameLabel.setText("Usuario: " + userId);
+        loadUserProfile(userId);
+    }
+
+    public void loadUserProfile(String userId) {
+        String photoPath = UserData.getPhotoLinkByCedula(Integer.parseInt(userId));
         if (photoPath != null && !photoPath.isEmpty()) {
-            // Cargar la imagen en el ImageView
-            Image userImage = new Image("file:" + photoPath); // Asegúrate de que la ruta sea correcta
-            userProfileImage.setImage(userImage); // Establecer la imagen en el ImageView
+            Image userImage = new Image("file:" + photoPath);
+            userProfileImage.setImage(userImage);
         } else {
             System.out.println("No se encontró la foto del usuario.");
-            userProfileImage.setImage(null); // Limpiar el ImageView si no hay imagen
+            userProfileImage.setImage(null);
         }
     }
 
-	public Object closeWindows() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // Configuración de la columna de estado con un ComboBox en cada celda para cambiar el estado
+    private Callback<TableColumn<Order, String>, TableCell<Order, String>> getStateCellFactory() {
+        return column -> new TableCell<>() {
+            private final ComboBox<String> comboBox = new ComboBox<>();
+
+            {
+                comboBox.getItems().addAll("Pendiente", "Preparado", "Entregado");
+                comboBox.setOnAction(event -> {
+                    Order order = getTableView().getItems().get(getIndex());
+                    char newState = comboBox.getValue().charAt(0);
+                    updateOrderState(order, newState);
+                });
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    comboBox.setValue(getStateString(item.charAt(0)));
+                    setGraphic(comboBox);
+                }
+            }
+        };
+    }
+
+    private void updateOrderState(Order order, char newState) {
+        OrderData.updateOrderState(order.getNameProduct(), order.getNameProduct(), newState);
+        order.setIsState(newState); // Actualiza el estado localmente
+        cartTableView.refresh(); // Refresca la tabla
+    }
+
+    private String getStateString(char state) {
+        return switch (state) {
+            case 'P' -> "Pendiente";
+            case 'R' -> "Preparado";
+            case 'E' -> "Entregado";
+            default -> "Desconocido";
+        };
+    }
+
+    @FXML
+    public void returnProfile() {
+        closeWindows();
+    }
+
+    public void closeWindows() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            Stage temp = (Stage) bBack.getScene().getWindow();
+            temp.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
