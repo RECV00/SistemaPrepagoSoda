@@ -16,6 +16,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import data.DisheData;
+import data.ServerConnection;
 import domain.Dishe;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -55,8 +56,15 @@ public class UIRegisterDishesController {
 	@FXML
 	private Button btnBack;	
 	private Dishe disheToEdit = null;
+	
 	private boolean isEditing = false;
 	
+	  private ServerConnection serverConnection;
+		 
+		 public void setServerConnection(ServerConnection serverConnection) {
+				this.serverConnection = serverConnection;
+				
+			}
 	@FXML
 	public void initialize() {
 		cbServiceDayDishe.getItems().addAll("Lunes","Martes","Miércoles","Jueves","Viernes");
@@ -165,6 +173,8 @@ public class UIRegisterDishesController {
 				try {
 					 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIViewDishes.fxml"));
 			        Parent root = loader.load();
+			        UIViewDishesController controller = loader.getController();
+					controller.setServerConnection(serverConnection);
 					Scene scene = new Scene(root);
 					Stage stage = new Stage();
 			        stage.setScene(scene);
@@ -175,4 +185,5 @@ public class UIRegisterDishesController {
 					e.printStackTrace();
 				}
 			}
+			
 }

@@ -32,12 +32,16 @@ public class UILoginController {
 
     private ServerConnection serverConnection;
 
-//    @FXML
-//    public void initialize() {
-//        // Iniciar el servidor aquí
-//        serverConnection = new ServerConnection();
-//        serverConnection.startServer(); // Inicia el servidor al iniciar el controlador
-//    }
+    public void setServerConnection(ServerConnection serverConnection) {
+        this.serverConnection = serverConnection;
+    }
+
+    @FXML
+    public void initialize() {
+        // Iniciar el servidor aquí
+        serverConnection = new ServerConnection();
+       serverConnection.startServer(); // Inicia el servidor al iniciar el controlador
+    }
 
     @FXML
     public void loginRegister(ActionEvent event) {
@@ -45,6 +49,7 @@ public class UILoginController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterUsers.fxml"));
             Parent root = loader.load();
             UIRegisterUsersController controller = loader.getController();
+            controller.setServerConnection(serverConnection); 
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -87,7 +92,7 @@ public class UILoginController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
                 Parent root = loader.load();
                 UIProfileController controller = loader.getController();
-               // controller.setServerConnection(serverConnection); 
+                controller.setServerConnection(serverConnection); 
                 controller.loadUserProfile(userID);
                 controller.initialize(userID);
                 Scene scene = new Scene(root);

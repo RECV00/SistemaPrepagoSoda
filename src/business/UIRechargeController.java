@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import data.RechargeData;
+import data.ServerConnection;
 import data.StudentData;
 import data.UserData;
 import domain.StudentRecharge;
@@ -41,6 +42,13 @@ public class UIRechargeController {
 
     private double saldo = 0.0;
     private User currentStudent;
+    
+    private ServerConnection serverConnection;
+	 
+	 public void setServerConnection(ServerConnection serverConnection) {
+			this.serverConnection = serverConnection;
+			
+		}
 
     public void recoveredData(User student) {
         if (student != null) {
@@ -92,6 +100,8 @@ public class UIRechargeController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewStudent.fxml"));
             Parent root = loader.load();
+            UIViewStudentController controller = loader.getController();
+			controller.setServerConnection(serverConnection);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -102,4 +112,6 @@ public class UIRechargeController {
             e.printStackTrace();
         }
     }
+
+	
 }

@@ -44,11 +44,12 @@ public class UIBinnacleController {
 	@FXML
 	private TableView<StudentRecharge> tvBinnacleStudentRecharge;
 	
-//	 private ServerConnection serverConnection;
-//		public void setServerConnection(ServerConnection serverConnection) {
-//			this.serverConnection = serverConnection;
-//			
-//		}
+	 private ServerConnection serverConnection;
+	 
+		public void setServerConnection(ServerConnection serverConnection) {
+			this.serverConnection = serverConnection;
+			
+		}
 	 @FXML
 	    public void initialize() {
 		 tvStudentCarnet.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCarnetStudent()));
@@ -95,6 +96,8 @@ public class UIBinnacleController {
 				try {
 					FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIProfile.fxml"));
 			        Parent root = loader.load();
+			        UIProfileController controller = loader.getController();
+	                controller.setServerConnection(serverConnection); 
 					Scene scene = new Scene(root);
 					Stage stage = new Stage();
 			        stage.setScene(scene);
@@ -105,6 +108,8 @@ public class UIBinnacleController {
 					e.printStackTrace();
 				}
 			}
+
+			
 
 		
 						

@@ -11,6 +11,10 @@ import domain.Order;
 import domain.User;
 
 public class ClientHandler extends Thread {
+    private static final String LOGIN_COMMAND = "LOGIN";
+    private static final String LOAD_DISHES_COMMAND = "LOAD_DISHES";
+    private static final String PURCHASE_COMMAND = "PURCHASE";
+
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
@@ -20,6 +24,7 @@ public class ClientHandler extends Thread {
         this.socket = socket;
     }
 
+    @Override
     public void run() {
         try {
             this.out = new PrintWriter(socket.getOutputStream(), true);
@@ -40,23 +45,42 @@ public class ClientHandler extends Thread {
 
     private void processRequest(String request) {
         String[] parts = request.split(",");
-        String command = parts[0];
+        if (parts.length == 0) {
+            out.println("ERROR, Petición vacía");
+            return;
+        }
 
+        String command = parts[0];
         switch (command) {
-            case "LOGIN":
-                userId = parts[1];
-                String password = parts[2];
-                validateUser(userId, password);
+            case LOGIN_COMMAND:
+                if (parts.length == 4) { // Asegurarse de que hay suficientes argumentos
+                    userId = parts[1];
+                    String password = parts[2];
+                    validateUser(userId, password);
+                } else {
+                    out.println("ERROR, Argumentos de LOGIN insuficientes");
+                }
                 break;
-            case "LOAD_DISHES":
-                String day = parts[1];
-                String time = parts[2];
-                sendDishList(day, time);
+
+            case LOAD_DISHES_COMMAND:
+                if (parts.length == 3) { // Validar número de argumentos
+                    String day = parts[1];
+                    String time = parts[2];
+                    sendDishList(day, time);
+                } else {
+                    out.println("ERROR, Argumentos de LOAD_DISHES insuficientes");
+                }
                 break;
-            case "PURCHASE":
-                userId = parts[1];
-                processPurchase(parts, userId);
+
+            case PURCHASE_COMMAND:
+                if (parts.length >= 3) { // Se espera al menos 3 partes
+                    userId = parts[1];
+                    processPurchase(parts, userId);
+                } else {
+                    out.println("ERROR, Argumentos de PURCHASE insuficientes");
+                }
                 break;
+
             default:
                 System.out.println("Comando no reconocido: " + command);
                 out.println("ERROR, Comando no reconocido: " + command);
@@ -64,14 +88,14 @@ public class ClientHandler extends Thread {
         }
     }
 
-    private void validateUser(String userID, String password) {
+    private void validateUser(String userId, String password) {
         LinkedList<User> users = UserData.getUsers();
-        boolean loginSuccessful = users.stream().anyMatch(user -> 
-            String.valueOf(user.getId()).equals(userID) && user.getPassword().equals(password)
+        boolean loginSuccessful = users.stream().anyMatch(user ->
+                String.valueOf(user.getId()).equals(userId) && user.getPassword().equals(password)
         );
 
         if (loginSuccessful) {
-            out.println("SUCCESS," + userID);
+            out.println("SUCCESS," + userId);
         } else {
             out.println("ERROR, Credenciales inválidas");
         }
@@ -150,7 +174,7 @@ public class ClientHandler extends Thread {
             case "entregado": return 'E';
             default:
                 System.out.println("Estado no reconocido: " + stateInput);
-                return 'U';
+                return 'U'; // Estado desconocido
         }
     }
 

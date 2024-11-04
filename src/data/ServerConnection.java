@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class ServerConnection {
 
-	private ServerSocket serverSocket;
+    private ServerSocket serverSocket;
     private volatile boolean isRunning; // Uso de volatile para mayor seguridad en hilos
 
     public ServerConnection() {
@@ -61,12 +61,11 @@ public class ServerConnection {
         if (serverSocket != null && !serverSocket.isClosed()) {
             try {
                 serverSocket.close(); // Cerrar el ServerSocket
+                System.out.println("ServerSocket cerrado.");
             } catch (IOException e) {
                 System.err.println("Error al cerrar el ServerSocket:");
                 e.printStackTrace();
             }
         }
     }
-
-
 }

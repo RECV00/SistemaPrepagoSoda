@@ -70,10 +70,10 @@ public class UIViewAdminController {
     
     private ServerConnection serverConnection;
 	 
-//	 public void setServerConnection(ServerConnection serverConnection) {
-//			this.serverConnection = serverConnection;
-//			
-//		}
+	 public void setServerConnection(ServerConnection serverConnection) {
+			this.serverConnection = serverConnection;
+			
+		}
 
     @FXML
     public void initialize() {
@@ -148,6 +148,7 @@ public class UIViewAdminController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterUsers.fxml"));
 			Parent root = loader.load();
 			UIRegisterUsersController controller = loader.getController();
+			controller.setServerConnection(serverConnection);
 			controller.loadUserData(selectedUser); 
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
@@ -174,6 +175,9 @@ public class UIViewAdminController {
 		try {
 			 FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIProfile.fxml"));
 	        Parent root = loader.load();
+	     // Obtener el controlador de la nueva ventana
+            UIProfileController profileController = loader.getController();
+            profileController.setServerConnection(serverConnection);
 			Scene scene = new Scene(root);		
 	        Stage stage = new Stage();
 	        stage.setScene(scene);

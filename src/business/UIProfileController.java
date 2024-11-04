@@ -33,11 +33,11 @@ public class UIProfileController {
     @FXML
     private Button btnConfiguracion; // Botón para la configuración
  
-//    private ServerConnection serverConnection;
-//
-//    public void setServerConnection(ServerConnection serverConnection) {
-//        this.serverConnection = serverConnection;
-//    }
+    private ServerConnection serverConnection;
+
+    public void setServerConnection(ServerConnection serverConnection) {
+        this.serverConnection = serverConnection;
+    }
 //    @FXML
     public void initialize(String userId) {
     	// Cargar el perfil del usuario al iniciar
@@ -100,7 +100,7 @@ public class UIProfileController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewDishes.fxml"));
 			Parent root = loader.load();
 			UIViewDishesController controller = loader.getController();
-			//controller.setServerConnection(serverConnection);
+			controller.setServerConnection(serverConnection);
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
@@ -119,7 +119,7 @@ public class UIProfileController {
     			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewStudent.fxml"));
     			Parent root = loader.load();
     			UIViewStudentController controller = loader.getController();
-    			//controller.setServerConnection(serverConnection);
+    			controller.setServerConnection(serverConnection);
     			Scene scene = new Scene(root);
     			Stage stage = new Stage();
     			stage.setScene(scene);
@@ -140,7 +140,7 @@ public class UIProfileController {
     			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewAdmin.fxml"));
     			Parent root = loader.load();
     			UIViewAdminController controller = loader.getController();
-    			//controller.setServerConnection(serverConnection);
+    			controller.setServerConnection(serverConnection);
     			Scene scene = new Scene(root);
     			Stage stage = new Stage();
     			stage.setScene(scene);
@@ -158,7 +158,7 @@ public class UIProfileController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIBinnacle.fxml"));
 			Parent root = loader.load();
 			UIBinnacleController controller = loader.getController();
-			//controller.setServerConnection(serverConnection);
+			controller.setServerConnection(serverConnection);
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);

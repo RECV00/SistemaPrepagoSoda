@@ -73,12 +73,12 @@ public class UIViewStudentController {
 
 	 private ObservableList<User> userList;
 	
-//	 private ServerConnection serverConnection;
-//	 
-//	 public void setServerConnection(ServerConnection serverConnection) {
-//			this.serverConnection = serverConnection;
-//			
-//		}
+	 private ServerConnection serverConnection;
+	 
+	 public void setServerConnection(ServerConnection serverConnection) {
+			this.serverConnection = serverConnection;
+			
+		}
 	  @FXML
 	    public void initialize() {
 	        // Inicializar las columnas de la tabla
@@ -158,6 +158,7 @@ public class UIViewStudentController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterUsers.fxml"));
 			Parent root = loader.load();
 			UIRegisterUsersController controller = loader.getController();
+			 controller.setServerConnection(serverConnection);
 			controller.loadUserData(selectedUser); 
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
@@ -179,6 +180,7 @@ public class UIViewStudentController {
 	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRecharge.fxml"));
 	        Parent root = loader.load();
 	        UIRechargeController controller = loader.getController();
+	        controller.setServerConnection(serverConnection);
 	        controller.recoveredData(selectedUser);  // Asegúrate de pasar el usuario seleccionado
 	        Scene scene = new Scene(root);
 	        Stage stage = new Stage();
@@ -205,7 +207,9 @@ public class UIViewStudentController {
 		try {
 			FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIProfile.fxml"));
 	        Parent root = loader.load();
-	        
+	        // Obtener el controlador de la nueva ventana
+            UIProfileController profileController = loader.getController();
+            profileController.setServerConnection(serverConnection);
 			Scene scene = new Scene(root);		
 	        Stage stage = new Stage();
 	        stage.setScene(scene);
@@ -217,6 +221,9 @@ public class UIViewStudentController {
 			e.printStackTrace();
 		}
 	}
+
+
+	
 
 
 	

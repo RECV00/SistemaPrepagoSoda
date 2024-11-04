@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 
+import data.ServerConnection;
 import data.UserData;
 import domain.User;
 
@@ -53,6 +54,12 @@ public class UIRegisterUsersController {
     private boolean isEditing = false; // Indicador de modo de edición
     private User currentUser; // Usuario actual en modo de edición
     private int tbuser;
+    
+    private ServerConnection serverConnection;
+
+    public void setServerConnection(ServerConnection serverConnection) {
+        this.serverConnection = serverConnection;
+    }
     // Initialize method to set up ComboBoxes
     @FXML
     public void initialize() {
@@ -185,6 +192,8 @@ public class UIRegisterUsersController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UILogin.fxml"));
             Parent root = loader.load();
+            UILoginController controller = loader.getController();
+			controller.setServerConnection(serverConnection);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -195,4 +204,6 @@ public class UIRegisterUsersController {
             e.printStackTrace();
         }
     }
+
+	
 }

@@ -62,11 +62,11 @@ public class UIViewDishesController {
 	@FXML
 	private Label lErrorVa;
 	
-//	 private ServerConnection serverConnection;
-//	 public void setServerConnection(ServerConnection serverConnection) {
-//			this.serverConnection = serverConnection;
-//		}
-//	 
+	 private ServerConnection serverConnection;
+	 public void setServerConnection(ServerConnection serverConnection) {
+			this.serverConnection = serverConnection;
+		}
+	 
     private ObservableList<Dishe> disheList;
     private LogicUIServiceRequestController lServiceRequest = new LogicUIServiceRequestController(); // Instancia de LogicData
    
@@ -184,6 +184,7 @@ public class UIViewDishesController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterDishes.fxml"));
             Parent root = loader.load();
             UIRegisterDishesController controller = loader.getController();
+            controller.setServerConnection(serverConnection);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -206,6 +207,7 @@ public class UIViewDishesController {
                 Parent root = loader.load();
                 UIRegisterDishesController controller = loader.getController();
                 controller.setDisheData(selectedDishe); // Pasar el platillo seleccionado al controlador de actualización
+                controller.setServerConnection(serverConnection);
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();
                 stage.setScene(scene);
@@ -239,7 +241,7 @@ public class UIViewDishesController {
 	        // Obtener el controlador de la nueva ventana
             UIProfileController profileController = loader.getController();
             // Pasar la conexión del servidor al controlador de perfil
-           // profileController.setServerConnection(serverConnection);
+            profileController.setServerConnection(serverConnection);
 			Scene scene = new Scene(root);		
 	        Stage stage = new Stage();
 	        stage.setScene(scene);
@@ -251,5 +253,6 @@ public class UIViewDishesController {
 			e.printStackTrace();
 		}
 	}
+	
 	
 }
