@@ -154,7 +154,7 @@ public class ServerConnection {
                     // Restar el monto del pedido del saldo del usuario
                     UserData.updateStudentFunds(Integer.parseInt(userId), -total); // Restar el total del pedido
 
-                    char isState = getOrderState("P"); // Estado inicial como "pendiente"
+                    char isState = getOrderState("pendiente"); // Estado inicial como "pendiente"
 
                     // Crear y guardar la orden
                     Order order = new Order(dishName, amount, total, isState, userId);
