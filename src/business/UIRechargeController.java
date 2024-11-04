@@ -73,7 +73,7 @@ public class UIRechargeController {
             if (rechargeSaved) {
                 // Ahora actualizar también en la base de datos
                 currentStudent.setMoneyAvailable(newAmount);
-                UserData.updateUser(currentStudent);  // Este método actualizará la base de datos
+                UserData.updateRecharge(currentStudent);  // Este método actualizará la base de datos
                 JOptionPane.showMessageDialog(null, "Recarga guardada y monto actualizado exitosamente en JSON y base de datos.");
             } else {
                 JOptionPane.showMessageDialog(null, "Error al actualizar el monto del estudiante en JSON.");

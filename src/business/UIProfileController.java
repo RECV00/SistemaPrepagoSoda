@@ -148,13 +148,13 @@ public class UIProfileController {
     	try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIBinnacle.fxml"));
 			Parent root = loader.load();
-			UIViewAdminController controller = loader.getController();
+			UIBinnacleController controller = loader.getController();
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.show();	
 			stage.setOnCloseRequest(e -> controller.closeWindows());
-			Stage temp = (Stage) this.btnUsuarios.getScene().getWindow();
+			Stage temp = (Stage) this.btnBinnacle.getScene().getWindow();
 			temp.close();
 			
 		}catch(IOException e){

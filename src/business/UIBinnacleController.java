@@ -62,9 +62,8 @@ public class UIBinnacleController {
         // Convertir las recargas a objetos StudentRecharge usando LinkedList<StudentRecharge>
         LinkedList<StudentRecharge> studentRecharges = recharges.stream().map(recharge -> {
             // Obtener el nombre del estudiante asociado al carnet
-            User student = UserData.getStudentByCarnet(Integer.parseInt(recharge.getCarnetStudent()));
-            String studentName = student != null ? student.getName() : "Desconocido";
-            
+           String studentName = UserData.getStudentNameByCedula(Integer.parseInt(recharge.getCarnetStudent()));
+      
             return new StudentRecharge(
                 recharge.getCarnetStudent(),
                 studentName,
@@ -88,7 +87,7 @@ public class UIBinnacleController {
 			@FXML
 			public void closeWindows() {		
 				try {
-					FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIStart.fxml"));
+					FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIProfile.fxml"));
 			        Parent root = loader.load();
 					Scene scene = new Scene(root);
 					Stage stage = new Stage();

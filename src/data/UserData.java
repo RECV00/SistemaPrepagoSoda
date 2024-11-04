@@ -147,25 +147,102 @@ public class UserData {
 	    return photoLink;
 	}
 	
-	public static User getStudentByCarnet(int cedula) {
-	    User photoLink = null;
+	public static boolean updateRecharge(User u) {
+	    boolean updateSuccess = false;
+	    
 	    try {
 	        Connection cn = DBConnection.getConecction();
-	        String query = "{call spGetPhotoLinkByCedula(?)}";
-	        CallableStatement stmt = cn.prepareCall(query);	        
-	        // Establece el parámetro de cédula
-	        stmt.setInt(2, cedula);	        
-	        // Ejecuta el SP y obtiene el resultado
-	        ResultSet rs = stmt.executeQuery();	        
-	        // Si hay un resultado, obtener el enlace de la foto
-	        if (rs.next()) {
-//	            photoLink = rs.getString("photoRoute");
-	        } 
+	        
+	        // Consulta SQL para el procedimiento almacenado que actualiza el saldo
+	        String query = "{call spUpdateRecharge(?, ?)}";  // Asume que tienes un stored procedure 'spUpdateRecharge'
+	        
+	        // Preparar la llamada al procedimiento almacenado
+	        CallableStatement stmt = cn.prepareCall(query);
+	        
+	        // Establecer los parámetros del procedimiento almacenado
+	        stmt.setInt(1, u.getId()); // ID del estudiante
+	        stmt.setDouble(2, u.getMoneyAvailable()); // Nuevo saldo disponible
+	        
+	        // Ejecutar la actualización
+	        int rowsAffected = stmt.executeUpdate();
+	        
+	        // Si al menos una fila fue actualizada, la operación fue exitosa
+	        updateSuccess = (rowsAffected > 0);
+	        
 	    } catch (SQLException e) {
-	        System.out.println("UserData.getPhotoLinkByCedula: " + e.getMessage());
+	        e.printStackTrace();
 	    }
-	    return photoLink;
-	   
+	    
+	    return updateSuccess;
 	}
+
+	public static User getStudentByCedula(int cedula) {
+	    User student = null;
+
+	    try {
+	        Connection cn = DBConnection.getConecction();
+	        
+	        // Llamada al procedimiento almacenado para obtener datos del estudiante
+	        String query = "{call spGetStudentByCedula(?)}";
+	        CallableStatement stmt = cn.prepareCall(query);
+	        
+	        // Establecer el parámetro de cédula
+	        stmt.setInt(2, cedula);
+	        
+	        // Ejecuta el procedimiento almacenado y obtiene el resultado
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        // Si hay un resultado, crea y llena el objeto User con los datos obtenidos
+	        if (rs.next()) {
+	            student = new User();
+	            student.setId_tbuser(rs.getInt("id_tbuser"));
+	            student.setId(rs.getInt("id"));
+	            student.setPassword(rs.getString("password"));
+	            student.setTipe(rs.getString("tipe"));
+	            student.setPhotoRoute(rs.getString("photoRoute"));
+	            student.setName(rs.getString("name"));
+	            student.setEmail(rs.getString("email"));
+	            student.setPhone(rs.getInt("phone"));
+	            student.setActive(rs.getString("isActive").equals("1"));  // Convertir a boolean
+	            student.setDateEntry(rs.getDate("dateEntry").toLocalDate());
+	            student.setGender(rs.getBoolean("gender"));
+	            student.setMoneyAvailable(rs.getDouble("moneyAvailable"));
+	        }
+
+	    } catch (SQLException e) {
+	        System.out.println("UserData.getStudentByCedula: " + e.getMessage());
+	    }
+
+	    return student;  // Retorna el objeto User con los datos del estudiante
+	}
+
+	public static String getStudentNameByCedula(int cedula) {
+	    String studentName = null;
+
+	    try {
+	        Connection cn = DBConnection.getConecction();
+	        
+	        // Llamada al procedimiento almacenado para obtener el nombre del estudiante
+	        String query = "{call spGetStudentNameByCedula(?)}";
+	        CallableStatement stmt = cn.prepareCall(query);
+	        
+	        // Establecer el parámetro de cédula
+	        stmt.setInt(1, cedula);
+	        
+	        // Ejecuta el procedimiento almacenado y obtiene el resultado
+	        ResultSet rs = stmt.executeQuery();
+	        
+	        // Si hay un resultado, obtener el nombre
+	        if (rs.next()) {
+	            studentName = rs.getString("name");
+	        }
+
+	    } catch (SQLException e) {
+	        System.out.println("UserData.getStudentNameByCedula: " + e.getMessage());
+	    }
+
+	    return studentName;  // Retorna el nombre del estudiante
+	}
+
 
 }
