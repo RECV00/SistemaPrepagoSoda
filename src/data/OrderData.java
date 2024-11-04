@@ -80,7 +80,7 @@ public static LinkedList<Order > getOrders(){
 			order.setNameProduct(rs.getString(2));
 			order.setAmount(rs.getInt(3));
 			order.setTotal(rs.getDouble(4));
-			String isStateStr = rs.getString(4).trim(); // Elimina espacios adicionales
+			String isStateStr = rs.getString(5).trim(); // Elimina espacios adicionales
 			order.setIsState(isStateStr.isEmpty() ? '\0' : isStateStr.charAt(0));
 			order.setIdStudent(rs.getString(6));
 			list.add(order);
