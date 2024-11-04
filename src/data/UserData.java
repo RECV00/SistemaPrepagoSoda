@@ -267,5 +267,26 @@ public class UserData {
 	    return hasFunds;
 	}
 
+	
+	public static void updateStudentFunds(int cedula, double orderTotal) {
+	    try {
+	        Connection cn = DBConnection.getConecction();
+	        
+	        // Llamada al procedimiento almacenado para actualizar los fondos
+	        String query = "{call spUpdateStudentFunds(?, ?)}";
+	        CallableStatement stmt = cn.prepareCall(query);
+	        
+	        // Establecer los parámetros
+	        stmt.setInt(1, cedula);
+	        stmt.setDouble(2, orderTotal);
+	        
+	        // Ejecutar el procedimiento almacenado
+	        stmt.executeUpdate();
+	        
+	    } catch (SQLException e) {
+	        System.out.println("UserData.updateStudentFunds: " + e.getMessage());
+	    }
+	}
+
 
 }
