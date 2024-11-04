@@ -134,7 +134,7 @@ public class UserData {
 	        String query = "{call spGetPhotoLinkByCedula(?)}";
 	        CallableStatement stmt = cn.prepareCall(query);	        
 	        // Establece el parámetro de cédula
-	        stmt.setInt(2, cedula);	        
+	        stmt.setInt(1, cedula);	        
 	        // Ejecuta el SP y obtiene el resultado
 	        ResultSet rs = stmt.executeQuery();	        
 	        // Si hay un resultado, obtener el enlace de la foto
@@ -243,6 +243,8 @@ public class UserData {
 
 	    return studentName;  // Retorna el nombre del estudiante
 	}
+	
+	
 	public static boolean hasSufficientFunds(int cedula, double orderTotal) {
 	    boolean hasFunds = false;
 
