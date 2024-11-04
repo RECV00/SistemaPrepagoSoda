@@ -11,58 +11,62 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.UISaleController">
+<AnchorPane prefHeight="732.0" prefWidth="1027.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.UISaleController">
 
     <!-- Barra Superior -->
-    <AnchorPane layoutY="0.0" prefHeight="60.0" prefWidth="900.0" style="-fx-background-color: #d32f2f;">
+    <AnchorPane layoutY="0.0" prefHeight="60.0" prefWidth="1060.0" style="-fx-background-color: #d32f2f;">
         <Label fx:id="userNameLabel" layoutX="400.0" layoutY="15.0" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: white;" text="Menu Principal" />
-        <HBox layoutX="750.0" layoutY="10.0" spacing="10.0">
+        <HBox layoutX="896.0" layoutY="10.0" spacing="10.0">
             <ImageView fx:id="userProfileImage" fitHeight="40.0" fitWidth="40.0">
                 <image>
                     <Image url="@../../media/user.png" />
                 </image>
             </ImageView>
-            <Label style="-fx-font-size: 16;" text="Usuario" textFill="white" />
+            <Label fx:id="tfUserProfileName" style="-fx-font-size: 16;" text="Usuario" textFill="white" />
         </HBox>
     </AnchorPane>
 
     <!-- Panel Principal -->
-    <SplitPane dividerPositions="0.4933184855233853" layoutY="60.0" prefHeight="540.0" prefWidth="900.0">
-        
-        <!-- Panel de Productos -->
-        <AnchorPane prefHeight="538.0" prefWidth="300.0">
-            <VBox layoutX="10.0" layoutY="10.0" prefWidth="430.0" spacing="10.0">
-                <HBox spacing="10.0" />
-                <FlowPane fx:id="productsFlowPane" hgap="10.0" prefWidth="430.0" vgap="10.0" />
-            </VBox>
-            <ImageView fitHeight="538.0" fitWidth="440.0">
-                <image>
-                    <Image url="@../../media/Soda.png" />
-                </image>
-            </ImageView>
-        </AnchorPane>
-
-        <!-- Panel del Carrito de Compras -->
-        <AnchorPane prefHeight="538.0" prefWidth="482.0">
-            <VBox layoutX="10.0" layoutY="10.0" prefWidth="430.0" spacing="10.0">
-                <TableView fx:id="cartTableView" prefHeight="300.0">
-                    <columns>
-                        <TableColumn fx:id="studentIdColumn" prefWidth="80.0" text="ID Estudiante" /> 
-                        <TableColumn fx:id="descriptionColumn" prefWidth="114.0" text="Descripción" />
-                        <TableColumn fx:id="quantityColumn" prefWidth="85.0" text="Cantidad" />
-                        <TableColumn fx:id="totalColumn" prefWidth="78.0" text="Total" />
-                        <TableColumn fx:id="stateColumn" prefWidth="106.0" text="Estado" />
-                    </columns>
-                </TableView>
-                
-                <HBox alignment="CENTER_RIGHT" spacing="10.0">
-                    <Label text="Total:" />
-                    <Label fx:id="totalLabel" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #d32f2f;" text="RD$1,500" />
-                </HBox>
-            </VBox>
-         <Button fx:id="bBack" layoutX="378.0" layoutY="499.0" mnemonicParsing="false" onAction="#returnProfile" text="Regresar" />
-        </AnchorPane>
+    <SplitPane layoutY="60.0" prefHeight="540.0" prefWidth="900.0">
+      <items>
+           
+              <!-- Panel de Productos -->
+           <AnchorPane prefHeight="687.0" prefWidth="1223.0">             
+               <ImageView fitHeight="670.0" fitWidth="440.0">
+                   <image>
+                       <Image url="@../../media/Soda.png" />
+                   </image>
+               </ImageView>
+         
+                 <!-- Panel del Carrito de Compras -->
+              <AnchorPane layoutX="372.0" layoutY="-2.0" prefHeight="670.0" prefWidth="686.0">
+                  <VBox layoutX="10.0" layoutY="10.0" prefWidth="430.0" spacing="10.0">
+                      
+                            <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                          <Label text="Total:" />
+                          <Label fx:id="totalLabel" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #d32f2f;" text="RD$1,500" />
+                      </HBox>
+                  </VBox>
+               <Button fx:id="bBack" layoutX="554.0" layoutY="621.0" mnemonicParsing="false" onAction="#returnProfile" prefHeight="35.0" prefWidth="95.0" text="Regresar">
+                  <font>
+                     <Font size="15.0" />
+                  </font>
+               </Button>
+                   <TableView fx:id="cartTableView" layoutX="68.0" prefHeight="301.0" prefWidth="618.0">
+                       <columns>
+                           <TableColumn fx:id="studentIdColumn" prefWidth="101.0" text="ID Estudiante" /> 
+                           <TableColumn fx:id="descriptionColumn" prefWidth="138.0" text="Descripción" />
+                           <TableColumn fx:id="quantityColumn" prefWidth="82.0" text="Cantidad" />
+                           <TableColumn fx:id="totalColumn" prefWidth="91.0" text="Total" />
+                           <TableColumn fx:id="stateColumn" prefWidth="108.0" text="Estado" />
+                     <TableColumn fx:id="chanceStateColumn" prefWidth="97.0" text="Cambiar Estado" />
+                       </columns>
+                   </TableView>
+              </AnchorPane>
+           </AnchorPane>
+      </items>
 
     </SplitPane>
 </AnchorPane>

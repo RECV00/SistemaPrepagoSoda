@@ -46,6 +46,8 @@ public class UISaleController {
     @FXML
     private TableColumn<Order, String> studentIdColumn; // Columna de ID Estudiante
     @FXML
+    private TableColumn<Order, String> chanceStateColumn;
+    @FXML
     private Label totalLabel;
     @FXML
     private Button bBack;
@@ -65,21 +67,44 @@ public class UISaleController {
     }
 
     private void initializeCart() {
-        cartItems = FXCollections.observableArrayList();
-        cartTableView.setItems(cartItems);
+    	 cartItems = FXCollections.observableArrayList();
+    	    cartTableView.setItems(cartItems);
 
-        // Configurar columnas
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("nameProduct"));
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
-        totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
+    	    // Configurar columnas existentes
+    	    descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("nameProduct"));
+    	    quantityColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+    	    totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
+    	    stateColumn.setCellValueFactory(new PropertyValueFactory<>("isState"));
+    	    studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("idStudent"));
 
-        // Configurar columna de estado
-        stateColumn.setCellValueFactory(new PropertyValueFactory<>("isState"));
-//        stateColumn.setCellFactory(getStateCellFactory());
+    	    // Configurar columna `chanceStateColumn` para cambiar el estado
+    	    chanceStateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(getStateString(cellData.getValue().getIsState())));
 
-        // Configurar columna de ID Estudiante
-        studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("idStudent"));
-    }
+    	    chanceStateColumn.setCellFactory(column -> new TableCell<>() {
+    	        private final ComboBox<String> comboBox = new ComboBox<>();
+
+    	        {
+    	            comboBox.getItems().addAll("Pendiente", "En preparación", "Listo", "Entregado");
+    	            comboBox.setOnAction(event -> {
+    	                Order order = getTableView().getItems().get(getIndex());
+    	                String selectedState = comboBox.getValue();
+    	                char newState = getStateChar(selectedState);
+    	                updateOrderState(order, newState);
+    	            });
+    	        }
+
+    	        @Override
+    	        protected void updateItem(String item, boolean empty) {
+    	            super.updateItem(item, empty);
+    	            if (empty || item == null) {
+    	                setGraphic(null);
+    	            } else {
+    	                comboBox.setValue(item);
+    	                setGraphic(comboBox);
+    	            }
+    	        }
+    	    });
+    	}
 
     private void loadOrdersFromDatabase() {
         LinkedList<Order> orders = OrderData.getOrders(); // Obtiene las órdenes de la base de datos
@@ -143,17 +168,28 @@ public class UISaleController {
     }
 
     private void updateOrderState(Order order, char newState) {
-        OrderData.updateOrderState(order.getNameProduct(), order.getNameProduct(), newState);
-        order.setIsState(newState); // Actualiza el estado localmente
-        cartTableView.refresh(); // Refresca la tabla
+        OrderData.updateOrderState(order.getNameProduct(), order.getIdStudent(), newState);
+        order.setIsState(newState); // Actualiza el estado localmente en el objeto `Order`
+        cartTableView.refresh(); // Refresca la tabla para mostrar el nuevo estado
     }
 
     private String getStateString(char state) {
         return switch (state) {
             case 'P' -> "Pendiente";
-            case 'R' -> "Preparado";
+            case 'N' -> "En preparación";
+            case 'L' -> "Listo";
             case 'E' -> "Entregado";
             default -> "Desconocido";
+        };
+    }
+
+    private char getStateChar(String state) {
+        return switch (state) {
+            case "Pendiente" -> 'P';
+            case "En preparación" -> 'N';
+            case "Listo" -> 'L';
+            case "Entregado" -> 'E';
+            default -> 'P'; // Valor predeterminado en caso de error
         };
     }
 
