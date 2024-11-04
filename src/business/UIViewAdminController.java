@@ -1,5 +1,6 @@
 package business;
 
+import data.ServerConnection;
 import data.UserData;
 import domain.User;
 import javafx.collections.FXCollections;
@@ -66,7 +67,7 @@ public class UIViewAdminController {
     
 
     private ObservableList<User> userList;
-
+    private ServerConnection serverConnection;
 
     @FXML
     public void initialize() {
@@ -177,6 +178,12 @@ public class UIViewAdminController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+
+	public void setServerConnection(ServerConnection serverConnection) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

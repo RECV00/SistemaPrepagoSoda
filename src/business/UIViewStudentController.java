@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.Optional;
 
+import data.ServerConnection;
 import data.UserData;
 import domain.User;
 import javafx.collections.FXCollections;
@@ -71,7 +72,7 @@ public class UIViewStudentController {
 	private Button btnBack;
 
 	 private ObservableList<User> userList;
-	 
+	 private ServerConnection serverConnection;
 	  @FXML
 	    public void initialize() {
 	        // Inicializar las columnas de la tabla
@@ -208,5 +209,11 @@ public class UIViewStudentController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+
+	public void setServerConnection(ServerConnection serverConnection) {
+		this.serverConnection = serverConnection;
+		
 	}
 }

@@ -13,6 +13,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import data.LogicUIServiceRequestController;
+import data.ServerConnection;
 import data.StudentData;
 import domain.Dishe;
 import domain.Student;
@@ -60,6 +61,9 @@ public class UIViewDishesController {
 	private Button bUpdate;
 	@FXML
 	private Label lErrorVa;
+	
+	 private ServerConnection serverConnection;
+	 
     private ObservableList<Dishe> disheList;
     private LogicUIServiceRequestController lServiceRequest = new LogicUIServiceRequestController(); // Instancia de LogicData
    
@@ -239,5 +243,8 @@ public class UIViewDishesController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public void setServerConnection(ServerConnection serverConnection) {
+		this.serverConnection = serverConnection;
 	}
 }

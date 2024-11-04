@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import data.RechargeData;
+import data.ServerConnection;
 import data.StudentData;
 import data.UserData;
 import domain.Recharge;
@@ -43,6 +44,7 @@ public class UIBinnacleController {
 	@FXML
 	private TableView<StudentRecharge> tvBinnacleStudentRecharge;
 	
+	 private ServerConnection serverConnection;
 	 @FXML
 	    public void initialize() {
 		 tvStudentCarnet.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCarnetStudent()));
@@ -98,6 +100,11 @@ public class UIBinnacleController {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
+
+			public void setServerConnection(ServerConnection serverConnection) {
+				this.serverConnection = serverConnection;
+				
 			}
 						
 }
