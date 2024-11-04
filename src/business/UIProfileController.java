@@ -38,6 +38,10 @@ public class UIProfileController {
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }
+    
+    UIProfileController(ServerConnection serverConnection){
+    	this.serverConnection = serverConnection;
+    }
 //    @FXML
     public void initialize(String userId) {
     	// Cargar el perfil del usuario al iniciar

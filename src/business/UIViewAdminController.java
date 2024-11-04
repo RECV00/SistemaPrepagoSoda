@@ -74,7 +74,9 @@ public class UIViewAdminController {
 			this.serverConnection = serverConnection;
 			
 		}
-
+	 UIViewAdminController(ServerConnection serverConnection){
+		 this.serverConnection = serverConnection;
+	 }
     @FXML
     public void initialize() {
         // Inicializar las columnas de la tabla

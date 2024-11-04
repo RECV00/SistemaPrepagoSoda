@@ -49,7 +49,10 @@ public class UIRechargeController {
 			this.serverConnection = serverConnection;
 			
 		}
-
+	 UIRechargeController(ServerConnection serverConnection){
+		 this.serverConnection = serverConnection;
+	 }
+	 
     public void recoveredData(User student) {
         if (student != null) {
             currentStudent = student;

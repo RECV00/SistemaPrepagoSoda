@@ -63,13 +63,17 @@ public class UIViewDishesController {
 	private Label lErrorVa;
 	
 	 private ServerConnection serverConnection;
+	 
 	 public void setServerConnection(ServerConnection serverConnection) {
 			this.serverConnection = serverConnection;
 		}
 	 
     private ObservableList<Dishe> disheList;
     private LogicUIServiceRequestController lServiceRequest = new LogicUIServiceRequestController(); // Instancia de LogicData
-   
+    
+    UIViewDishesController(ServerConnection serverConnection){
+    	this.serverConnection = serverConnection;
+    }
     @FXML
     public void initialize() {
 //        // Configurar ComboBox de días

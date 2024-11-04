@@ -65,6 +65,10 @@ public class UIRegisterDishesController {
 				this.serverConnection = serverConnection;
 				
 			}
+		 UIRegisterDishesController(ServerConnection serverConnection){
+			 this.serverConnection = serverConnection;
+				
+		 }
 	@FXML
 	public void initialize() {
 		cbServiceDayDishe.getItems().addAll("Lunes","Martes","Miércoles","Jueves","Viernes");

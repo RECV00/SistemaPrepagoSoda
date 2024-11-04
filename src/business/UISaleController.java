@@ -62,6 +62,10 @@ public class UISaleController {
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }
+    UISaleController(ServerConnection serverConnection, ClientHandler clientHandler ){
+    	this.serverConnection = serverConnection;
+    	this.clientHandler = clientHandler;
+    }
     // Inicialización y lógica
     @FXML
     public void initialize() {

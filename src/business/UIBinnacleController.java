@@ -50,6 +50,10 @@ public class UIBinnacleController {
 			this.serverConnection = serverConnection;
 			
 		}
+		
+		UIBinnacleController(ServerConnection serverConnection){
+			this.serverConnection = serverConnection;
+		}
 	 @FXML
 	    public void initialize() {
 		 tvStudentCarnet.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCarnetStudent()));

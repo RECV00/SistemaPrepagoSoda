@@ -20,6 +20,12 @@ public class ClientHandler extends Thread {
     private BufferedReader in;
     private String userId;
 
+    private ServerConnection serverConnection;
+
+    public void setServerConnection(ServerConnection serverConnection) {
+        this.serverConnection = serverConnection;
+    }
+    
     public ClientHandler(Socket socket) {
         this.socket = socket;
     }

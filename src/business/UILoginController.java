@@ -35,13 +35,15 @@ public class UILoginController {
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }
-
-    @FXML
-    public void initialize() {
-        // Iniciar el servidor aquí
-        serverConnection = new ServerConnection();
-       serverConnection.startServer(); // Inicia el servidor al iniciar el controlador
+    UILoginController(ServerConnection serverConnection){
+    	this.serverConnection = serverConnection;
     }
+//    @FXML
+//    public void initialize() {
+//        // Iniciar el servidor aquí
+//        serverConnection = new ServerConnection();
+//       serverConnection.startServer(); // Inicia el servidor al iniciar el controlador
+//    }
 
     @FXML
     public void loginRegister(ActionEvent event) {
