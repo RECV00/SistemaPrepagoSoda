@@ -38,23 +38,22 @@ public class UIProfileController {
 
 
     public UIProfileController() {
-        // Solo se inicia el servidor la primera vez
-        if (serverConnection == null) {
-            serverConnection = new ServerConnection();
+        // Solo se inicia el servidor la primera vez       
+            this.serverConnection = new ServerConnection();
             new Thread(() -> serverConnection.startServer()).start(); // Iniciar el servidor en un nuevo hilo
-        }
+        
     }
 //    @FXML
     public void initialize(String userId) {
     	// Cargar el perfil del usuario al iniciar
-        loadUserProfile(userId);
+//        loadUserProfile(userId);
     	 System.out.println("CEDULAr:"+ userId);
         // Inicializar cualquier lógica necesaria al cargar la vista
         // welcomeLabel.setText("Bienvenido al sistema de prepago soda");
 
         // Puedes agregar listeners para los botones si es necesario
-    	btnPedidos.setOnAction(event -> openPointOfSale(userId));
-        btnInventario.setOnAction(event -> openInventory());
+    	btnPedidos.setOnAction(event -> openPointOfSale(userId,"/presentation/UISale.fxml"));
+        btnInventario.setOnAction(event -> openInventory("/presentation/UIViewDishes.fxml"));
         btnRegisterStudent.setOnAction(event -> openViewStudent());
         btnUsuarios.setOnAction(event -> openUsers());
         btnConfiguracion.setOnAction(event -> openConfiguration());
@@ -77,38 +76,44 @@ public class UIProfileController {
         }
 
     }
-    private void openPointOfSale(String userId) {
+    private void openPointOfSale(String userId,String fxmlPath) {
     	try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UISale.fxml"));
 			Parent root = loader.load();
-			UISaleController controller = loader.getController();
-			controller.loadUserProfile(userId);
-			controller.userLoggedIn(userId);
-			controller.setServerConnection(serverConnection);
+			
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
-			stage.show();	
-			stage.setOnCloseRequest(e -> controller.closeWindows());
+			stage.show();
+			if(fxmlPath.equals("presentation/UISale.fxml")) {
+				UISaleController controller = loader.getController();
+				controller.loadUserProfile(userId);
+				controller.userLoggedIn(userId);
+				controller.setServerConnection(serverConnection);
+			}
+			
 			Stage temp = (Stage) this.btnPedidos.getScene().getWindow();
 			temp.close();
 			
 		}catch(IOException e){
-			
+			e.printStackTrace();
 		}
     }
 
-    private void openInventory() {
+    private void openInventory(String fxmlPath) {
     	try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewDishes.fxml"));
 			Parent root = loader.load();
-			UIViewDishesController controller = loader.getController();
-			controller.setServerConnection(serverConnection);
+		
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.show();	
-			stage.setOnCloseRequest(e -> controller.closeWindows());
+			
+			if(fxmlPath.equals("presentation/UIViewDishes.fxml")) {
+				UIViewDishesController controller = loader.getController();
+				controller.setServerConnection(serverConnection);
+			}			
 			Stage temp = (Stage) this.btnInventario.getScene().getWindow();
 			temp.close();
 			

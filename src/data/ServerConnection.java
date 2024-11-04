@@ -13,7 +13,7 @@ public class ServerConnection {
     }
     public void startServer() {
         try {
-            serverSocket = new ServerSocket(12360); // Puerto del servidor
+            serverSocket = new ServerSocket(12363); // Puerto del servidor
             System.out.println("Servidor iniciado, esperando conexiones...");
             while (true) {
                 Socket clientSocket = serverSocket.accept(); // Esperar a que un cliente se conecte
