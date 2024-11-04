@@ -131,7 +131,7 @@ public class ServerConnection {
             LinkedList<Order> orders = new LinkedList<>();
 
             // Procesar cada orden
-            for (int i = 2; i < parts.length; i += 3) { // Iniciar en 2 para saltar el userId
+            for (int i = 2; i < parts.length; i += 3) { // Iniciar en 2 para saltar el userId y command
                 if (i + 2 < parts.length) {
                     String dishName = parts[i]; // Nombre del platillo
                     int amount;
@@ -145,12 +145,21 @@ public class ServerConnection {
                         return; // Salir si hay un error en el formato
                     }
 
-                    char isState = getOrderState("pendiente"); // Estado inicial como "pendiente"
+                    // Verificar si el usuario tiene fondos suficientes
+                    if (!UserData.hasSufficientFunds(Integer.parseInt(userId), total)) {
+                        out.println("INSUFFICIENT_FUNDS, Fondos insuficientes para completar la compra.");
+                        return; // Salir si el usuario no tiene fondos suficientes
+                    }
+
+                    // Restar el monto del pedido del saldo del usuario
+                    UserData.updateStudentFunds(Integer.parseInt(userId), -total); // Restar el total del pedido
+
+                    char isState = getOrderState("P"); // Estado inicial como "pendiente"
 
                     // Crear y guardar la orden
                     Order order = new Order(dishName, amount, total, isState, userId);
                     orders.add(order);
-                    OrderData.saveOrder(order); // Guardar la orden en la base de datos
+                    OrderData.saveOrder(order); // Guardar la orden
                 } else {
                     out.println("ERROR, Información de compra incompleta");
                     return; // Salir si la información de compra no es completa
