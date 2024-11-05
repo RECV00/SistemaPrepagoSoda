@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedList;
 
-public class ClientHandler extends Thread {
+public class ClientHandler implements Runnable {
     private static final String LOGIN_COMMAND = "LOGIN";
     private static final String LOAD_DISHES_COMMAND = "LOAD_DISHES";
     private static final String PURCHASE_COMMAND = "PURCHASE";
