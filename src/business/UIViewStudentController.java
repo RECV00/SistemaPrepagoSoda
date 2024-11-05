@@ -79,6 +79,12 @@ public class UIViewStudentController {
 			this.serverConnection = serverConnection;
 			
 		}
+	 UIViewStudentController(){
+		 
+	 }	 
+	 UIViewStudentController(ServerConnection serverConnection){
+		 this.serverConnection = serverConnection;
+	 }
 	  @FXML
 	    public void initialize() {
 	        // Inicializar las columnas de la tabla

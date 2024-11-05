@@ -38,7 +38,9 @@ public class UIProfileController {
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }
-    
+    UIProfileController(){
+    	
+    }
     UIProfileController(ServerConnection serverConnection){
     	this.serverConnection = serverConnection;
     }
@@ -88,7 +90,7 @@ public class UIProfileController {
 				UISaleController controller = loader.getController();
 //				controller.loadUserProfile(userId);
 //				controller.userLoggedIn(userId);
-				//controller.setServerConnection(serverConnection);
+				controller.setServerConnection(serverConnection);
 			}
 			
 			Stage temp = (Stage) this.btnPedidos.getScene().getWindow();

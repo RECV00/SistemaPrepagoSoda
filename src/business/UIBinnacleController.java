@@ -51,6 +51,9 @@ public class UIBinnacleController {
 			
 		}
 		
+		UIBinnacleController(){
+			
+		}
 		UIBinnacleController(ServerConnection serverConnection){
 			this.serverConnection = serverConnection;
 		}
@@ -101,6 +104,7 @@ public class UIBinnacleController {
 					FXMLLoader loader = new FXMLLoader (getClass().getResource("/presentation/UIProfile.fxml"));
 			        Parent root = loader.load();
 			        UIProfileController controller = loader.getController();
+			        
 	                controller.setServerConnection(serverConnection); 
 					Scene scene = new Scene(root);
 					Stage stage = new Stage();

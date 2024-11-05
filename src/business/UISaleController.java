@@ -62,6 +62,9 @@ public class UISaleController {
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }
+    
+    UISaleController( ){   	
+    }
     UISaleController(ServerConnection serverConnection, ClientHandler clientHandler ){
     	this.serverConnection = serverConnection;
     	this.clientHandler = clientHandler;

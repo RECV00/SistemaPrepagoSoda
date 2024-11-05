@@ -35,6 +35,11 @@ public class UILoginController {
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }
+    
+    UILoginController(){
+    	
+    }
+    
     UILoginController(ServerConnection serverConnection){
     	this.serverConnection = serverConnection;
     }
@@ -92,11 +97,14 @@ public class UILoginController {
             showAlert("Inicio de sesión exitoso.");
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
-                Parent root = loader.load();
+              
                 UIProfileController controller = loader.getController();
                 controller.setServerConnection(serverConnection); 
+                loader.setController(controller);
                 controller.loadUserProfile(userID);
                 controller.initialize(userID);
+                Parent root = loader.load();
+                
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();
                 stage.setScene(scene);

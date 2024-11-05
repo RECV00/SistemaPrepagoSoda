@@ -74,6 +74,8 @@ public class UIViewAdminController {
 			this.serverConnection = serverConnection;
 			
 		}
+	 UIViewAdminController(){
+	 }
 	 UIViewAdminController(ServerConnection serverConnection){
 		 this.serverConnection = serverConnection;
 	 }
@@ -149,7 +151,7 @@ public class UIViewAdminController {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterUsers.fxml"));
 			Parent root = loader.load();
-			UIRegisterUsersController controller = loader.getController();
+			UIRegisterUsersController controller = loader.getController();			
 			controller.setServerConnection(serverConnection);
 			controller.loadUserData(selectedUser); 
 			Scene scene = new Scene(root);

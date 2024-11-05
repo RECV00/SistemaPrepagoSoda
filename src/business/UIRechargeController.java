@@ -49,6 +49,9 @@ public class UIRechargeController {
 			this.serverConnection = serverConnection;
 			
 		}
+	 UIRechargeController(){
+	 }
+	 
 	 UIRechargeController(ServerConnection serverConnection){
 		 this.serverConnection = serverConnection;
 	 }
@@ -104,6 +107,7 @@ public class UIRechargeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewStudent.fxml"));
             Parent root = loader.load();
             UIViewStudentController controller = loader.getController();
+            loader.setController(controller);
 			controller.setServerConnection(serverConnection);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
