@@ -146,6 +146,7 @@ public class UIRegisterUsersController {
 
         tfUserID.setDisable(true); 
         tfMoneyAvailable.setDisable(true);
+        tfPassword.setDisable(true);
         // Cargar imagen
         File photoFile = new File(user.getPhotoRoute());
         if (photoFile.exists()) {
@@ -196,7 +197,7 @@ public class UIRegisterUsersController {
     
     @FXML
     public void closeWindows() {
-    	 if (isEditing) {
+    	 if (isEditing && "Estudiante".equals(cbType.getValue())) {
     		  try {
     	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewStudent.fxml"));
     	            Parent root = loader.load();
@@ -211,22 +212,36 @@ public class UIRegisterUsersController {
     	        } catch (IOException e) {
     	            e.printStackTrace();
     	        }
-    		  } else {
-    			  
-        	  try {
-                  FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UILogin.fxml"));
-                  Parent root = loader.load();
-                  UILoginController controller = loader.getController();
-      			controller.setServerConnection(serverConnection);
-                  Scene scene = new Scene(root);
-                  Stage stage = new Stage();
-                  stage.setScene(scene);
-                  stage.show();			        
-                  Stage temp = (Stage) btnBack.getScene().getWindow();
-                  temp.close();
-              } catch (IOException e) {
-                  e.printStackTrace();
-              }
+    		  } else if (isEditing && "Personal".equals(cbType.getValue())) {
+	        		  try {
+	      	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewAdmin.fxml"));
+	      	            Parent root = loader.load();
+	      	            UIViewAdminController controller = loader.getController();
+	      				controller.setServerConnection(serverConnection);
+	      	            Scene scene = new Scene(root);
+	      	            Stage stage = new Stage();
+	      	            stage.setScene(scene);
+	      	            stage.show();			        
+	      	            Stage temp = (Stage) btnBack.getScene().getWindow();
+	      	            temp.close();
+	      	        } catch (IOException e) {
+	      	            e.printStackTrace();
+	      	        } 
+    		  }else {
+	    			  try {
+	                  FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UILogin.fxml"));
+	                  Parent root = loader.load();
+	                  UILoginController controller = loader.getController();
+	      			controller.setServerConnection(serverConnection);
+	                  Scene scene = new Scene(root);
+	                  Stage stage = new Stage();
+	                  stage.setScene(scene);
+	                  stage.show();			        
+	                  Stage temp = (Stage) btnBack.getScene().getWindow();
+	                  temp.close();
+	              } catch (IOException e) {
+	                  e.printStackTrace();
+	              }
         	  
     		 }
     	
