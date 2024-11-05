@@ -31,7 +31,7 @@ public class UIProfileController {
     @FXML
     private Button btnUsuarios;
     @FXML
-    private Button btnConfiguracion;
+    private Button btnLogout;
 
     private ServerConnection serverConnection;
     
@@ -49,7 +49,7 @@ public class UIProfileController {
         btnInventario.setOnAction(event -> openInventory("/presentation/UIViewDishes.fxml"));
         btnRegisterStudent.setOnAction(event -> openViewStudent());
         btnUsuarios.setOnAction(event -> openUsers());
-        btnConfiguracion.setOnAction(event -> openConfiguration());
+        btnLogout.setOnAction(event -> openConfiguration());
         btnBinnacle.setOnAction(event -> openBinnacle());
     }
 

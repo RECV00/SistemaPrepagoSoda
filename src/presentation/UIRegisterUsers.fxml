@@ -12,10 +12,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="681.0" prefWidth="686.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.UIRegisterUsersController">
-    <GridPane alignment="CENTER" hgap="20" layoutX="17.0" layoutY="15.0" prefHeight="653.0" prefWidth="651.0" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 0);" vgap="15">
+<AnchorPane prefHeight="681.0" prefWidth="686.0" style="-fx-background-color: #820000;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.UIRegisterUsersController">
+    <GridPane alignment="CENTER" hgap="20" layoutX="34.0" layoutY="38.0" prefHeight="568.0" prefWidth="618.0" style="-fx-background-color: white; -fx-padding: 20px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 0);" vgap="15">
         
-        <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #4CAF50;" text="Registro de Usuario" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+        <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #820000;" text="Registro de Usuario" textFill="#820000" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
         
         <!-- ID del Usuario -->
         <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="ID del Usuario:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
@@ -60,13 +60,13 @@
         <!-- Foto de Perfil -->
         <Label style="-fx-text-fill: #555555; -fx-font-weight: bold;" text="Foto de Perfil:" GridPane.rowIndex="11" />
         <ImageView fx:id="photoPreview" fitHeight="100" fitWidth="100" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-        <Button fx:id="btnSelectPhoto" onAction="#handleSelectPhoto" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" text="Adjuntar Foto" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+        <Button fx:id="btnSelectPhoto" onAction="#handleSelectPhoto" style="-fx-background-color: #820000; -fx-text-fill: white; -fx-font-weight: bold;" text="Adjuntar Foto" GridPane.columnIndex="1" GridPane.rowIndex="12" />
 
         <!-- Botón para Registrar Usuario -->
-        <Button fx:id="btnRegister" onAction="#handleRegister" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px;" text="Registrar" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
+        <Button fx:id="btnRegister" onAction="#handleRegister" style="-fx-background-color: #820000; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px;" text="Registrar" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
         
         <!-- Botón para Regresar -->
-        <Button fx:id="btnBack" layoutX="172.0" layoutY="632.0" onAction="#returnMain" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px;" text="Regresar" GridPane.rowIndex="13" />
+        <Button fx:id="btnBack" layoutX="172.0" layoutY="632.0" onAction="#returnMain" style="-fx-background-color: #820000; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px;" text="Regresar" GridPane.rowIndex="13" />
         
         <columnConstraints>
             <ColumnConstraints />
