@@ -187,10 +187,10 @@ public class UIRegisterDishesController {
 			        stage.setScene(scene);
 			        stage.show();			        
 			        Stage temp = (Stage) btnBack.getScene().getWindow();
-			        temp.close();
+			        temp.hide();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			
+		
 }

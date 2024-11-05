@@ -182,7 +182,7 @@ public class UIViewDishesController {
 
             stage.setOnCloseRequest(e -> controller.closeWindows());
             Stage temp = (Stage) this.btnRegisterDishe.getScene().getWindow();
-            temp.close();
+            temp.hide();
 
         } catch (IOException e) {
             e.printStackTrace();

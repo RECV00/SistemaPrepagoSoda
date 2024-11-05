@@ -176,7 +176,7 @@ public class UIViewStudentController {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
-            ((Stage) btnBack.getScene().getWindow()).close();
+            ((Stage) btnBack.getScene().getWindow()).hide();
         } catch (IOException e) {
             e.printStackTrace();
         }

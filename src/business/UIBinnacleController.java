@@ -90,15 +90,16 @@ public class UIBinnacleController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
             Parent root = loader.load();
-            UIProfileController controller = loader.getController();
-            controller.setServerConnection(serverConnection); 
+            UIProfileController profileController = loader.getController();
+            profileController.setServerConnection(serverConnection);
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
 
-            Stage temp = (Stage) btnReturnStar.getScene().getWindow();
-            temp.close();
+            Stage tempStage = (Stage) btnReturnStar.getScene().getWindow();
+            tempStage.hide(); // Oculta la ventana en lugar de cerrarla
+
         } catch (IOException e) {
             e.printStackTrace();
         }
