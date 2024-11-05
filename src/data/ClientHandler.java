@@ -46,135 +46,118 @@ public class ClientHandler implements Runnable {
 
     private void processRequest(String request) {
         String[] parts = request.split(",");
-        if (parts.length == 0) {
-            sendError("Petición vacía");
-            return;
-        }
-
         String command = parts[0];
+
         switch (command) {
-            case LOGIN_COMMAND:
-                handleLogin(parts);
+            case "LOGIN":
+                userId = parts[1]; // Guardar el ID del usuario al iniciar sesión
+                String password = parts[2];
+                validateUser(userId, password);
                 break;
-
-            case LOAD_DISHES_COMMAND:
-                handleLoadDishes(parts);
+            case "LOAD_DISHES":
+                String day = parts[1];
+                String time = parts[2];
+                sendDishList(day, time);
                 break;
-
-            case PURCHASE_COMMAND:
-                handlePurchase(parts);
+            case "PURCHASE":
+                userId = parts[1]; // Extraer el ID del usuario desde el índice 1
+                processPurchase(parts, userId);
                 break;
-
             default:
-                sendError("Comando no reconocido: " + command);
+                System.out.println("Comando no reconocido: " + command);
+                out.println("ERROR, Comando no reconocido: " + command);
                 break;
         }
     }
 
-    private void handleLogin(String[] parts) {
-        if (parts.length == 4) {
-            userId = parts[1];
-            String password = parts[2];
-            validateUser(userId, password);
-        } else {
-            sendError("Argumentos de LOGIN insuficientes");
-        }
-    }
-
-    private void handleLoadDishes(String[] parts) {
-        if (parts.length == 3) {
-            String day = parts[1];
-            String time = parts[2];
-            sendDishList(day, time);
-        } else {
-            sendError("Argumentos de LOAD_DISHES insuficientes");
-        }
-    }
-
-    private void handlePurchase(String[] parts) {
-        if (parts.length < 3) {
-            sendError("Argumentos de PURCHASE insuficientes");
-            return;
-        }
-
-        userId = parts[1];
-        if (userId == null || userId.isEmpty()) {
-            sendError("Usuario no autenticado");
-            return;
-        }
-
-        processPurchase(parts);
-    }
-
-    private void validateUser(String userId, String password) {
-        LinkedList<User> users = UserData.getUsers();
-        boolean loginSuccessful = users.stream().anyMatch(user -> 
-            String.valueOf(user.getId()).equals(userId) && user.getPassword().equals(password)
-        );
-
-        if (loginSuccessful) {
-            out.println("SUCCESS," + userId);
-        } else {
-            sendError("Credenciales inválidas");
-        }
-    }
+   
 
     private void sendDishList(String day, String time) {
+        System.out.print("DIA: " + day + " Horario: " + time);
         LinkedList<Dishe> dishes = LogicUIServiceRequestController.getDishesForDayAndTime(day, time);
         StringBuilder response = new StringBuilder("DISH_LIST");
-
         for (Dishe dish : dishes) {
             response.append(",").append(dish.getServiceName()).append(",").append(dish.getServicePrice());
+            System.out.print("Platillos " + dish.toString());
         }
+        System.out.println("Enviando al cliente: " + response.toString());
 
-        System.out.println("Enviando al cliente: " + response);
+        // Enviar la respuesta al cliente
         out.println(response.toString());
     }
 
-    private void processPurchase(String[] parts) {
+    private void processPurchase(String[] parts, String userId) {
+        if (userId == null || userId.isEmpty()) {
+            out.println("ERROR, Usuario no autenticado");
+            return; // Salir si el usuario no ha iniciado sesión o no se recibió un ID
+        }
+
         LinkedList<Order> orders = new LinkedList<>();
 
-        for (int i = 2; i < parts.length; i += 3) {
-            if (i + 2 >= parts.length) {
-                sendError("Información de compra incompleta");
-                return;
-            }
+        // Procesar cada orden
+        for (int i = 2; i < parts.length; i += 3) { // Iniciar en 2 para saltar el userId y command
+            if (i + 2 < parts.length) {
+                String dishName = parts[i]; // Nombre del platillo
+                int amount;
+                double total;
 
-            String dishName = parts[i];
-            int amount;
-            double total;
-
-            try {
-                amount = Integer.parseInt(parts[i + 1]);
-                total = Double.parseDouble(parts[i + 2]);
-
-                if (amount <= 0 || total <= 0) {
-                    sendError("Cantidad o total debe ser positivo");
-                    return;
+                try {
+                    amount = Integer.parseInt(parts[i + 1]); // Cantidad
+                    total = Double.parseDouble(parts[i + 2]); // Total
+                    if (amount <= 0 || total <= 0) {
+                        out.println("ERROR, Cantidad o total debe ser positivo");
+                        return;
+                    }
+                } catch (NumberFormatException e) {
+                    out.println("ERROR, Formato de cantidad o total inválido");
+                    return; // Salir si hay un error en el formato
                 }
-            } catch (NumberFormatException e) {
-                sendError("Formato de cantidad o total inválido");
-                return;
-            }
 
-            if (!UserData.hasSufficientFunds(Integer.parseInt(userId), total)) {
-                out.println("INSUFFICIENT_FUNDS, Fondos insuficientes para completar la compra.");
-                return;
-            }
+                // Verificar si el usuario tiene fondos suficientes
+                if (!UserData.hasSufficientFunds(Integer.parseInt(userId), total)) {
+                    out.println("INSUFFICIENT_FUNDS, Fondos insuficientes para completar la compra.");
+                    return; // Salir si el usuario no tiene fondos suficientes
+                }
 
-            UserData.updateStudentFunds(Integer.parseInt(userId), -total);
-            char isState = getOrderState("pendiente");
-            Order order = new Order(dishName, amount, total, isState, userId);
-            orders.add(order);
-            OrderData.saveOrder(order);
-            notifyOrderStatusToClient(dishName, isState);
+                // Restar el monto del pedido del saldo del usuario
+                UserData.updateStudentFunds(Integer.parseInt(userId), -total); // Restar el total del pedido
+
+                char isState = getOrderState("pendiente"); // Estado inicial como "pendiente"
+
+                // Crear y guardar la orden
+                Order order = new Order(dishName, amount, total, isState, userId);
+                orders.add(order);
+                OrderData.saveOrder(order); // Guardar la orden
+           
+                // Notificar al cliente del estado inicial
+                notifyOrderStatusToClient(dishName, isState);
+            } else {
+                out.println("ERROR, Información de compra incompleta");
+                return; // Salir si la información de compra no es completa
+            }
+        }     
+    }
+    
+    public void notifyOrderStatusToClient(String dishName, char newState) {
+        StringBuilder response = new StringBuilder("ORDER_STATUS_UPDATE");
+        response.append(",").append(dishName).append(",").append(newState);
+        out.println(response.toString()); // Enviar la respuesta al cliente
+    }
+    private void validateUser(String userId, String password) {
+        LinkedList<User> users = UserData.getUsers(); // Obtener la lista de usuarios
+
+        // Verificar las credenciales utilizando streams
+        boolean loginSuccessful = users.stream()
+            .filter(user -> user.getId() == Integer.parseInt(userId) && user.getTipe().equals("Estudiante")) // Filtrar usuarios por ID y tipo
+            .anyMatch(user -> PasswordHasher.verifyPassword(password, user.getPassword(), user.getSalt())); // Verificar la contraseña
+
+        if (loginSuccessful) {
+            out.println("SUCCESS"+","+userId); // Enviar éxito si las credenciales son válidas
+        } else {
+            sendError("Credenciales inválidas"); // Enviar error si las credenciales son inválidas
         }
     }
 
-    public void notifyOrderStatusToClient(String dishName, char newState) {
-        String response = String.format("ORDER_STATUS_UPDATE", dishName, newState);
-        out.println(response);
-    }
 
     private char getOrderState(String stateInput) {
         switch (stateInput.toLowerCase()) {
