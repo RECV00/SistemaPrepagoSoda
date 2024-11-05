@@ -31,27 +31,16 @@ public class UILoginController {
     private PasswordField tfPassword;
 
     private ServerConnection serverConnection;
-
-    public void setServerConnection(@SuppressWarnings("exports") ServerConnection serverConnection) {
-        this.serverConnection = serverConnection;
+ 
+    @FXML
+    public void initialize() {
+        // Iniciar el servidor aquí
+        serverConnection = new ServerConnection();
+       serverConnection.startServer(); // Inicia el servidor al iniciar el controlador
     }
-    
-    public UILoginController(){
-    	
-    }
-    
-    public UILoginController(@SuppressWarnings("exports") ServerConnection serverConnection){
-    	this.serverConnection = serverConnection;
-    }
-//    @FXML
-//    public void initialize() {
-//        // Iniciar el servidor aquí
-//        serverConnection = new ServerConnection();
-//       serverConnection.startServer(); // Inicia el servidor al iniciar el controlador
-//    }
 
     @FXML
-    public void loginRegister(@SuppressWarnings("exports") ActionEvent event) {
+    public void loginRegister(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterUsers.fxml"));
             Parent root = loader.load();
@@ -72,7 +61,7 @@ public class UILoginController {
     }
 
     @FXML
-    public void loginAdmin(@SuppressWarnings("exports") ActionEvent event) {
+    public void loginAdmin( ActionEvent event) {
         String userID = tfUserID.getText();
         String password = tfPassword.getText();
 
@@ -135,4 +124,9 @@ public class UILoginController {
             serverConnection.stopServer(); // Detener el servidor cuando se cierre la aplicación
         }
     }
+
+	 public void setServerConnection(ServerConnection serverConnection) {
+        this.serverConnection = serverConnection;
+    }
+    
 }

@@ -60,12 +60,7 @@ public class UIRegisterUsersController {
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }
-    public UIRegisterUsersController(){
-    	
-    }
-    public UIRegisterUsersController(ServerConnection serverConnection){
-    	this.serverConnection = serverConnection;
-    }
+    
     // Initialize method to set up ComboBoxes
     @FXML
     public void initialize() {

@@ -1,14 +1,15 @@
 package data;
 
+import domain.Dishe;
+import domain.Order;
+import domain.User;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.LinkedList;
-import domain.Dishe;
-import domain.Order;
-import domain.User;
 
 public class ClientHandler extends Thread {
     private static final String LOGIN_COMMAND = "LOGIN";
@@ -20,12 +21,6 @@ public class ClientHandler extends Thread {
     private BufferedReader in;
     private String userId;
 
-    private ServerConnection serverConnection;
-
-    public void setServerConnection(ServerConnection serverConnection) {
-        this.serverConnection = serverConnection;
-    }
-    
     public ClientHandler(Socket socket) {
         this.socket = socket;
     }
@@ -33,8 +28,8 @@ public class ClientHandler extends Thread {
     @Override
     public void run() {
         try {
-            this.out = new PrintWriter(socket.getOutputStream(), true);
-            this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
@@ -52,58 +47,75 @@ public class ClientHandler extends Thread {
     private void processRequest(String request) {
         String[] parts = request.split(",");
         if (parts.length == 0) {
-            out.println("ERROR, Petición vacía");
+            sendError("Petición vacía");
             return;
         }
 
         String command = parts[0];
         switch (command) {
             case LOGIN_COMMAND:
-                if (parts.length == 4) { // Asegurarse de que hay suficientes argumentos
-                    userId = parts[1];
-                    String password = parts[2];
-                    validateUser(userId, password);
-                } else {
-                    out.println("ERROR, Argumentos de LOGIN insuficientes");
-                }
+                handleLogin(parts);
                 break;
 
             case LOAD_DISHES_COMMAND:
-                if (parts.length == 3) { // Validar número de argumentos
-                    String day = parts[1];
-                    String time = parts[2];
-                    sendDishList(day, time);
-                } else {
-                    out.println("ERROR, Argumentos de LOAD_DISHES insuficientes");
-                }
+                handleLoadDishes(parts);
                 break;
 
             case PURCHASE_COMMAND:
-                if (parts.length >= 3) { // Se espera al menos 3 partes
-                    userId = parts[1];
-                    processPurchase(parts, userId);
-                } else {
-                    out.println("ERROR, Argumentos de PURCHASE insuficientes");
-                }
+                handlePurchase(parts);
                 break;
 
             default:
-                System.out.println("Comando no reconocido: " + command);
-                out.println("ERROR, Comando no reconocido: " + command);
+                sendError("Comando no reconocido: " + command);
                 break;
         }
     }
 
+    private void handleLogin(String[] parts) {
+        if (parts.length == 4) {
+            userId = parts[1];
+            String password = parts[2];
+            validateUser(userId, password);
+        } else {
+            sendError("Argumentos de LOGIN insuficientes");
+        }
+    }
+
+    private void handleLoadDishes(String[] parts) {
+        if (parts.length == 3) {
+            String day = parts[1];
+            String time = parts[2];
+            sendDishList(day, time);
+        } else {
+            sendError("Argumentos de LOAD_DISHES insuficientes");
+        }
+    }
+
+    private void handlePurchase(String[] parts) {
+        if (parts.length < 3) {
+            sendError("Argumentos de PURCHASE insuficientes");
+            return;
+        }
+
+        userId = parts[1];
+        if (userId == null || userId.isEmpty()) {
+            sendError("Usuario no autenticado");
+            return;
+        }
+
+        processPurchase(parts);
+    }
+
     private void validateUser(String userId, String password) {
         LinkedList<User> users = UserData.getUsers();
-        boolean loginSuccessful = users.stream().anyMatch(user ->
-                String.valueOf(user.getId()).equals(userId) && user.getPassword().equals(password)
+        boolean loginSuccessful = users.stream().anyMatch(user -> 
+            String.valueOf(user.getId()).equals(userId) && user.getPassword().equals(password)
         );
 
         if (loginSuccessful) {
             out.println("SUCCESS," + userId);
         } else {
-            out.println("ERROR, Credenciales inválidas");
+            sendError("Credenciales inválidas");
         }
     }
 
@@ -119,60 +131,52 @@ public class ClientHandler extends Thread {
         out.println(response.toString());
     }
 
-    private void processPurchase(String[] parts, String userId) {
-        if (userId == null || userId.isEmpty()) {
-            out.println("ERROR, Usuario no autenticado");
-            return;
-        }
-
+    private void processPurchase(String[] parts) {
         LinkedList<Order> orders = new LinkedList<>();
 
         for (int i = 2; i < parts.length; i += 3) {
-            if (i + 2 < parts.length) {
-                String dishName = parts[i];
-                int amount;
-                double total;
-
-                try {
-                    amount = Integer.parseInt(parts[i + 1]);
-                    total = Double.parseDouble(parts[i + 2]);
-                    if (amount <= 0 || total <= 0) {
-                        out.println("ERROR, Cantidad o total debe ser positivo");
-                        return;
-                    }
-                } catch (NumberFormatException e) {
-                    out.println("ERROR, Formato de cantidad o total inválido");
-                    return;
-                }
-
-                if (!UserData.hasSufficientFunds(Integer.parseInt(userId), total)) {
-                    out.println("INSUFFICIENT_FUNDS, Fondos insuficientes para completar la compra.");
-                    return;
-                }
-
-                UserData.updateStudentFunds(Integer.parseInt(userId), -total);
-
-                char isState = getOrderState("pendiente");
-
-                Order order = new Order(dishName, amount, total, isState, userId);
-                orders.add(order);
-                OrderData.saveOrder(order);
-
-                notifyOrderStatusToClient(dishName, isState);
-            } else {
-                out.println("ERROR, Información de compra incompleta");
+            if (i + 2 >= parts.length) {
+                sendError("Información de compra incompleta");
                 return;
             }
+
+            String dishName = parts[i];
+            int amount;
+            double total;
+
+            try {
+                amount = Integer.parseInt(parts[i + 1]);
+                total = Double.parseDouble(parts[i + 2]);
+
+                if (amount <= 0 || total <= 0) {
+                    sendError("Cantidad o total debe ser positivo");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                sendError("Formato de cantidad o total inválido");
+                return;
+            }
+
+            if (!UserData.hasSufficientFunds(Integer.parseInt(userId), total)) {
+                out.println("INSUFFICIENT_FUNDS, Fondos insuficientes para completar la compra.");
+                return;
+            }
+
+            UserData.updateStudentFunds(Integer.parseInt(userId), -total);
+            char isState = getOrderState("pendiente");
+            Order order = new Order(dishName, amount, total, isState, userId);
+            orders.add(order);
+            OrderData.saveOrder(order);
+            notifyOrderStatusToClient(dishName, isState);
         }
     }
 
     public void notifyOrderStatusToClient(String dishName, char newState) {
-        StringBuilder response = new StringBuilder("ORDER_STATUS_UPDATE");
-        response.append(",").append(dishName).append(",").append(newState);
-        out.println(response.toString());
+        String response = String.format("ORDER_STATUS_UPDATE", dishName, newState);
+        out.println(response);
     }
 
-    public char getOrderState(String stateInput) {
+    private char getOrderState(String stateInput) {
         switch (stateInput.toLowerCase()) {
             case "pendiente": return 'P';
             case "listo": return 'L';
@@ -182,6 +186,10 @@ public class ClientHandler extends Thread {
                 System.out.println("Estado no reconocido: " + stateInput);
                 return 'U'; // Estado desconocido
         }
+    }
+
+    private void sendError(String message) {
+        out.println("ERROR, " + message);
     }
 
     private void closeResources() {
