@@ -67,7 +67,7 @@ public class UISaleController {
         loadOrdersFromDatabase();
         
      // Configura un Timeline para refrescar la tabla cada 10 segundos
-        refreshTimeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
+        refreshTimeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> {
             loadOrdersFromDatabase();
             calculateTotal();
         }));
@@ -82,18 +82,15 @@ public class UISaleController {
         }
     }
     
-
     private void initializeCart() {
         cartItems = FXCollections.observableArrayList();
         cartTableView.setItems(cartItems);
-
         // Configuración de columnas
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("nameProduct"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
         stateColumn.setCellValueFactory(new PropertyValueFactory<>("isState"));
         studentIdColumn.setCellValueFactory(new PropertyValueFactory<>("idStudent"));
-
         // Configurar columna para cambio de estado
         chanceStateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(getStateString(cellData.getValue().getIsState())));
         chanceStateColumn.setCellFactory(column -> new TableCell<>() {
@@ -121,18 +118,15 @@ public class UISaleController {
             }
         });
     }
-
     private void loadOrdersFromDatabase() {
         LinkedList<Order> orders = OrderData.getOrders();
         cartItems.addAll(orders);
     }
-
     public void updateOrderHistory(LinkedList<Order> orders) {
         cartItems.clear();
         cartItems.addAll(orders);
         System.out.println("Historial de órdenes actualizado.");
     }
-
     @FXML
     private void calculateTotal() {
         double total = cartItems.stream().mapToDouble(Order::getTotal).sum();
@@ -145,7 +139,8 @@ public class UISaleController {
     }
 
     public void loadUserProfile(String userId) {
-        String photoPath = UserData.getPhotoLinkByCedula(Integer.parseInt(userId));
+        String photoPath = "media/402480420.png"; // Esta línea puede ser ajustada según sea necesario
+        System.out.println("LINK:" + UserData.getPhotoLinkByCedula(Integer.parseInt(userId)));
         if (photoPath != null && !photoPath.isEmpty()) {
             Image userImage = new Image("file:" + photoPath);
             userProfileImage.setImage(userImage);
@@ -154,7 +149,6 @@ public class UISaleController {
             userProfileImage.setImage(null);
         }
     }
-
     private void updateOrderState(Order order, char newState) {
         OrderData.updateOrderState(order.getNameProduct(), order.getIdStudent(), newState);
         order.setIsState(newState);
@@ -190,8 +184,6 @@ public class UISaleController {
     public void returnProfile() {
         closeWindows();
     }
-
-
     public void closeWindows() {
     	if (refreshTimeline != null) {
             refreshTimeline.stop();
@@ -213,7 +205,7 @@ public class UISaleController {
             e.printStackTrace();
         }
     }
-    
+   
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }

@@ -69,14 +69,14 @@ public class UIProfileController {
         openWindow(fxmlPath, loader -> {
         	UISaleController controller = loader.getController();
             controller.setServerConnection(serverConnection);
-            
+            controller.loadUserProfile(userId);
         });
     }
 
     private void openInventory(String fxmlPath) {
         openWindow(fxmlPath, loader -> {
             UIViewDishesController controller = loader.getController();
-            controller.setServerConnection(serverConnection);
+            controller.setServerConnection(serverConnection);           
         });
     }
 
@@ -105,9 +105,7 @@ public class UIProfileController {
     	 try {
              FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UILogin.fxml"));
              Parent root = loader.load();
-             // Obtener el controlador de la nueva ventana
              UILoginController profileController = loader.getController();
-             // Pasar la conexión del servidor al controlador de perfil
              profileController.setServerConnection(serverConnection);
              Scene scene = new Scene(root);
              Stage stage = new Stage();
@@ -119,19 +117,16 @@ public class UIProfileController {
              e.printStackTrace();
          }
     }
-
     // Método auxiliar para cargar ventanas
     private void openWindow(String fxmlPath, FXMLLoaderConsumer loaderConsumer) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             loaderConsumer.accept(loader); // Ejecuta la lógica del controlador
-
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.show();
-
             // Oculte la ventana actual en lugar de cerrarla
             Stage currentStage = (Stage) btnPedidos.getScene().getWindow();
             currentStage.hide();

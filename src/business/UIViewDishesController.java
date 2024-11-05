@@ -57,7 +57,6 @@ public class UIViewDishesController {
     private Button btnBack;
     @FXML
     private Label lErrorVa;
-
     private ServerConnection serverConnection;
     private ObservableList<Dishe> disheList;
     private LogicUIServiceRequestController lServiceRequest = new LogicUIServiceRequestController(); // Instancia de LogicData
@@ -66,7 +65,6 @@ public class UIViewDishesController {
     public void initialize() {
         // Configurar ComboBox de días
         cbServiceDay.getItems().addAll("Lunes", "Martes", "Miércoles", "Jueves", "Viernes");
-
         // Configurar columnas de la TableView
         tcDataDishe.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getServiceName()));
         tcPriceDishe.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getServicePrice()));
