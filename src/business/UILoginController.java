@@ -101,7 +101,7 @@ public class UILoginController {
                 stage.show();
 
                 Stage temp = (Stage) this.btnLogin.getScene().getWindow();
-                temp.close(); // Cerrar la ventana de login
+                temp.hide(); // Cerrar la ventana de login
 
             } catch (IOException e) {
                 e.printStackTrace();

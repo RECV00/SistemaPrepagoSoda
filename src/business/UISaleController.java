@@ -8,6 +8,8 @@ import data.OrderData;
 import data.ServerConnection;
 import data.UserData;
 import domain.Order;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,6 +27,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class UISaleController {
 
@@ -55,13 +58,30 @@ public class UISaleController {
     private ObservableList<Order> cartItems;
     private ServerConnection serverConnection;
     private ClientHandler clientHandler;
+    private Timeline refreshTimeline;
 
     @FXML
     public void initialize() {
         serverConnection = ServerConnection.getInstance(); // Obtener instancia única de ServerConnection
         initializeCart();
         loadOrdersFromDatabase();
+        
+     // Configura un Timeline para refrescar la tabla cada 10 segundos
+        refreshTimeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
+            loadOrdersFromDatabase();
+            calculateTotal();
+        }));
+        refreshTimeline.setCycleCount(Timeline.INDEFINITE);
+        refreshTimeline.play();
     }
+
+    // Detener el refresco automático cuando cierres la ventana
+    public void stopRefresh() {
+        if (refreshTimeline != null) {
+            refreshTimeline.stop();
+        }
+    }
+    
 
     private void initializeCart() {
         cartItems = FXCollections.observableArrayList();
@@ -173,26 +193,22 @@ public class UISaleController {
 
 
     public void closeWindows() {
-        // Detener el servidor si es necesario, pero asegúrate de que no haya clientes conectados
-        if (serverConnection != null) {
-            // Opcionalmente, podrías verificar si no hay conexiones activas antes de detener el servidor
-            serverConnection.stopServer(); // Detener el servidor antes de cerrar la ventana
+    	if (refreshTimeline != null) {
+            refreshTimeline.stop();
         }
-
-        // Cerrar la ventana actual
-        Stage currentStage = (Stage) bBack.getScene().getWindow();
-        currentStage.close();
-
-        // Abrir UIProfile
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
             Parent root = loader.load();
             UIProfileController profileController = loader.getController();
-            profileController.setServerConnection(serverConnection); // Pasar la conexión del servidor si es necesario
+            profileController.setServerConnection(serverConnection);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
 
-            Stage profileStage = new Stage();
-            profileStage.setScene(new Scene(root));
-            profileStage.show();
+            Stage tempStage = (Stage) bBack.getScene().getWindow();
+            tempStage.hide(); // Oculta la ventana en lugar de cerrarla
+
         } catch (IOException e) {
             e.printStackTrace();
         }

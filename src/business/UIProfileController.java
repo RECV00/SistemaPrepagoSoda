@@ -49,7 +49,7 @@ public class UIProfileController {
         btnInventario.setOnAction(event -> openInventory("/presentation/UIViewDishes.fxml"));
         btnRegisterStudent.setOnAction(event -> openViewStudent());
         btnUsuarios.setOnAction(event -> openUsers());
-        btnLogout.setOnAction(event -> openConfiguration());
+        btnLogout.setOnAction(event -> logout());
         btnBinnacle.setOnAction(event -> openBinnacle());
     }
 
@@ -101,9 +101,23 @@ public class UIProfileController {
         });
     }
 
-    private void openConfiguration() {
-        System.out.println("Abriendo Configuración...");
-        // Implementa la lógica de configuración aquí
+    private void logout() {
+    	 try {
+             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UILogin.fxml"));
+             Parent root = loader.load();
+             // Obtener el controlador de la nueva ventana
+             UILoginController profileController = loader.getController();
+             // Pasar la conexión del servidor al controlador de perfil
+             profileController.setServerConnection(serverConnection);
+             Scene scene = new Scene(root);
+             Stage stage = new Stage();
+             stage.setScene(scene);
+             stage.show();
+             Stage temp = (Stage) btnLogout.getScene().getWindow();
+             temp.close();
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
     }
 
     // Método auxiliar para cargar ventanas
