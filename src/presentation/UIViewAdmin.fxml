@@ -6,25 +6,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1119.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.UIViewAdminController">
-    <TableView fx:id="userTable" prefHeight="350.0" prefWidth="1001.0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="108.0" AnchorPane.topAnchor="10">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="411.0" prefWidth="1073.0" stylesheets="@styles2.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.UIViewAdminController">
+    <TableView fx:id="userTable" layoutX="14.0" layoutY="8.0" prefHeight="350.0" prefWidth="1001.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="104.0" AnchorPane.topAnchor="8.0">
         <columns>
             <TableColumn fx:id="idColumn" text="ID" />
-            <TableColumn fx:id="nameColumn" text="Nombre" />
-            <TableColumn fx:id="emailColumn" text="Email" />
-            <TableColumn fx:id="phoneColumn" text="Teléfono" />
-            <TableColumn fx:id="genderColumn" text="Género" />
-            <TableColumn fx:id="isActiveColumn" text="Activo" />
-            <TableColumn fx:id="moneyAvailableColumn" prefWidth="116.0" text="Dinero Disponible" />
-            <TableColumn fx:id="dateEntryColumn" prefWidth="118.0" text="Fecha de Entrada" />
-            <TableColumn fx:id="photoColumn" minWidth="0.0" prefWidth="86.0" text="Ruta de Foto" />
+            <TableColumn fx:id="nameColumn" prefWidth="92.0" text="Nombre" />
+            <TableColumn fx:id="emailColumn" prefWidth="96.0" text="Email" />
+            <TableColumn fx:id="phoneColumn" prefWidth="86.0" text="Teléfono" />
+            <TableColumn fx:id="genderColumn" prefWidth="74.0" text="Género" />
+            <TableColumn fx:id="isActiveColumn" prefWidth="73.0" text="Activo" />
+            <TableColumn fx:id="moneyAvailableColumn" prefWidth="137.0" text="Dinero Disponible" />
+            <TableColumn fx:id="dateEntryColumn" prefWidth="128.0" text="Fecha de Entrada" />
+            <TableColumn fx:id="photoColumn" minWidth="0.0" prefWidth="107.0" text="Ruta de Foto" />
             <TableColumn fx:id="tipeColumn" minWidth="0.0" text="Tipo" />
-            <TableColumn fx:id="passwordColumn" prefWidth="121.0" text="Contraseña" />
         </columns>
     </TableView>
-    <HBox spacing="10" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10">
-        <Button fx:id="btnDelete" onAction="#handleDelete" text="Eliminar" />
-        <Button fx:id="btnUpdate" onAction="#handleUpdate" text="Actualizar" />
-      <Button fx:id="btnBack" mnemonicParsing="false" onAction="#returnMain" text="Regresar" />
+    <HBox spacing="15" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10">
+        <Button fx:id="btnDelete" onAction="#handleDelete" style="-fx-background-color: #d9534f; -fx-text-fill: white; -fx-font-weight: bold;" text="Eliminar" />
+        <Button fx:id="btnUpdate" onAction="#handleUpdate" style="-fx-background-color: #5bc0de; -fx-text-fill: white; -fx-font-weight: bold;" text="Actualizar" />
+        <Button fx:id="btnBack" onAction="#returnMain" style="-fx-background-color: #5cb85c; -fx-text-fill: white; -fx-font-weight: bold;" text="Regresar" />
     </HBox>
 </AnchorPane>

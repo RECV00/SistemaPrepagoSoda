@@ -34,7 +34,10 @@ public class UIProfileController {
     private Button btnConfiguracion;
 
     private ServerConnection serverConnection;
-
+    
+    public void setServerConnection(ServerConnection serverConnection) {
+        this.serverConnection = serverConnection;
+    }
     // Inicialización y obtención de la conexión del servidor
     public void initialize(String userId) {
         serverConnection = ServerConnection.getInstance();
@@ -129,7 +132,5 @@ public class UIProfileController {
         void accept(FXMLLoader loader) throws IOException;
     }
     
-    public void setServerConnection(ServerConnection serverConnection) {
-        this.serverConnection = serverConnection;
-    }
+  
 }

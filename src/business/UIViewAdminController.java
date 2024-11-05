@@ -42,8 +42,6 @@ public class UIViewAdminController {
     @FXML
     private TableColumn<User, String> tipeColumn;
     @FXML
-    private TableColumn<User, String> passwordColumn;
-    @FXML
     private Button btnBack;
     @FXML
     private Button btnUpdate;
@@ -87,8 +85,6 @@ public class UIViewAdminController {
         dateEntryColumn.setCellValueFactory(new PropertyValueFactory<>("dateEntry"));
         photoColumn.setCellValueFactory(new PropertyValueFactory<>("photoRoute"));
         tipeColumn.setCellValueFactory(new PropertyValueFactory<>("tipe"));
-        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
-
         loadUsers();
     }
 
