@@ -13,18 +13,17 @@ public class OrderData {
 	public static void updateOrder(Order or) {
 	    try {
 	        Connection cn = DBConnection.getConecction();
-	        String query = "{call spUpdateOrder(?, ?, ?, ?, ?, ?)}"; // Definir los parámetros, incluyendo el ID
+	        String query = "{call spUpdateOrder(?, ?, ?, ?, ?, ?)}"; 
 	        CallableStatement stmt = cn.prepareCall(query);
 
 	        stmt.setInt(1, or.getId_tborders());
 	        stmt.setString(2, or.getNameProduct());
 	        stmt.setInt(3, or.getAmount());
 	        stmt.setDouble(4, or.getTotal());
-//	         setString para almacenar el char como una cadena
 	        stmt.setString(5, String.valueOf(or.getIsState()));
 	        stmt.setString(6, or.getIdStudent());
 
-	        stmt.execute(); // Ejecutar sin ResultSet si no se espera un resultado
+	        stmt.execute(); 
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -34,7 +33,7 @@ public class OrderData {
 	public static void saveOrder(Order or) {
 	    try {
 	        Connection cn = DBConnection.getConecction();
-	        String query = "{call spSaveOrder(?, ?, ?, ?, ?)}"; // Definir los parámetros
+	        String query = "{call spSaveOrder(?, ?, ?, ?, ?)}"; 
 	        CallableStatement stmt = cn.prepareCall(query);
 
 	        stmt.setString(1, or.getNameProduct());
@@ -43,7 +42,7 @@ public class OrderData {
 	        stmt.setString(4, String.valueOf(or.getIsState()));
 	        stmt.setString(5, or.getIdStudent());
 
-	        stmt.execute(); // Ejecutar sin ResultSet si no se espera un resultado
+	        stmt.execute(); 
 
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -70,7 +69,6 @@ public static LinkedList<Order > getOrders(){
 	try {
 		Connection cn = DBConnection.getConecction();
 		String query = "{call spListOrder}";
-//				PreparedStatement ps = cn.prepareStatement(query);
 		CallableStatement stmt = cn.prepareCall(query);
 		ResultSet rs = stmt.executeQuery();
 		
@@ -80,7 +78,7 @@ public static LinkedList<Order > getOrders(){
 			order.setNameProduct(rs.getString(2));
 			order.setAmount(rs.getInt(3));
 			order.setTotal(rs.getDouble(4));
-			String isStateStr = rs.getString(5).trim(); // Elimina espacios adicionales
+			String isStateStr = rs.getString(5).trim(); 
 			order.setIsState(isStateStr.isEmpty() ? '\0' : isStateStr.charAt(0));
 			order.setIdStudent(rs.getString(6));
 			list.add(order);
@@ -97,17 +95,11 @@ public static LinkedList<Order > getOrders(){
 public static void updateOrderState(String nameProduct, String idStudent, char newState) {
     try {
         Connection cn = DBConnection.getConecction();
-        
-        // Llamada al procedimiento almacenado para actualizar el estado de la orden
         String query = "{call spUpdateOrderState(?, ?, ?)}";
         CallableStatement stmt = cn.prepareCall(query);
-        
-        // Establecer los parámetros
         stmt.setString(1, nameProduct);
         stmt.setString(2, idStudent);
         stmt.setString(3, String.valueOf(newState));
-        
-        // Ejecutar el procedimiento almacenado
         stmt.executeUpdate();
         
     } catch (SQLException e) {

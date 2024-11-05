@@ -214,28 +214,17 @@ public class UserData {
 	    String studentName = null;
 
 	    try {
-	        Connection cn = DBConnection.getConecction();
-	        
-	        // Llamada al procedimiento almacenado para obtener el nombre del estudiante
-	        String query = "{call spGetStudentNameByCedula(?)}";
+	        Connection cn = DBConnection.getConecction(); String query = "{call spGetStudentNameByCedula(?)}";
 	        CallableStatement stmt = cn.prepareCall(query);
-	        
-	        // Establecer el parámetro de cédula
 	        stmt.setInt(1, cedula);
-	        
-	        // Ejecuta el procedimiento almacenado y obtiene el resultado
 	        ResultSet rs = stmt.executeQuery();
-	        
-	        // Si hay un resultado, obtener el nombre
 	        if (rs.next()) {
 	            studentName = rs.getString("name");
 	        }
-
 	    } catch (SQLException e) {
 	        System.out.println("UserData.getStudentNameByCedula: " + e.getMessage());
 	    }
-
-	    return studentName;  // Retorna el nombre del estudiante
+	    return studentName;  
 	}
 	
 	
@@ -248,12 +237,9 @@ public class UserData {
 	        CallableStatement stmt = cn.prepareCall(query);
 	        stmt.setInt(1, cedula);
 	        stmt.setDouble(2, orderTotal);
-	        
-	        // Registro de salida
 	        stmt.registerOutParameter(3, java.sql.Types.BOOLEAN);
 	        stmt.execute();
 	        
-	        // Obtener el valor de retorno
 	        hasFunds = stmt.getBoolean(3);
 	        
 	    } catch (SQLException e) {
@@ -267,22 +253,13 @@ public class UserData {
 	public static void updateStudentFunds(int cedula, double orderTotal) {
 	    try {
 	        Connection cn = DBConnection.getConecction();
-	        
-	        // Llamada al procedimiento almacenado para actualizar los fondos
 	        String query = "{call spUpdateStudentFunds(?, ?)}";
 	        CallableStatement stmt = cn.prepareCall(query);
-	        
-	        // Establecer los parámetros
 	        stmt.setInt(1, cedula);
 	        stmt.setDouble(2, orderTotal);
-	        
-	        // Ejecutar el procedimiento almacenado
 	        stmt.executeUpdate();
-	        
 	    } catch (SQLException e) {
 	        System.out.println("UserData.updateStudentFunds: " + e.getMessage());
 	    }
 	}
-
-
 }

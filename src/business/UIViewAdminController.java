@@ -81,8 +81,7 @@ public class UIViewAdminController {
             }
         });
 
-        moneyAvailableColumn.setCellValueFactory(new PropertyValueFactory<>("moneyAvailable"));
-        dateEntryColumn.setCellValueFactory(new PropertyValueFactory<>("dateEntry"));
+       dateEntryColumn.setCellValueFactory(new PropertyValueFactory<>("dateEntry"));
         tipeColumn.setCellValueFactory(new PropertyValueFactory<>("tipe"));
         loadUsers();
     }

@@ -69,7 +69,6 @@ public class UISaleController {
      // Configura un Timeline para refrescar la tabla cada 10 segundos
         refreshTimeline = new Timeline(new KeyFrame(Duration.seconds(4), event -> {
             loadOrdersFromDatabase();
-            calculateTotal();
         }));
         refreshTimeline.setCycleCount(Timeline.INDEFINITE);
         refreshTimeline.play();
@@ -120,17 +119,14 @@ public class UISaleController {
     }
     private void loadOrdersFromDatabase() {
         LinkedList<Order> orders = OrderData.getOrders();
+        cartItems.clear();
         cartItems.addAll(orders);
+        
     }
     public void updateOrderHistory(LinkedList<Order> orders) {
         cartItems.clear();
         cartItems.addAll(orders);
         System.out.println("Historial de órdenes actualizado.");
-    }
-    @FXML
-    private void calculateTotal() {
-        double total = cartItems.stream().mapToDouble(Order::getTotal).sum();
-        totalLabel.setText("RD$" + total);
     }
 
     public void userLoggedIn(String userId) {

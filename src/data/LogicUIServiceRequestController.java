@@ -15,57 +15,6 @@ public class LogicUIServiceRequestController {
 	
 	public LogicUIServiceRequestController() {
 	}
-//	//cuando se elija el boton de solicitar 
-//	public void handleRequestDishe(Dishe dishe,ComboBox<Student> cbStudentsList ) {
-//		
-//	    Student selectedStudent = cbStudentsList.getSelectionModel().getSelectedItem();
-//	    
-//	    if (selectedStudent == null) {
-//	        JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún estudiante.");
-//	        return;
-//	    }
-//
-//	    double studentBalance = selectedStudent.getMoneyAvailable(); // Obtén el saldo del estudiante
-//
-//	    if (studentBalance >= dishe.getServicePrice()) {
-//	        int response = JOptionPane.showConfirmDialog(null, 
-//	                "¿Desea solicitar el platillo seleccionado?", 
-//	                "Confirmación", 
-//	                JOptionPane.YES_NO_OPTION);
-//	        
-//	        if (response == JOptionPane.YES_OPTION) {
-//	        	
-//	        	double newAmount = studentBalance - dishe.getServicePrice();
-//	           selectedStudent.setMoneyAvailable(newAmount); // Actualiza el saldo del estudiante
-//	           
-//	           Recharge recharge =RechargeData.getRechargeByCarnet(selectedStudent.getCarnetStudent());
-//	           recharge.setAmount(newAmount);
-//	          
-//	            // Guardar los cambios en el archivo JSON
-//	            if (StudentData.updateStudent(selectedStudent, selectedStudent.getCarnetStudent())) {
-//	                JOptionPane.showMessageDialog(null, 
-//	                        "Solicitud confirmada.\n" +
-//	                        "Platillo: " + dishe.getServiceName() + "\n" +
-//	                        "Precio: " + dishe.getServicePrice() + "\n" +
-//	                        "Saldo restante: " + selectedStudent.getMoneyAvailable());
-//	               
-//	            } else {
-//	                JOptionPane.showMessageDialog(null, "Error al actualizar el saldo del estudiante.");
-//	            }
-//	        }
-//	    } else {
-//	        JOptionPane.showMessageDialog(null, 
-//	                "Saldo insuficiente para solicitar este platillo.");
-//	    }
-//	}
-	
-//	public void updateComboBox(ComboBox<Student> cbStudentsList) {
-//
-//	    cbStudentsList.setItems(FXCollections.observableArrayList(StudentData.getStudentList()));
-//	    cbStudentsList.getSelectionModel().clearSelection();
-//	    cbStudentsList.setPromptText("Seleccione el estudiante");
-//	   	     
-//	}
 	// Se llena la tabla 
 		 public void loadDisheList(String serviceDay, boolean serviceHours, ObservableList<Dishe> disheList,TableView<Dishe> tvDisheData ){
 		        try {
