@@ -113,7 +113,7 @@ public class UIViewDishesController {
     }
 
     private void handleCheckBoxAction(Dishe selectedDishe) {
-        String[] options = {"Eliminar", "Actualizar", "Solicitar"};
+        String[] options = {"Eliminar", "Actualizar"};
         int choice = JOptionPane.showOptionDialog(null,
                 "Seleccione una acción para el platillo seleccionado:",
                 "Acción del Platillo",

@@ -1,23 +1,22 @@
-/* Aplica un fondo claro a la tabla */
+/* Fondo de la tabla */
 .table-view {
     -fx-background-color: #f5f5f5;
     -fx-table-cell-border-color: transparent;
     -fx-padding: 10px;
-    -fx-font-family: "Segoe UI";
 }
 
-/* Estilo para las filas alternadas */
+/* Estilo de las filas alternadas */
 .table-row-cell:odd {
-    -fx-background-color: #e6e6e6;
+    -fx-background-color: #ffe6e6; /* Rojo muy claro */
 }
 
 .table-row-cell:even {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #ffffff; /* Blanco */
 }
 
 /* Encabezado de columna */
 .table-view .column-header-background {
-    -fx-background-color: #4CAF50;
+    -fx-background-color: #ff6666; /* Rojo suave para el encabezado */
 }
 
 .table-view .column-header, .table-view .table-column {
@@ -30,11 +29,8 @@
 .table-cell {
     -fx-alignment: CENTER;
     -fx-padding: 5px;
-}
-
-/* Columna resaltada */
-.table-column-header-background {
-    -fx-background-color: linear-gradient(#6fbf73, #4CAF50);
+    -fx-font-size: 12px;
+    -fx-text-fill: #333333; /* Color de texto oscuro */
 }
 
 /* Bordes de la tabla */
