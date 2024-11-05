@@ -171,24 +171,33 @@ public class UISaleController {
         closeWindows();
     }
 
+
     public void closeWindows() {
+        // Detener el servidor si es necesario, pero asegúrate de que no haya clientes conectados
+        if (serverConnection != null) {
+            // Opcionalmente, podrías verificar si no hay conexiones activas antes de detener el servidor
+            serverConnection.stopServer(); // Detener el servidor antes de cerrar la ventana
+        }
+
+        // Cerrar la ventana actual
+        Stage currentStage = (Stage) bBack.getScene().getWindow();
+        currentStage.close();
+
+        // Abrir UIProfile
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
             Parent root = loader.load();
             UIProfileController profileController = loader.getController();
-            profileController.setServerConnection(serverConnection);
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
+            profileController.setServerConnection(serverConnection); // Pasar la conexión del servidor si es necesario
 
-            Stage tempStage = (Stage) bBack.getScene().getWindow();
-            tempStage.hide(); // Oculta la ventana en lugar de cerrarla
-
+            Stage profileStage = new Stage();
+            profileStage.setScene(new Scene(root));
+            profileStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }

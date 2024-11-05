@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import data.ServerConnection;
 import data.UserData;
 import domain.User;
+import data.PasswordHasher;
 
 public class UIRegisterUsersController {
 
@@ -85,22 +86,27 @@ public class UIRegisterUsersController {
     @FXML
     private void handleRegister() {
         // Obtener datos de entrada
-    	
         int userID = Integer.parseInt(tfUserID.getText());
         String password = tfPassword.getText();
         String userType = cbType.getValue();
         String name = tfName.getText();
         String email = tfEmail.getText();
         int phone = Integer.parseInt(tfPhone.getText());
-        boolean isActive = Boolean.parseBoolean(cbActive.getSelectionModel().getSelectedItem());
+        boolean isActive = "Sí".equals(cbActive.getSelectionModel().getSelectedItem());
         LocalDate dateEntry = dbDateEntry.getValue();
-        boolean gender = Boolean.parseBoolean(cbGender.getSelectionModel().getSelectedItem()); // Cambiado aquí
+        boolean gender = "Femenino".equals(cbGender.getSelectionModel().getSelectedItem());
         double moneyAvailable = tfMoneyAvailable.isDisabled() ? 0.0 : Double.parseDouble(tfMoneyAvailable.getText());
+
+        // Generar un salt aleatorio
+        String salt = PasswordHasher.generateSalt();
+
+        // Cifrar la contraseña con el salt
+        String encryptedPassword = PasswordHasher.hashPasswordWithSalt(password, salt);
 
         // Guardar la imagen con el ID del usuario en la carpeta "media"
         String photoFileName = "media/" + userID + ".png";
         File destFile = new File(photoFileName);
-        
+
         try {
             if (selectedPhotoFile != null) {
                 Files.copy(selectedPhotoFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -109,20 +115,20 @@ public class UIRegisterUsersController {
             e.printStackTrace(); // Manejar error al copiar la imagen
         }
 
-        // Crear el objeto User
-       
-        
+        // Crear el objeto User con la contraseña cifrada
+        User newUser;
         if (isEditing) {
-        	User newUser = new User(tbuser,userID, password, userType, photoFileName, name, email, phone, isActive, dateEntry, gender, moneyAvailable);
+            newUser = new User(tbuser, userID, encryptedPassword,salt, userType, photoFileName, name, email, phone, isActive, dateEntry, gender, moneyAvailable);
             UserData.updateUser(newUser); // Actualizar usuario
         } else {
-        	 User newUser1 = new User(userID, password, userType, photoFileName, name, email, phone, isActive, dateEntry, gender, moneyAvailable);
-            UserData.saveUser(newUser1); // Registrar nuevo usuario
+            newUser = new User(userID, encryptedPassword,salt, userType, photoFileName, name, email, phone, isActive, dateEntry, gender, moneyAvailable);
+            UserData.saveUser(newUser); // Registrar nuevo usuario
         }
 
         // Limpiar campos después de la operación
         clearFields();
     }
+
 
 
     public void loadUserData(User user) {
@@ -190,20 +196,41 @@ public class UIRegisterUsersController {
     
     @FXML
     public void closeWindows() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UILogin.fxml"));
-            Parent root = loader.load();
-            UILoginController controller = loader.getController();
-			controller.setServerConnection(serverConnection);
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();			        
-            Stage temp = (Stage) btnBack.getScene().getWindow();
-            temp.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    	 if (isEditing) {
+    		  try {
+    	            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIViewStudent.fxml"));
+    	            Parent root = loader.load();
+    	            UIViewStudentController controller = loader.getController();
+    				controller.setServerConnection(serverConnection);
+    	            Scene scene = new Scene(root);
+    	            Stage stage = new Stage();
+    	            stage.setScene(scene);
+    	            stage.show();			        
+    	            Stage temp = (Stage) btnBack.getScene().getWindow();
+    	            temp.close();
+    	        } catch (IOException e) {
+    	            e.printStackTrace();
+    	        }
+    		  } else {
+    			  
+        	  try {
+                  FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UILogin.fxml"));
+                  Parent root = loader.load();
+                  UILoginController controller = loader.getController();
+      			controller.setServerConnection(serverConnection);
+                  Scene scene = new Scene(root);
+                  Stage stage = new Stage();
+                  stage.setScene(scene);
+                  stage.show();			        
+                  Stage temp = (Stage) btnBack.getScene().getWindow();
+                  temp.close();
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+        	  
+    		 }
+    	
+      
     }
 
 	

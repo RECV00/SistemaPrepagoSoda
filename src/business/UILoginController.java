@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.PasswordField;
 import javafx.event.ActionEvent;
+import data.PasswordHasher;
 import data.ServerConnection;
 import data.UserData;
 import domain.User;
@@ -34,9 +35,11 @@ public class UILoginController {
  
     @FXML
     public void initialize() {
-        // Iniciar el servidor aquí
-        serverConnection = new ServerConnection();
+        new ServerConnection();
+		// Iniciar el servidor aquí
+        serverConnection = ServerConnection.getInstance();
        serverConnection.startServer(); // Inicia el servidor al iniciar el controlador
+    System.out.println("Servidor Iniciado Desde Controlador de Inicio de Sesión.");
     }
 
     @FXML
@@ -61,7 +64,7 @@ public class UILoginController {
     }
 
     @FXML
-    public void loginAdmin( ActionEvent event) {
+    public void loginAdmin(ActionEvent event) {
         String userID = tfUserID.getText();
         String password = tfPassword.getText();
 
@@ -70,15 +73,17 @@ public class UILoginController {
             return;
         }
 
-        LinkedList<User> users = UserData.getUsers();
+        LinkedList<User> users = UserData.getUsers(); // Obtener la lista de usuarios
         boolean loginSuccessful = false;
 
+        // Iterar sobre los usuarios para verificar las credenciales
         for (User user : users) {
-            if (user.getId() == Integer.parseInt(userID)
-                    && user.getPassword().equals(password)
-                    && user.getTipe().equals("Personal")) {
-                loginSuccessful = true;
-                break;
+            if (user.getId() == Integer.parseInt(userID) && user.getTipe().equals("Personal")) {
+                // Verificar la contraseña usando el método verifyPassword
+                if (PasswordHasher.verifyPassword(password, user.getPassword(), user.getSalt())) {
+                    loginSuccessful = true; // Autenticación exitosa
+                    break;
+                }
             }
         }
 
@@ -86,21 +91,17 @@ public class UILoginController {
             showAlert("Inicio de sesión exitoso.");
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
-                Parent root = loader.load();  // Primero carga el archivo FXML
-
-                // Luego obtén el controlador
+                Parent root = loader.load();
                 UIProfileController controller = loader.getController();
-                controller.setServerConnection(serverConnection);
-                controller.loadUserProfile(userID);
+                controller.loadUserProfile(userID); // Cargar el perfil del usuario
                 controller.initialize(userID);
-                
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.show();
 
                 Stage temp = (Stage) this.btnLogin.getScene().getWindow();
-                temp.close();
+                temp.close(); // Cerrar la ventana de login
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -109,8 +110,8 @@ public class UILoginController {
         } else {
             showAlert("Usuario o contraseña incorrectos o no tiene acceso.");
         }
-
     }
+
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

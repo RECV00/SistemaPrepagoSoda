@@ -15,34 +15,35 @@ public class User {
 	private LocalDate dateEntry;
 	private boolean gender;
 	private double moneyAvailable;
+	private String salt;
 	
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public User(int id_tbuser, int id, String password, String tipe, String photoRoute, String name, String email,
-			int phone, boolean isActive, LocalDate dateEntry, boolean gender, double moneyAvailable) {
-		super();
-		this.id_tbuser = id_tbuser;
-		this.id = id;
-		this.password = password;
-		this.tipe = tipe;
-		this.photoRoute = photoRoute;
-		this.name = name;
-		this.email = email;
-		this.phone = phone;
-		this.isActive = isActive;
-		this.dateEntry = dateEntry;
-		this.gender = gender;
-		this.moneyAvailable = moneyAvailable;
-	}
-
-	
-	public User(int id, String password, String tipe, String photoRoute, String name, String email, int phone,
+	public User(int id_tbuser, int id, String password,String salt, String tipe, String photoRoute, String name, String email,
+            int phone, boolean isActive, LocalDate dateEntry, boolean gender, double moneyAvailable) {
+    super();
+    this.id_tbuser = id_tbuser;
+    this.id = id;
+    this.password = password;
+    this.salt = salt; 
+    this.tipe = tipe;
+    this.photoRoute = photoRoute;
+    this.name = name;
+    this.email = email;
+    this.phone = phone;
+    this.isActive = isActive;
+    this.dateEntry = dateEntry;
+    this.gender = gender;
+    this.moneyAvailable = moneyAvailable;
+    
+}
+	public User(int id, String password,String salt, String tipe, String photoRoute, String name, String email, int phone,
 			boolean isActive, LocalDate dateEntry, boolean gender, double moneyAvailable) {
 		super();
 		this.id = id;
 		this.password = password;
+		this.salt = salt; 
 		this.tipe = tipe;
 		this.photoRoute = photoRoute;
 		this.name = name;
@@ -118,8 +119,6 @@ public class User {
 		this.phone = phone;
 	}
 
-
-
 	public boolean getIsActive() {
 		return isActive;
 	}
@@ -152,6 +151,15 @@ public class User {
 		this.moneyAvailable = moneyAvailable;
 	}
 
+	// Método getter para salt
+	public String getSalt() {
+	    return salt;
+	}
+
+	// Método setter para salt
+	public void setSalt(String salt) {
+	    this.salt = salt;
+	}
 	@Override
 	public String toString() {
 		return "User [id_tbuser=" + id_tbuser + ", id=" + id + ", password=" + password + ", tipe=" + tipe
