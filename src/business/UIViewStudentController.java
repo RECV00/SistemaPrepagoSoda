@@ -79,10 +79,10 @@ public class UIViewStudentController {
 			this.serverConnection = serverConnection;
 			
 		}
-	 UIViewStudentController(){
+	 public UIViewStudentController(){
 		 
 	 }	 
-	 UIViewStudentController(ServerConnection serverConnection){
+	 public UIViewStudentController(ServerConnection serverConnection){
 		 this.serverConnection = serverConnection;
 	 }
 	  @FXML
@@ -164,7 +164,7 @@ public class UIViewStudentController {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterUsers.fxml"));
 			Parent root = loader.load();
 			UIRegisterUsersController controller = loader.getController();
-			 controller.setServerConnection(serverConnection);
+			controller.setServerConnection(serverConnection);
 			controller.loadUserData(selectedUser); 
 			Scene scene = new Scene(root);
 			Stage stage = new Stage();

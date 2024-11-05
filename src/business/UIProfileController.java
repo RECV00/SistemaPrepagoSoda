@@ -38,10 +38,10 @@ public class UIProfileController {
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }
-    UIProfileController(){
+    public UIProfileController(){
     	
     }
-    UIProfileController(ServerConnection serverConnection){
+    public UIProfileController(ServerConnection serverConnection){
     	this.serverConnection = serverConnection;
     }
 //    @FXML

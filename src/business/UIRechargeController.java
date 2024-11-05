@@ -49,10 +49,10 @@ public class UIRechargeController {
 			this.serverConnection = serverConnection;
 			
 		}
-	 UIRechargeController(){
+	 public UIRechargeController(){
 	 }
 	 
-	 UIRechargeController(ServerConnection serverConnection){
+	 public UIRechargeController(ServerConnection serverConnection){
 		 this.serverConnection = serverConnection;
 	 }
 	 

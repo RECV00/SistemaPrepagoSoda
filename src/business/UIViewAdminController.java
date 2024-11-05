@@ -74,9 +74,9 @@ public class UIViewAdminController {
 			this.serverConnection = serverConnection;
 			
 		}
-	 UIViewAdminController(){
+	 public UIViewAdminController(){
 	 }
-	 UIViewAdminController(ServerConnection serverConnection){
+	 public UIViewAdminController(ServerConnection serverConnection){
 		 this.serverConnection = serverConnection;
 	 }
     @FXML

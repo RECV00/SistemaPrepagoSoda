@@ -51,10 +51,10 @@ public class UIBinnacleController {
 			
 		}
 		
-		UIBinnacleController(){
+		public UIBinnacleController(){
 			
 		}
-		UIBinnacleController(ServerConnection serverConnection){
+		public UIBinnacleController(ServerConnection serverConnection){
 			this.serverConnection = serverConnection;
 		}
 	 @FXML

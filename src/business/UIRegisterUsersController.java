@@ -60,10 +60,10 @@ public class UIRegisterUsersController {
     public void setServerConnection(ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }
-    UIRegisterUsersController(){
+    public UIRegisterUsersController(){
     	
     }
-    UIRegisterUsersController(ServerConnection serverConnection){
+    public UIRegisterUsersController(ServerConnection serverConnection){
     	this.serverConnection = serverConnection;
     }
     // Initialize method to set up ComboBoxes

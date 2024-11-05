@@ -65,7 +65,10 @@ public class UIRegisterDishesController {
 				this.serverConnection = serverConnection;
 				
 			}
-		 UIRegisterDishesController(ServerConnection serverConnection){
+		 public UIRegisterDishesController() {
+			 
+		 }
+		 public UIRegisterDishesController(ServerConnection serverConnection){
 			 this.serverConnection = serverConnection;
 				
 		 }

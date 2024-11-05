@@ -71,10 +71,10 @@ public class UIViewDishesController {
     private ObservableList<Dishe> disheList;
     private LogicUIServiceRequestController lServiceRequest = new LogicUIServiceRequestController(); // Instancia de LogicData
     
-    UIViewDishesController(){
+    public UIViewDishesController(){
     	
     }
-    UIViewDishesController(ServerConnection serverConnection){
+    public UIViewDishesController(ServerConnection serverConnection){
     	this.serverConnection = serverConnection;
     }
     @FXML

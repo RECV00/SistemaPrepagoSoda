@@ -1,5 +1,7 @@
 package business;
 
+import static data.ServerConnection.PORT;
+
 import data.ServerConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,14 +11,14 @@ import javafx.scene.Scene;
 
 public class Main extends Application {
 
-    private static ServerConnection serverConnection; // Instancia única del servidor
+	  private static ServerConnection serverConnection; // Instancia única del servidor
 
     @Override
     public void start(Stage primaryStage) {
         try {
             // Iniciar el servidor solo una vez al inicio de la aplicación
-            serverConnection = new ServerConnection();
-            serverConnection.startServer();
+        	 serverConnection = new ServerConnection(PORT);
+             serverConnection.startServer();
 
             // Cargar la vista de inicio de sesión
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UILogin.fxml"));

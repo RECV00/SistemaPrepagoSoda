@@ -32,15 +32,15 @@ public class UILoginController {
 
     private ServerConnection serverConnection;
 
-    public void setServerConnection(ServerConnection serverConnection) {
+    public void setServerConnection(@SuppressWarnings("exports") ServerConnection serverConnection) {
         this.serverConnection = serverConnection;
     }
     
-    UILoginController(){
+    public UILoginController(){
     	
     }
     
-    UILoginController(ServerConnection serverConnection){
+    public UILoginController(@SuppressWarnings("exports") ServerConnection serverConnection){
     	this.serverConnection = serverConnection;
     }
 //    @FXML
@@ -51,7 +51,7 @@ public class UILoginController {
 //    }
 
     @FXML
-    public void loginRegister(ActionEvent event) {
+    public void loginRegister(@SuppressWarnings("exports") ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIRegisterUsers.fxml"));
             Parent root = loader.load();
@@ -72,7 +72,7 @@ public class UILoginController {
     }
 
     @FXML
-    public void loginAdmin(ActionEvent event) {
+    public void loginAdmin(@SuppressWarnings("exports") ActionEvent event) {
         String userID = tfUserID.getText();
         String password = tfPassword.getText();
 
@@ -97,13 +97,13 @@ public class UILoginController {
             showAlert("Inicio de sesión exitoso.");
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/UIProfile.fxml"));
-              
+                Parent root = loader.load();  // Primero carga el archivo FXML
+
+                // Luego obtén el controlador
                 UIProfileController controller = loader.getController();
-                controller.setServerConnection(serverConnection); 
-                loader.setController(controller);
+                controller.setServerConnection(serverConnection);
                 controller.loadUserProfile(userID);
                 controller.initialize(userID);
-                Parent root = loader.load();
                 
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();
@@ -120,6 +120,7 @@ public class UILoginController {
         } else {
             showAlert("Usuario o contraseña incorrectos o no tiene acceso.");
         }
+
     }
 
     private void showAlert(String message) {

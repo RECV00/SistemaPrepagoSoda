@@ -9,5 +9,6 @@ module SistemaPrepagoSoda {
 	requires java.sql;
 	
 	exports domain;
+	exports business;
 	opens business to javafx.graphics, javafx.fxml;
 }

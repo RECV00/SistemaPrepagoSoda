@@ -7,26 +7,28 @@ import java.net.Socket;
 public class ServerConnection {
 
     private ServerSocket serverSocket;
-    private volatile boolean isRunning; // Uso de volatile para mayor seguridad en hilos
+    private volatile boolean isRunning; 
+    public static int PORT = 12395; 
 
-    public ServerConnection() {
-        // Constructor vacío
+    @SuppressWarnings("static-access")
+	public ServerConnection(int port) {
+        this.PORT = port; // Permitir la configuración del puerto
     }
 
     public void startServer() {
         if (isRunning) {
             System.out.println("El servidor ya está en ejecución.");
-            return; // Evita iniciar el servidor si ya está corriendo
+            return; 
         }
         isRunning = true;
 
         new Thread(() -> {
             try {
-                serverSocket = new ServerSocket(12363); // Puerto del servidor
+                serverSocket = new ServerSocket(PORT ); // Usar el puerto configurado
                 System.out.println("Servidor iniciado, esperando conexiones...");
 
                 while (isRunning) {
-                    acceptClientConnection(); // Método separado para aceptar conexiones
+                    acceptClientConnection(); 
                 }
             } catch (IOException e) {
                 System.err.println("Error al iniciar el servidor:");
@@ -39,10 +41,9 @@ public class ServerConnection {
 
     private void acceptClientConnection() {
         try {
-            // Esperar a que un cliente se conecte
             Socket clientSocket = serverSocket.accept();
             System.out.println("Cliente conectado: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
-            new Thread(new ClientHandler(clientSocket)).start(); // Manejar la conexión en un nuevo hilo
+            new Thread(new ClientHandler(clientSocket)).start(); 
         } catch (IOException e) {
             if (isRunning) {
                 System.err.println("Error al aceptar la conexión del cliente:");
@@ -52,15 +53,15 @@ public class ServerConnection {
     }
 
     public void stopServer() {
-        isRunning = false; // Detener el bucle de conexión
-        closeServerSocket(); // Cerrar el socket
+        isRunning = false; 
+        closeServerSocket(); 
         System.out.println("Servidor detenido.");
     }
 
     private void closeServerSocket() {
         if (serverSocket != null && !serverSocket.isClosed()) {
             try {
-                serverSocket.close(); // Cerrar el ServerSocket
+                serverSocket.close(); 
                 System.out.println("ServerSocket cerrado.");
             } catch (IOException e) {
                 System.err.println("Error al cerrar el ServerSocket:");
@@ -68,4 +69,15 @@ public class ServerConnection {
             }
         }
     }
+
+	public static int getPORT() {
+		return PORT;
+	}
+
+	public static void setPORT(int pORT) {
+		PORT = pORT;
+	}
+    
+    
+    
 }

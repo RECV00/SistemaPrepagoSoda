@@ -63,9 +63,9 @@ public class UISaleController {
         this.serverConnection = serverConnection;
     }
     
-    UISaleController( ){   	
+    public UISaleController( ){   	
     }
-    UISaleController(ServerConnection serverConnection, ClientHandler clientHandler ){
+    public UISaleController(ServerConnection serverConnection, ClientHandler clientHandler ){
     	this.serverConnection = serverConnection;
     	this.clientHandler = clientHandler;
     }
