@@ -51,7 +51,9 @@ public class ClientHandler implements Runnable {
         switch (command) {
             case "LOGIN":
                 userId = parts[1]; // Guardar el ID del usuario al iniciar sesión
+                System.out.print(userId);
                 String password = parts[2];
+                System.out.print(password);
                 validateUser(userId, password);
                 break;
             case "LOAD_DISHES":
@@ -139,9 +141,26 @@ public class ClientHandler implements Runnable {
     }
     
     public void notifyOrderStatusToClient(String dishName, char newState) {
+        String stateDescription = getStateDescription(newState);
+        
         StringBuilder response = new StringBuilder("ORDER_STATUS_UPDATE");
-        response.append(",").append(dishName).append(",").append(newState);
+        response.append(",").append(dishName).append(",").append(stateDescription);
         out.println(response.toString()); // Enviar la respuesta al cliente
+    }
+
+    private String getStateDescription(char state) {
+        switch (state) {
+            case 'P':
+                return "Pendiente";
+            case 'N':
+                return "En preparación";
+            case 'E':
+                return "Entregado";
+            case 'L':
+                return "Listo";
+            default:
+                return "Estado desconocido"; // Manejo de valores inesperados
+        }
     }
     private void validateUser(String userId, String password) {
         LinkedList<User> users = UserData.getUsers(); // Obtener la lista de usuarios
@@ -154,6 +173,7 @@ public class ClientHandler implements Runnable {
         if (loginSuccessful) {
             out.println("SUCCESS"+","+userId); // Enviar éxito si las credenciales son válidas
         } else {
+        	out.println("FAILURE"+","+userId);
             sendError("Credenciales inválidas"); // Enviar error si las credenciales son inválidas
         }
     }
