@@ -4,71 +4,30 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-	prefWidth="425.0" xmlns="http://javafx.com/javafx/21"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="business.UIRechargeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="425.0" style="-fx-background-color: #820000;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="business.UIRechargeController">
 	<children>
-		<ImageView fitHeight="400.0" fitWidth="425.0">
-			<image>
-				<Image url="@../../media/una%202.jpg" />
-			</image>
-		</ImageView>
-		<Label fx:id="lTitule" layoutX="110.0" layoutY="26.0"
-			text="SISTEMA DE RECARGAS">
+		<Label fx:id="lTitule" alignment="CENTER" prefHeight="56.0" prefWidth="425.0" style="-fx-background-color: white;" text="SISTEMA DE RECARGAS">
 			<font>
 				<Font name="System Bold" size="20.0" />
 			</font>
-			<textFill>
-				<LinearGradient endX="1.0" endY="0.919431279620853"
-					startX="1.0" startY="0.052132701421800945">
-					<stops>
-						<Stop>
-							<color>
-								<Color red="0.8815789222717285"
-									green="0.020406920462846756" blue="0.020406920462846756" />
-							</color>
-						</Stop>
-						<Stop offset="1.0">
-							<color>
-								<Color red="1.0" green="1.0" blue="1.0" />
-							</color>
-						</Stop>
-					</stops>
-				</LinearGradient>
-			</textFill>
 		</Label>
-		<TextField fx:id="tfCarnetStudent" layoutX="31.0"
-			layoutY="87.0" prefHeight="25.0" prefWidth="174.0" />
-		<TextField fx:id="tfNewAmount" layoutX="31.0"
-			layoutY="212.0" prefHeight="25.0" prefWidth="174.0"
-			promptText="Ingrese el Monto de Recarga" />
-		<DatePicker fx:id="dpDateEntry" layoutX="31.0"
-			layoutY="149.0" />
-		<Label fx:id="lCarnetStudent" layoutX="31.0" layoutY="64.0"
-			text="Carnet Estudiantil">
+		<TextField fx:id="tfCarnetStudent" layoutX="31.0" layoutY="87.0" prefHeight="25.0" prefWidth="174.0" />
+		<TextField fx:id="tfNewAmount" layoutX="31.0" layoutY="212.0" prefHeight="25.0" prefWidth="174.0" promptText="Ingrese el Monto de Recarga" />
+		<DatePicker fx:id="dpDateEntry" layoutX="31.0" layoutY="149.0" />
+		<Label fx:id="lCarnetStudent" layoutX="31.0" layoutY="64.0" text="Carnet Estudiantil">
 			<font>
 				<Font name="System Bold Italic" size="12.0" />
 			</font>
 		</Label>
-		<Label fx:id="lAmountNew" layoutX="31.0" layoutY="192.0"
-			text="Monto de Recarga">
+		<Label fx:id="lAmountNew" layoutX="31.0" layoutY="192.0" text="Monto de Recarga">
 			<font>
 				<Font name="System Bold Italic" size="12.0" />
 			</font>
 		</Label>
-		<Button fx:id="bRecharge" layoutX="324.0" layoutY="323.0"
-			mnemonicParsing="false" onAction="#saveRecharge" text="Recargar" />
-		<Button fx:id="bBack" layoutX="187.0" layoutY="323.0"
-			mnemonicParsing="false" onAction="#returnMain" text="Regresar" />
+		<Button fx:id="bRecharge" layoutX="324.0" layoutY="323.0" mnemonicParsing="false" onAction="#saveRecharge" style="-fx-background-color: #2A2E37;" text="Recargar" textFill="WHITE" />
+		<Button fx:id="bBack" layoutX="187.0" layoutY="323.0" mnemonicParsing="false" onAction="#returnMain" style="-fx-background-color: #2A2E37;" text="Regresar" textFill="WHITE" />
 	</children>
 </AnchorPane>
