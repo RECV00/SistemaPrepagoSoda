@@ -89,9 +89,7 @@ public class UIViewStudentController {
 
         moneyAvailableColumn.setCellValueFactory(new PropertyValueFactory<>("moneyAvailable"));
         dateEntryColumn.setCellValueFactory(new PropertyValueFactory<>("dateEntry"));
-        photoColumn.setCellValueFactory(new PropertyValueFactory<>("photoRoute"));
         tipeColumn.setCellValueFactory(new PropertyValueFactory<>("tipe"));
-        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
 
         loadUsers();
         btnRecharge.setOnAction(event -> handleRecharge());

@@ -78,7 +78,7 @@ public class UIRegisterUsersController {
                 tfMoneyAvailable.setDisable(true);
                 tfMoneyAvailable.clear(); // Limpia el campo si se selecciona Personal
             } else {
-                tfMoneyAvailable.setDisable(false);
+                tfMoneyAvailable.setEditable(true);
             }
         });
     }
@@ -144,9 +144,9 @@ public class UIRegisterUsersController {
         cbGender.setValue(String.valueOf(user.getGender()? "Femenino" : "Maculino" ));
         tfMoneyAvailable.setText(String.valueOf(user.getMoneyAvailable()));
 
-        tfUserID.setDisable(true); 
-        tfMoneyAvailable.setDisable(true);
-        tfPassword.setDisable(true);
+        tfUserID.setEditable(false); 
+        tfMoneyAvailable.setEditable(false);
+        tfPassword.setEditable(false);
         // Cargar imagen
         File photoFile = new File(user.getPhotoRoute());
         if (photoFile.exists()) {
